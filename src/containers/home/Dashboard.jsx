@@ -1,13 +1,16 @@
-import Typography from "@mui/material/Typography";
-import React from "react";
-import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
+import React, { useContext } from "react";
+import Layout from "../../components/Layout/Layout";
+import { Typography } from "@mui/material";
+import CardWelcome from "../../components/home/CardWelcome";
+import AuthContext from "../../Context/Auth/AuthContext";
 const Dashboard = () => {
+  const { usuario } = useContext(AuthContext);
+
   return (
     <>
-      <Typography sx={{ color: "white", bgcolor: "green" }}>
-        Hola mundo
-      </Typography>
+      <Layout>
+        <CardWelcome name={usuario ? usuario.name : ""} />
+      </Layout>
     </>
   );
 };
