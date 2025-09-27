@@ -7,6 +7,12 @@ import { PrivateRoute } from "./PrivateRoute";
 import AuthContext from "../Context/Auth/AuthContext";
 import { useContext, useEffect } from "react";
 import { Box, Grid } from "@mui/material";
+import Branches from "../containers/branches/Branches";
+import Products from "../containers/products/Products";
+import Users from "../containers/users/Users";
+import Clients from "../containers/clients/Clients";
+import Sales from "../containers/sales/Sales";
+import Reports from "../containers/reports/Reports";
 function AppRouter({ isAuthenticated }) {
   const { autenticado, usuarioAutenticado, cargando } = useContext(AuthContext);
 
@@ -41,6 +47,12 @@ function AppRouter({ isAuthenticated }) {
       {/* Rutas privadas */}
       <Route element={<PrivateRoute isAuthenticated={autenticado} />}>
         <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/sucursales' element={<Branches />} />
+        <Route path='/productos' element={<Products />} />
+        <Route path='/usuarios' element={<Users />} />
+        <Route path='/clientes' element={<Clients />} />
+        <Route path='/ventas' element={<Sales />} />
+        <Route path='/reportes' element={<Reports />} />
       </Route>
 
       {/* Ruta por defecto */}

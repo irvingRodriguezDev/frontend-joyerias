@@ -7,15 +7,27 @@ import {
   ListItemText,
   Box,
   Typography,
+  Button,
 } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import SettingsIcon from "@mui/icons-material/Settings";
 import InfoIcon from "@mui/icons-material/Info";
-
+import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
+import GroupIcon from "@mui/icons-material/Group";
+import Inventory2Icon from "@mui/icons-material/Inventory2";
+import MapsHomeWorkIcon from "@mui/icons-material/MapsHomeWork";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
+import { Link } from "react-router-dom";
 const Aside = ({ open, onClose }) => {
   const menuItems = [
-    { text: "Inicio", icon: <HomeIcon /> },
-    { text: "Configuración", icon: <SettingsIcon /> },
+    { text: "Inicio", icon: <HomeIcon />, link: "/dashboard" },
+    { text: "Sucursales", icon: <MapsHomeWorkIcon />, link: "/sucursales" },
+    { text: "Productos", icon: <Inventory2Icon />, link: "/productos" },
+    { text: "Clientes", icon: <GroupIcon />, link: "/clientes" },
+    { text: "Ventas", icon: <MonetizationOnIcon />, link: "/ventas" },
+    { text: "Usuarios", icon: <SupervisedUserCircleIcon />, link: "/usuarios" },
+    { text: "Reportes", icon: <PictureAsPdfIcon />, link: "/reportes" },
     { text: "Acerca de", icon: <InfoIcon /> },
   ];
 
@@ -43,12 +55,22 @@ const Aside = ({ open, onClose }) => {
       </Box>
       <List>
         {menuItems.map((item, index) => (
-          <ListItemButton key={index} sx={{ color: "white" }}>
-            <ListItemIcon sx={{ color: "white" }}>{item.icon}</ListItemIcon>
-            <ListItemText primary={item.text} />
-          </ListItemButton>
+          <Link to={item.link} style={{ textDecoration: "none" }}>
+            <ListItemButton key={index} sx={{ color: "white" }}>
+              <ListItemIcon sx={{ color: "white" }}>{item.icon}</ListItemIcon>
+              <ListItemText primary={item.text} />
+            </ListItemButton>
+          </Link>
         ))}
       </List>
+      <Button
+        sx={{ mb: 0, mt: "100%" }}
+        variant='contained'
+        color='primary'
+        size='large'
+      >
+        Cerrar Sesión
+      </Button>
     </Drawer>
   );
 };

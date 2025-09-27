@@ -1,0 +1,36 @@
+import React from "react";
+
+const ChartIcon = ({ width }) => {
+  return (
+    <svg
+      width={width}
+      viewBox='0 0 14 14'
+      role='img'
+      focusable='false'
+      aria-hidden='true'
+      xmlns='http://www.w3.org/2000/svg'
+      fill='#000000'
+    >
+      <g id='SVGRepo_bgCarrier' strokeWidth='0'></g>
+      <g
+        id='SVGRepo_tracerCarrier'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      ></g>
+      <g id='SVGRepo_iconCarrier'>
+        {" "}
+        <path
+          fill='#4caf50'
+          d='M11.8 5.5H13v6.9h-1.2zM10 7.6h1.2v4.8H10zM8.2 6.1h1.2v6.3H8.2zM6.4 7.9h1.2v4.5H6.4zm-1.8.9h1.2v3.6H4.6zm-1.8-.6H4v4.2H2.8zM1 9.4h1.2v3H1z'
+        ></path>{" "}
+        <g fill='#388e3c'>
+          {" "}
+          <path d='M8.8 4.24l1.2 1.2 2.67-2.67-.84-.84L10 3.76l-1.2-1.2-3 3-1.5-1.5-3.12 3.12.84.84L4.3 5.74l1.5 1.5z'></path>{" "}
+          <path d='M13 1.6h-2.7L13 4.3z'></path>{" "}
+        </g>{" "}
+      </g>
+    </svg>
+  );
+};
+
+export default ChartIcon;
