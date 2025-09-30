@@ -8,7 +8,7 @@ const theme = createTheme({
       contrastText: "#ffffff", // texto sobre botones primary
     },
     secondary: {
-      main: "#f50057", // puedes cambiar el secundario si quieres
+      main: "#173757", // puedes cambiar el secundario si quieres
     },
   },
   components: {

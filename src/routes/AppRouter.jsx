@@ -13,6 +13,7 @@ import Users from "../containers/users/Users";
 import Clients from "../containers/clients/Clients";
 import Sales from "../containers/sales/Sales";
 import Reports from "../containers/reports/Reports";
+import AddUser from "../containers/users/AddUser";
 function AppRouter({ isAuthenticated }) {
   const { autenticado, usuarioAutenticado, cargando } = useContext(AuthContext);
 
@@ -49,7 +50,10 @@ function AppRouter({ isAuthenticated }) {
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/sucursales' element={<Branches />} />
         <Route path='/productos' element={<Products />} />
+        {/**Usuarios */}
         <Route path='/usuarios' element={<Users />} />
+        <Route path='/crear-usuario' element={<AddUser />} />
+
         <Route path='/clientes' element={<Clients />} />
         <Route path='/ventas' element={<Sales />} />
         <Route path='/reportes' element={<Reports />} />

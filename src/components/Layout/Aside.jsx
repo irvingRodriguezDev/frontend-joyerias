@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Drawer,
   List,
@@ -19,6 +19,7 @@ import MapsHomeWorkIcon from "@mui/icons-material/MapsHomeWork";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import { Link } from "react-router-dom";
+import AuthContext from "../../Context/Auth/AuthContext";
 const Aside = ({ open, onClose }) => {
   const menuItems = [
     { text: "Inicio", icon: <HomeIcon />, link: "/dashboard" },
@@ -30,7 +31,7 @@ const Aside = ({ open, onClose }) => {
     { text: "Reportes", icon: <PictureAsPdfIcon />, link: "/reportes" },
     { text: "Acerca de", icon: <InfoIcon /> },
   ];
-
+  const { cerrarSesion } = useContext(AuthContext);
   return (
     <Drawer
       anchor='left'
@@ -68,6 +69,7 @@ const Aside = ({ open, onClose }) => {
         variant='contained'
         color='primary'
         size='large'
+        onClick={() => cerrarSesion()}
       >
         Cerrar Sesión
       </Button>

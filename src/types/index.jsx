@@ -13,3 +13,14 @@ export const types = {
 };
 
 export const SHOW_ERRORS_API = "SHOW_ERRORS_API";
+
+{
+  /*Branches */
+}
+export const GET_ALL_BRANCHES = "GET_ALL_BRANCHES";
+
+{
+  /**Users */
+}
+export const GET_ALL_USERS = "GET_ALL_USERS";
+export const STORE_USERS = "STORE_USERS";
