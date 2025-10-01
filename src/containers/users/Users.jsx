@@ -3,12 +3,13 @@ import Layout from "../../components/Layout/Layout";
 import { Button, Grid, Paper, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import UsersContext from "../../Context/Users/UsersContext";
+import UserCard from "../../components/Cards/UserCard";
 const Users = () => {
   const { users, getAllUsers } = useContext(UsersContext);
   useEffect(() => {
     getAllUsers();
   }, []);
-  console.log(users, "los usuarios");
+  console.log(users);
 
   return (
     <Layout>
@@ -25,11 +26,9 @@ const Users = () => {
             </Button>
           </Link>
         </Grid>
-        {users.map((user) => (
-          <Grid size={4}>
-            <Paper>
-              <Typography color="'white">{user.name}</Typography>
-            </Paper>
+        {users.map((user, index) => (
+          <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={index}>
+            <UserCard user={user} />
           </Grid>
         ))}
       </Grid>

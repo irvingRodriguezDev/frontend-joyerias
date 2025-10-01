@@ -142,7 +142,7 @@ const AddUser = () => {
                   />
                   {errors.branch_id && (
                     <Typography color='error' variant='body2'>
-                      {errors.branch_id.message}
+                      {errors.branch_id?.message}
                     </Typography>
                   )}
                 </Grid>

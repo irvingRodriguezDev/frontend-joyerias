@@ -11,7 +11,7 @@ export default (state, action) => {
     case STORE_USERS:
       return {
         ...state,
-        users: [action.payload, ...state.users],
+        users: [...state.users, action.payload],
         ErrorsApi: [],
       };
 

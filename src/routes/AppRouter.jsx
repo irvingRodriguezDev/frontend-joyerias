@@ -14,6 +14,9 @@ import Clients from "../containers/clients/Clients";
 import Sales from "../containers/sales/Sales";
 import Reports from "../containers/reports/Reports";
 import AddUser from "../containers/users/AddUser";
+import AddBranch from "../containers/branches/AddBranch";
+import Categories from "../containers/Categories/Categories";
+import Lines from "../containers/Lines/Lines";
 function AppRouter({ isAuthenticated }) {
   const { autenticado, usuarioAutenticado, cargando } = useContext(AuthContext);
 
@@ -48,7 +51,16 @@ function AppRouter({ isAuthenticated }) {
       {/* Rutas privadas */}
       <Route element={<PrivateRoute isAuthenticated={autenticado} />}>
         <Route path='/dashboard' element={<Dashboard />} />
+        {/***Sucursales */}
         <Route path='/sucursales' element={<Branches />} />
+        <Route path='/crear-sucursal' element={<AddBranch />} />
+
+        {/**Categorias */}
+        <Route path='/categorias' element={<Categories />} />
+
+        {/**Lineas */}
+        <Route path='/lineas' element={<Lines />} />
+
         <Route path='/productos' element={<Products />} />
         {/**Usuarios */}
         <Route path='/usuarios' element={<Users />} />

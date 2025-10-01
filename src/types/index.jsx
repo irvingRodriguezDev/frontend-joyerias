@@ -18,7 +18,7 @@ export const SHOW_ERRORS_API = "SHOW_ERRORS_API";
   /*Branches */
 }
 export const GET_ALL_BRANCHES = "GET_ALL_BRANCHES";
-
+export const STORE_BRANCH = "STORE_BRANCH";
 {
   /**Users */
 }

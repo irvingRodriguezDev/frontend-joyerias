@@ -20,10 +20,14 @@ import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import { Link } from "react-router-dom";
 import AuthContext from "../../Context/Auth/AuthContext";
+import CategoryIcon from "@mui/icons-material/Category";
+import ListAltIcon from "@mui/icons-material/ListAlt";
 const Aside = ({ open, onClose }) => {
   const menuItems = [
     { text: "Inicio", icon: <HomeIcon />, link: "/dashboard" },
     { text: "Sucursales", icon: <MapsHomeWorkIcon />, link: "/sucursales" },
+    { text: "Categorías", icon: <CategoryIcon />, link: "/categorias" },
+    { text: "Líneas", icon: <ListAltIcon />, link: "/lineas" },
     { text: "Productos", icon: <Inventory2Icon />, link: "/productos" },
     { text: "Clientes", icon: <GroupIcon />, link: "/clientes" },
     { text: "Ventas", icon: <MonetizationOnIcon />, link: "/ventas" },
@@ -56,7 +60,7 @@ const Aside = ({ open, onClose }) => {
       </Box>
       <List>
         {menuItems.map((item, index) => (
-          <Link to={item.link} style={{ textDecoration: "none" }}>
+          <Link to={item.link} style={{ textDecoration: "none" }} key={index}>
             <ListItemButton key={index} sx={{ color: "white" }}>
               <ListItemIcon sx={{ color: "white" }}>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
