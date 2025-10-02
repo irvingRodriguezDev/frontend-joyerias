@@ -17,6 +17,7 @@ import AddUser from "../containers/users/AddUser";
 import AddBranch from "../containers/branches/AddBranch";
 import Categories from "../containers/Categories/Categories";
 import Lines from "../containers/Lines/Lines";
+import AddCategory from "../containers/Categories/AddCategory";
 function AppRouter({ isAuthenticated }) {
   const { autenticado, usuarioAutenticado, cargando } = useContext(AuthContext);
 
@@ -57,6 +58,7 @@ function AppRouter({ isAuthenticated }) {
 
         {/**Categorias */}
         <Route path='/categorias' element={<Categories />} />
+        <Route path='/crear-categoria' element={<AddCategory />} />
 
         {/**Lineas */}
         <Route path='/lineas' element={<Lines />} />

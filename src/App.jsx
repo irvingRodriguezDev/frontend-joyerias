@@ -3,13 +3,16 @@ import AppRouter from "./routes/AppRouter";
 import AuthState from "./Context/Auth/AuthState";
 import BranchesState from "./Context/Branches/BranchesState";
 import UsersState from "./Context/Users/UsersState";
+import CategoriesState from "./Context/Categories/CategoriesState";
 function App() {
   return (
     <AuthState>
       <BranchesState>
-        <UsersState>
-          <AppRouter />
-        </UsersState>
+        <CategoriesState>
+          <UsersState>
+            <AppRouter />
+          </UsersState>
+        </CategoriesState>
       </BranchesState>
     </AuthState>
   );

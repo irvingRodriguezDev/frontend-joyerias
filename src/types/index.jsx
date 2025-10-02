@@ -24,3 +24,9 @@ export const STORE_BRANCH = "STORE_BRANCH";
 }
 export const GET_ALL_USERS = "GET_ALL_USERS";
 export const STORE_USERS = "STORE_USERS";
+
+{
+  /**Categorias */
+}
+export const GET_ALL_CATEGORIES = "GET_ALL_CATEGORIAS";
+export const STORE_CATEGORIES = "STORE_CATEGORIES";
