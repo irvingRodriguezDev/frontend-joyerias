@@ -30,7 +30,6 @@ const AddCategory = () => {
     // return;
     storeCategory(data); // enviamos toda la data
   };
-  console.log(typeProduct, "el tupo de producto");
 
   return (
     <Layout>

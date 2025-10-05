@@ -35,3 +35,9 @@ export const STORE_BUSINESS_RULE = "STORE_BUSINESS_RULE";
 }
 export const GET_ALL_CATEGORIES = "GET_ALL_CATEGORIAS";
 export const STORE_CATEGORIES = "STORE_CATEGORIES";
+
+{
+  /**Lines */
+}
+export const GET_ALL_LINES = "GET_ALL_LINES";
+export const STORE_LINE = "STORE_LINE";
