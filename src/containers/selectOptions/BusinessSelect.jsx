@@ -1,25 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import Select from "react-select";
-import MethodGet from "../../config/Service";
 import { Typography } from "@mui/material";
-const TypeProductSelect = (props) => {
-  const [typeProduct, setTypeProduct] = useState(null);
-
+import BusinessRuleContext from "../../Context/BusinessRule/BusinessRuleContext";
+const BusinessSelect = (props) => {
+  const { business_rules, getAllBusiness } = useContext(BusinessRuleContext);
   useEffect(() => {
-    if (typeProduct === null) {
-      let url = "/typeProducts";
-      MethodGet(url)
-        .then((res) => {
-          setTypeProduct(res.data);
-        })
-        .catch((error) => {
-          console.log(error.response.data.message);
-        });
-    }
+    getAllBusiness();
   }, []);
-
-  const detectarCambiosTypeProduct = (value) => {
-    props.detectarCambiosTypeProduct(value);
+  const detectarCambiosBusiness = (value) => {
+    props.detectarCambiosBusiness(value);
   };
 
   const customStyles = {
@@ -63,19 +52,19 @@ const TypeProductSelect = (props) => {
   return (
     <>
       <Typography textAlign={"start"}>
-        Selecciona un tipo de producto
+        Selecciona una regla de negocio
       </Typography>
       <Select
-        onChange={detectarCambiosTypeProduct}
+        onChange={detectarCambiosBusiness}
         className='basic-single'
         classNamePrefix='select'
         styles={customStyles}
         name='select-state'
-        placeholder='Selecciona un tipo de producto'
+        placeholder='Selecciona una regla de negocio'
         options={
-          typeProduct
-            ? typeProduct.map((option) => ({
-                label: `${option.name}`,
+          business_rules
+            ? business_rules.map((option) => ({
+                label: `${option.operator} - ${option.multiplicator} - ${option.percent_discount}`,
                 value: `${option.id}`,
               }))
             : null
@@ -85,4 +74,4 @@ const TypeProductSelect = (props) => {
   );
 };
 
-export default TypeProductSelect;
+export default BusinessSelect;

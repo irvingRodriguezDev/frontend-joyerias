@@ -26,6 +26,11 @@ export const GET_ALL_USERS = "GET_ALL_USERS";
 export const STORE_USERS = "STORE_USERS";
 
 {
+  /**Business Rules */
+}
+export const GET_ALL_BUSINESS_RULE = "GET_ALL_BUSINESS_RULE";
+export const STORE_BUSINESS_RULE = "STORE_BUSINESS_RULE";
+{
   /**Categorias */
 }
 export const GET_ALL_CATEGORIES = "GET_ALL_CATEGORIAS";

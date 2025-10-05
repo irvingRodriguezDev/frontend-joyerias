@@ -4,9 +4,11 @@ import { Button, Grid, Paper, TextField, Typography } from "@mui/material";
 import TypeProductSelect from "../selectOptions/TypeProductSelect";
 import CategoriesContext from "../../Context/Categories/CategoriesContext";
 import { Controller, useForm } from "react-hook-form";
+import BusinessSelect from "../selectOptions/BusinessSelect";
 const AddCategory = () => {
   const { storeCategory } = useContext(CategoriesContext);
   const [typeProduct, setTypeProduct] = useState(null);
+  const [business, setBusiness] = useState(null);
 
   // React Hook Form
   const {
@@ -19,11 +21,17 @@ const AddCategory = () => {
     setTypeProduct(value.value);
     setValue("type_product_id", value.value);
   };
+  const detectarCambiosBusiness = (value) => {
+    setBusiness(value.value);
+    setValue("business_id", value.value);
+  };
 
   const onSubmit = (data) => {
     // return;
     storeCategory(data); // enviamos toda la data
   };
+  console.log(typeProduct, "el tupo de producto");
+
   return (
     <Layout>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -70,6 +78,18 @@ const AddCategory = () => {
                     </Typography>
                   )}
                 </Grid>
+                {typeProduct === "1" && (
+                  <Grid size={12}>
+                    <BusinessSelect
+                      detectarCambiosBusiness={detectarCambiosBusiness}
+                    />
+                    {errors.business_id && (
+                      <Typography color='error' variant='caption'>
+                        {errors.business_id.message}
+                      </Typography>
+                    )}
+                  </Grid>
+                )}
                 <Grid size={12} sx={{ display: "flex", justifyContent: "end" }}>
                   <Button type='submit' variant='contained' size='large'>
                     Guardar

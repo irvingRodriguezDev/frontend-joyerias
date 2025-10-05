@@ -22,10 +22,16 @@ import { Link } from "react-router-dom";
 import AuthContext from "../../Context/Auth/AuthContext";
 import CategoryIcon from "@mui/icons-material/Category";
 import ListAltIcon from "@mui/icons-material/ListAlt";
+import DiscountIcon from "@mui/icons-material/Discount";
 const Aside = ({ open, onClose }) => {
   const menuItems = [
     { text: "Inicio", icon: <HomeIcon />, link: "/dashboard" },
     { text: "Sucursales", icon: <MapsHomeWorkIcon />, link: "/sucursales" },
+    {
+      text: "Reglas de negocio",
+      icon: <DiscountIcon />,
+      link: "/reglas-negocio",
+    },
     { text: "Categorías", icon: <CategoryIcon />, link: "/categorias" },
     { text: "Líneas", icon: <ListAltIcon />, link: "/lineas" },
     { text: "Productos", icon: <Inventory2Icon />, link: "/productos" },

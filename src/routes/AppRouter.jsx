@@ -18,6 +18,8 @@ import AddBranch from "../containers/branches/AddBranch";
 import Categories from "../containers/Categories/Categories";
 import Lines from "../containers/Lines/Lines";
 import AddCategory from "../containers/Categories/AddCategory";
+import BusinessRules from "../containers/BusinessRules/BusinessRules";
+import AddBusinessRule from "../containers/BusinessRules/AddBusinessRule";
 function AppRouter({ isAuthenticated }) {
   const { autenticado, usuarioAutenticado, cargando } = useContext(AuthContext);
 
@@ -55,6 +57,10 @@ function AppRouter({ isAuthenticated }) {
         {/***Sucursales */}
         <Route path='/sucursales' element={<Branches />} />
         <Route path='/crear-sucursal' element={<AddBranch />} />
+
+        {/**Reglas de negocio */}
+        <Route path='/reglas-negocio' element={<BusinessRules />} />
+        <Route path='/agregar-regla' element={<AddBusinessRule />} />
 
         {/**Categorias */}
         <Route path='/categorias' element={<Categories />} />

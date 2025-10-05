@@ -1,25 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import Select from "react-select";
-import MethodGet from "../../config/Service";
 import { Typography } from "@mui/material";
-const TypeProductSelect = (props) => {
-  const [typeProduct, setTypeProduct] = useState(null);
-
-  useEffect(() => {
-    if (typeProduct === null) {
-      let url = "/typeProducts";
-      MethodGet(url)
-        .then((res) => {
-          setTypeProduct(res.data);
-        })
-        .catch((error) => {
-          console.log(error.response.data.message);
-        });
-    }
-  }, []);
-
-  const detectarCambiosTypeProduct = (value) => {
-    props.detectarCambiosTypeProduct(value);
+const OperatorSelect = (props) => {
+  const operators = [
+    {
+      value: "*",
+      name: "*",
+    },
+    {
+      value: "+",
+      name: "+",
+    },
+  ];
+  const detectarCambiosOperator = (value) => {
+    props.detectarCambiosOperator(value);
   };
 
   const customStyles = {
@@ -62,21 +56,19 @@ const TypeProductSelect = (props) => {
 
   return (
     <>
-      <Typography textAlign={"start"}>
-        Selecciona un tipo de producto
-      </Typography>
+      <Typography textAlign={"start"}>Selecciona un operador</Typography>
       <Select
-        onChange={detectarCambiosTypeProduct}
+        onChange={detectarCambiosOperator}
         className='basic-single'
         classNamePrefix='select'
         styles={customStyles}
         name='select-state'
-        placeholder='Selecciona un tipo de producto'
+        placeholder='Selecciona un operador'
         options={
-          typeProduct
-            ? typeProduct.map((option) => ({
+          operators
+            ? operators.map((option) => ({
                 label: `${option.name}`,
-                value: `${option.id}`,
+                value: `${option.value}`,
               }))
             : null
         }
@@ -85,4 +77,4 @@ const TypeProductSelect = (props) => {
   );
 };
 
-export default TypeProductSelect;
+export default OperatorSelect;
