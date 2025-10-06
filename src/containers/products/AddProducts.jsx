@@ -31,7 +31,6 @@ const AddProducts = () => {
       observaciones: "",
     },
   });
-  console.log(infoCategory, "LA IFNORMACION DE LA CATEGORIA");
 
   const pricePurchase = watch("price_purchase");
   const gramos = watch("gramos");
