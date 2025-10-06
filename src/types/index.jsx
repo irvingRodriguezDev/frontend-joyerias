@@ -47,3 +47,9 @@ export const STORE_LINE = "STORE_LINE";
 }
 export const GET_ALL_PRODUCTS = "GET_ALL_PRODUCTS";
 export const STORE_PRODUCT = "STORE_PRODUCT";
+
+{
+  /**Clientes */
+}
+export const GET_ALL_CLIENTS = "GET_ALL_CLIENTS";
+export const STORE_CLIENTS = "STORE_CLIENTS";

@@ -22,6 +22,7 @@ import BusinessRules from "../containers/BusinessRules/BusinessRules";
 import AddBusinessRule from "../containers/BusinessRules/AddBusinessRule";
 import AddLines from "../containers/Lines/AddLines";
 import AddProducts from "../containers/products/AddProducts";
+import AddClients from "../containers/clients/AddClients";
 function AppRouter({ isAuthenticated }) {
   const { autenticado, usuarioAutenticado, cargando } = useContext(AuthContext);
 
@@ -78,8 +79,10 @@ function AppRouter({ isAuthenticated }) {
         {/**Usuarios */}
         <Route path='/usuarios' element={<Users />} />
         <Route path='/crear-usuario' element={<AddUser />} />
-
+        {/**Clients */}
         <Route path='/clientes' element={<Clients />} />
+        <Route path='/crear-cliente' element={<AddClients />} />
+
         <Route path='/ventas' element={<Sales />} />
         <Route path='/reportes' element={<Reports />} />
       </Route>
