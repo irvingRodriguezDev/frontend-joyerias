@@ -6,6 +6,7 @@ import UsersState from "./Context/Users/UsersState";
 import CategoriesState from "./Context/Categories/CategoriesState";
 import BusinessRulesState from "./Context/BusinessRule/BusinessRuleState";
 import LinesState from "./Context/Lines/LinesState";
+import ProductsState from "./Context/Products/ProductsState";
 function App() {
   return (
     <AuthState>
@@ -14,7 +15,9 @@ function App() {
           <UsersState>
             <BusinessRulesState>
               <LinesState>
-                <AppRouter />
+                <ProductsState>
+                  <AppRouter />
+                </ProductsState>
               </LinesState>
             </BusinessRulesState>
           </UsersState>

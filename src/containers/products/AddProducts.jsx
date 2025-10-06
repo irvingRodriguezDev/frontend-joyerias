@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Layout from "../../components/Layout/Layout";
 import { Button, Grid, Paper, TextField, Typography } from "@mui/material";
 import CategorySelect from "../selectOptions/CategorySelect";
@@ -6,8 +6,9 @@ import LineSelect from "../selectOptions/LineSelect";
 import BranchesSelect from "../selectOptions/BranchesSelect";
 import MethodGet from "../../config/Service";
 import { useForm, Controller } from "react-hook-form";
-
+import ProductsContext from "../../Context/Products/ProductsContext";
 const AddProducts = () => {
+  const { storeProduct } = useContext(ProductsContext);
   const [infoCategory, setInfoCategory] = useState(null);
   const [infoLine, setInfoLine] = useState(null);
   const [category, setCategory] = useState(null);
@@ -134,9 +135,37 @@ const AddProducts = () => {
   }, [gramos, infoLine, infoCategory]);
 
   // --- Envío del formulario ---
-  const onSubmit = (data) => {
-    console.log("Datos del producto:", data);
-    // Aquí iría tu lógica para enviar la información a la API
+  const onSubmit = async (data) => {
+    try {
+      // 🔹 Determinar si el producto es por gramos
+      const isByGrams = infoCategory?.type_product?.id === 2;
+
+      // 🔹 Armar objeto a enviar al backend
+      const payload = {
+        clave: data.clave,
+        description: data.descripcion,
+        category_id: category,
+        line_id: line,
+        branch_id: branch,
+        shop_id: 1, // 🔸 Ajusta según el contexto (si es fijo o dinámico)
+        observations: data.observaciones || null,
+        price_purchase: Number(data.price_purchase),
+        price: Number(data.price_publico),
+        price_with_discount: Number(data.price_discount),
+        // Solo agregar weight si es producto por gramos
+        ...(isByGrams && { weight: Number(data.gramos) }),
+      };
+
+      console.log("Payload a enviar:", payload);
+
+      // 🔹 Aquí llamas a tu función del contexto o al servicio que hace el POST
+      await storeProduct(payload);
+
+      // 🔹 Mensaje de éxito (puedes usar sweetalert2 o snackbar)
+      console.log("Producto guardado con éxito ✅");
+    } catch (error) {
+      console.error("Error al guardar producto:", error);
+    }
   };
 
   return (

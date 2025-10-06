@@ -93,7 +93,7 @@ const Login = () => {
                 </FormControl>
 
                 {/* Olvidaste contraseña */}
-                <Grid item xs={12} sx={{ mt: 1, mb: 2 }}>
+                <Grid size={12} sx={{ mt: 1, mb: 2 }}>
                   <Typography>
                     Olvidaste tu contraseña{" "}
                     <Link
