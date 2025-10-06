@@ -21,6 +21,7 @@ import AddCategory from "../containers/Categories/AddCategory";
 import BusinessRules from "../containers/BusinessRules/BusinessRules";
 import AddBusinessRule from "../containers/BusinessRules/AddBusinessRule";
 import AddLines from "../containers/Lines/AddLines";
+import AddProducts from "../containers/products/AddProducts";
 function AppRouter({ isAuthenticated }) {
   const { autenticado, usuarioAutenticado, cargando } = useContext(AuthContext);
 
@@ -70,8 +71,10 @@ function AppRouter({ isAuthenticated }) {
         {/**Lineas */}
         <Route path='/lineas' element={<Lines />} />
         <Route path='/crear-linea' element={<AddLines />} />
+        {/**Productos */}
 
         <Route path='/productos' element={<Products />} />
+        <Route path='/crear-producto' element={<AddProducts />} />
         {/**Usuarios */}
         <Route path='/usuarios' element={<Users />} />
         <Route path='/crear-usuario' element={<AddUser />} />

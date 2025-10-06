@@ -1,14 +1,14 @@
 import React, { useContext, useEffect } from "react";
 import Select from "react-select";
 import { Typography } from "@mui/material";
-import BranchesContext from "../../Context/Branches/BranchesContext";
-const BranchesSelect = (props) => {
-  const { branches, getAllBranches } = useContext(BranchesContext);
+import CategoriesContext from "../../Context/Categories/CategoriesContext";
+const CategorySelect = (props) => {
+  const { categories, getAllCategories } = useContext(CategoriesContext);
   useEffect(() => {
-    getAllBranches();
+    getAllCategories();
   }, []);
-  const detectarCambiosBranch = (value) => {
-    props.detectarCambiosBranch(value);
+  const detectarCambiosCategory = (value) => {
+    props.detectarCambiosCategory(value);
   };
 
   const customStyles = {
@@ -55,18 +55,18 @@ const BranchesSelect = (props) => {
 
   return (
     <>
-      <Typography textAlign={"start"}>Selecciona una sucursal</Typography>
+      <Typography textAlign={"start"}>Selecciona una categoria</Typography>
       <Select
-        onChange={detectarCambiosBranch}
+        onChange={detectarCambiosCategory}
         className='basic-single'
         classNamePrefix='select'
         styles={customStyles}
         name='select-state'
-        placeholder='Selecciona una sucursal'
+        placeholder='Selecciona una categoria'
         options={
-          branches
-            ? branches.map((option) => ({
-                label: `${option.branch_name}`,
+          categories
+            ? categories.map((option) => ({
+                label: `${option.name} - ${option.type_product?.name}`,
                 value: `${option.id}`,
               }))
             : null
@@ -76,4 +76,4 @@ const BranchesSelect = (props) => {
   );
 };
 
-export default BranchesSelect;
+export default CategorySelect;

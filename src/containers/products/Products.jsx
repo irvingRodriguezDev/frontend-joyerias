@@ -3,6 +3,7 @@ import Typography from "@mui/material/Typography";
 import React from "react";
 import Layout from "../../components/Layout/Layout";
 import { Button } from "@mui/material";
+import { Link } from "react-router-dom";
 const Products = () => {
   return (
     <Layout>
@@ -13,9 +14,11 @@ const Products = () => {
           </Typography>
         </Grid>
         <Grid size={12} sx={{ display: "flex", justifyContent: "end" }}>
-          <Button variant='contained' color='secondary'>
-            Agregar
-          </Button>
+          <Link to={"/crear-producto"}>
+            <Button variant='contained' color='secondary'>
+              Agregar
+            </Button>
+          </Link>
         </Grid>
       </Grid>
     </Layout>

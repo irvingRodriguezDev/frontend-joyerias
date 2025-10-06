@@ -58,6 +58,10 @@ const StateSelect = (props) => {
         backgroundColor: state.isSelected ? "#06121e" : "#f5f5f5",
       },
     }),
+    menu: (base) => ({
+      ...base,
+      zIndex: 100,
+    }),
   };
 
   return (
