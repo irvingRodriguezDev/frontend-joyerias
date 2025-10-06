@@ -31,6 +31,7 @@ const AddProducts = () => {
       observaciones: "",
     },
   });
+  console.log(infoCategory, "LA IFNORMACION DE LA CATEGORIA");
 
   const pricePurchase = watch("price_purchase");
   const gramos = watch("gramos");
@@ -65,11 +66,27 @@ const AddProducts = () => {
       return { price: 0, priceDiscount: 0 };
     }
 
-    const multiplicator = Number(infoCategory.business_rule.multiplicator) || 1;
-    const percentDiscount =
-      Number(infoCategory.business_rule.percent_discount) || 0;
+    const { multiplicator, operator, percent_discount } =
+      infoCategory.business_rule;
 
-    const price = pricePurchase * multiplicator;
+    const multiplicatorNum = Number(multiplicator) || 1;
+    const percentDiscount = Number(percent_discount) || 0;
+
+    let price = pricePurchase;
+
+    // 🔹 Aplica el operador según corresponda
+    switch (operator) {
+      case "*":
+        price = pricePurchase * multiplicatorNum;
+        break;
+      case "+":
+        price = pricePurchase + multiplicatorNum;
+        break;
+      default:
+        console.warn("Operador no reconocido, usando precio base");
+        price = pricePurchase;
+    }
+
     const priceDiscount = price - (price * percentDiscount) / 100;
 
     return {
