@@ -51,12 +51,34 @@ const ClientsState = ({ children }) => {
         console.log(error, "ocurrio un error al crear el cliente");
       });
   };
+  const storeClientModal = (data) => {
+    let url = "/clients";
+    MethodPost(url, data)
+      .then((res) => {
+        dispatch({
+          type: STORE_CLIENTS,
+          payload: res.data,
+        });
+
+        Swal.fire({
+          title: "Exito",
+          text: "Cliente registrado de forma exitosa",
+          icon: "success",
+          timer: 2500,
+          showConfirmButton: false,
+        });
+      })
+      .catch((error) => {
+        console.log(error, "ocurrio un error al crear el cliente");
+      });
+  };
   return (
     <ClientsContext.Provider
       value={{
         clients: state.clients,
         getAllClients,
         storeClient,
+        storeClientModal,
       }}
     >
       {children}

@@ -11,7 +11,7 @@ export default (state, action) => {
     case STORE_CLIENTS:
       return {
         ...state,
-        clients: [...state.clients, action.payload],
+        clients: [action.payload, ...state.clients],
         ErrorsApi: [],
       };
     default:

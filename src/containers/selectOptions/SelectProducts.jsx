@@ -55,7 +55,7 @@ const SelectProducts = (props) => {
 
   return (
     <>
-      <Typography textAlign={"start"}>Selecciona un producto</Typography>
+      {/* <Typography textAlign={"start"}>Selecciona un producto</Typography> */}
       <Select
         onChange={detectarCambiosProduct}
         className='basic-single'
