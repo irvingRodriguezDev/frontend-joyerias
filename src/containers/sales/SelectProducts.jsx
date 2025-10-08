@@ -52,8 +52,14 @@ const ProductsSelect = ({
     productoResultado.description = producto[0].description;
     productoResultado.category = producto[0].category.name || "N/A";
     productoResultado.line = producto[0].line?.name || "N/A";
-    productoResultado.price = producto[0].price;
-    productoResultado.price_with_discount = producto[0].price_with_discount;
+    productoResultado.price = Number(producto[0].price).toFixed(2);
+    productoResultado.price_purchase = Number(
+      producto[0].price_purchase
+    ).toFixed(2);
+    productoResultado.final_price = Number(producto[0].price).toFixed(2);
+    productoResultado.price_with_discount = Number(
+      producto[0].price_with_discount
+    ).toFixed(2);
     productoResultado.weight = producto[0].weight;
     var exist = productsList.filter((p) => p.product_id === product);
     if (exist.length) {
@@ -86,10 +92,7 @@ const ProductsSelect = ({
   return (
     <Grid container spacing={2}>
       <Grid size={8}>
-        <SelectProducts
-          detectarCambiosProduct={detectarCambiosProduct}
-          onClick={AgregarProductoState}
-        />
+        <SelectProducts detectarCambiosProduct={detectarCambiosProduct} />
       </Grid>
       <Grid size={4}>
         <Button variant='contained' size='large' onClick={AgregarProductoState}>

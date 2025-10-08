@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Layout from "../../components/Layout/Layout";
 import { Button, Grid, Paper, Typography } from "@mui/material";
 import ClientsSelect from "../selectOptions/ClientsSelect";
@@ -8,7 +8,10 @@ import Totals from "./Totals";
 import Barcode from "./Barcode";
 import ProductsSelect from "./SelectProducts";
 import ModalAddClients from "../clients/ModalAddClients";
+import PaymentsForm from "./PaymentsForm";
+import SalesContext from "../../Context/Sales/SalesContext";
 const AddSale = () => {
+  const { storeSale } = useContext(SalesContext);
   const ProductsSaleOnLocal = localStorage.getItem("productsSale");
   const [productsList, saveProductsList] = useState(
     ProductsSaleOnLocal ? JSON.parse(ProductsSaleOnLocal) : []
@@ -34,9 +37,74 @@ const AddSale = () => {
     setClient(value.value);
   };
 
+  //pagos
+  const [paymentCash, setPaymentCash] = useState(0);
+  const [paymentCard, setPaymentCard] = useState(0);
+  const [cardReference, setCardReference] = useState("");
+
   //carrito
   const [subtotal, saveSubtotal] = useState(0);
   const [total, setTotal] = useState(0);
+  const [totalPaidOut, setTotalPaidOut] = useState(0);
+  // 🔄 useEffect para recalcular totales cada vez que productsList cambie
+  useEffect(() => {
+    // Calcular subtotal (suma de productos)
+    const subtotalCalculated = productsList.reduce((sum, p) => {
+      const price = Number(p.final_price ?? p.price);
+      const quantity = Number(p.quantity ?? 1);
+      return sum + price * quantity;
+    }, 0);
+
+    // Calcular total pagado
+    const totalPaid = Number(paymentCash) + Number(paymentCard);
+
+    // Actualizar estados
+    saveSubtotal(subtotalCalculated);
+    setTotal(subtotalCalculated);
+    setTotalPaidOut(totalPaid);
+  }, [productsList, paymentCard, paymentCash]);
+
+  const generatePaymentsArray = () => {
+    const payments = [];
+
+    // Si hay efectivo
+    if (Number(paymentCash) > 0) {
+      payments.push({
+        amount: Number(paymentCash),
+        payment_method: "cash",
+        reference: "CAJA-001", // o lo que quieras generar dinámicamente
+      });
+    }
+
+    // Si hay tarjeta
+    if (Number(paymentCard) > 0) {
+      payments.push({
+        amount: Number(paymentCard),
+        payment_method: "card",
+        reference: cardReference || "TARJ-000",
+      });
+    }
+
+    return payments;
+  };
+  const handleCreateSale = () => {
+    const payload = {
+      client_id: client,
+      branch_id: 1,
+      user_id: 1,
+      total: total, // calculado con useEffect
+      paid_out: totalPaidOut, // sumatoria de pagos
+      productsList: productsList.map((p) => ({
+        product_id: p.product_id,
+        final_price: Number(p.final_price ?? p.price),
+        price_purchase: p.price_purchase,
+        quantity: p.quantity ?? 1,
+      })),
+      payments: generatePaymentsArray(),
+    };
+
+    storeSale(payload);
+  };
 
   return (
     <Layout>
@@ -92,13 +160,35 @@ const AddSale = () => {
                 </Grid>
               )}
               <Grid size={12}>
-                <ProductsOfSale productsList={productsList} />
+                <ProductsOfSale
+                  productsList={productsList}
+                  saveProductsList={saveProductsList}
+                />
               </Grid>
             </Grid>
           </Paper>
         </Grid>
         <Grid size={4}>
-          <Totals subtotal={subtotal} total={total} />
+          <Grid container spacing={2}>
+            <Grid size={12}>
+              <PaymentsForm
+                paymentCard={paymentCard}
+                paymentCash={paymentCash}
+                setPaymentCard={setPaymentCard}
+                setPaymentCash={setPaymentCash}
+                setCardReference={setCardReference}
+                cardReference={cardReference}
+              />
+            </Grid>
+            <Grid size={12}>
+              <Totals
+                subtotal={subtotal}
+                total={total}
+                totalPaidOut={totalPaidOut}
+                handleCreateSale={handleCreateSale}
+              />
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
       <ModalAddClients open={open} handleClose={handleClose} />

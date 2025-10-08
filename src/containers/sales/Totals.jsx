@@ -1,7 +1,7 @@
-import { Grid, Paper, Typography } from "@mui/material";
+import { Button, Grid, Paper, Typography } from "@mui/material";
 import React from "react";
 import { PriceFormat } from "../../utils/PriceFormat";
-const Totals = ({ subtotal, total }) => {
+const Totals = ({ subtotal, total, totalPaidOut, handleCreateSale }) => {
   return (
     <Paper elevation={4} sx={{ padding: "20px", borderRadius: "10px" }}>
       <Grid
@@ -9,7 +9,7 @@ const Totals = ({ subtotal, total }) => {
         spacing={2}
         sx={{ display: "flex", justifyContent: "space-between" }}
       >
-        <Grid size={6}>
+        {/* <Grid size={6}>
           <Typography variant='h6' fontWeight='bold'>
             Subtotal
           </Typography>
@@ -18,7 +18,7 @@ const Totals = ({ subtotal, total }) => {
           <Typography variant='h6' fontWeight='bold'>
             $ {PriceFormat(Number(subtotal))}
           </Typography>
-        </Grid>
+        </Grid> */}
         <Grid size={6}>
           <Typography variant='h6' fontWeight='bold'>
             Total a pagar
@@ -36,8 +36,18 @@ const Totals = ({ subtotal, total }) => {
         </Grid>
         <Grid size={6}>
           <Typography variant='h6' fontWeight='bold'>
-            $ {PriceFormat(Number(0))}
+            $ {PriceFormat(Number(totalPaidOut))}
           </Typography>
+        </Grid>
+        <Grid size={12}>
+          <Button
+            variant='contained'
+            color='primary'
+            size='large'
+            onClick={handleCreateSale}
+          >
+            Finalizar Venta
+          </Button>
         </Grid>
       </Grid>
     </Paper>

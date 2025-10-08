@@ -50,9 +50,10 @@ const Barcode = ({ productsList, saveProductsList, guardarProductId }) => {
       category: foundProduct.category?.name || "",
       product_id: foundProduct.id,
       weight: foundProduct.weight || "",
-      price: foundProduct.price,
-      price_purchase: foundProduct.price_purchase,
-      price_with_discount: foundProduct.price_with_discount,
+      price: Number(foundProduct.price).toFixed(2),
+      final_price: Number(foundProduct.price).toFixed(2),
+      price_purchase: Number(foundProduct.price_purchase).toFixed(2),
+      price_with_discount: Number(foundProduct.price_with_discount).toFixed(2),
     };
 
     // Guardamos el ID de producto actual

@@ -8,6 +8,7 @@ import BusinessRulesState from "./Context/BusinessRule/BusinessRuleState";
 import LinesState from "./Context/Lines/LinesState";
 import ProductsState from "./Context/Products/ProductsState";
 import ClientsState from "./Context/Clients/ClientsState";
+import SalesState from "./Context/Sales/SalesState";
 function App() {
   return (
     <AuthState>
@@ -18,7 +19,9 @@ function App() {
               <LinesState>
                 <ProductsState>
                   <ClientsState>
-                    <AppRouter />
+                    <SalesState>
+                      <AppRouter />
+                    </SalesState>
                   </ClientsState>
                 </ProductsState>
               </LinesState>
