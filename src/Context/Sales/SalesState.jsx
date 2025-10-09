@@ -17,6 +17,8 @@ const SalesState = ({ children }) => {
     let url = "/sales";
     MethodGet(url)
       .then((res) => {
+        console.log(res, "la respyests");
+
         dispatch({
           type: GET_ALL_SALES,
           payload: res.data,

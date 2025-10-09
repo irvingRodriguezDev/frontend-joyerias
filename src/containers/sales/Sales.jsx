@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import Layout from "../../components/Layout/Layout";
-import { Button, Grid, Typography } from "@mui/material";
+import { Button, Grid, Paper, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
+import SalesContext from "../../Context/Sales/SalesContext";
+import TableSales from "./TableSales";
 
 const Sales = () => {
+  const { sales, getAllSales } = useContext(SalesContext);
+  useEffect(() => {
+    getAllSales();
+  }, []);
+
   return (
     <Layout>
       <Grid container spacing={2}>
@@ -18,6 +25,11 @@ const Sales = () => {
               Agregar
             </Button>
           </Link>
+        </Grid>
+        <Grid size={12}>
+          <Paper sx={{ padding: "20px", borderRadius: "12px" }}>
+            <TableSales sale={sales ? sales : []} />
+          </Paper>
         </Grid>
       </Grid>
     </Layout>
