@@ -1,4 +1,4 @@
-import { GET_ALL_SALES, STORE_SALE } from "../../types";
+import { GET_ALL_SALES, GET_ONE_SALE, STORE_SALE } from "../../types";
 
 export default (state, action) => {
   switch (action.type) {
@@ -6,6 +6,12 @@ export default (state, action) => {
       return {
         ...state,
         sales: action.payload,
+        ErrorsApi: [],
+      };
+    case GET_ONE_SALE:
+      return {
+        ...state,
+        sale: action.payload,
         ErrorsApi: [],
       };
     case STORE_SALE:

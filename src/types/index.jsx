@@ -59,3 +59,4 @@ export const STORE_CLIENTS = "STORE_CLIENTS";
 }
 export const GET_ALL_SALES = "GET_ALL_SALES";
 export const STORE_SALE = "STORE_SALE";
+export const GET_ONE_SALE = "GET_ONE_SALE";

@@ -4,14 +4,32 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import SalesContext from "./SalesContext";
 import SalesReducer from "./SalesReducer";
-import { GET_ALL_SALES, STORE_SALE } from "../../types";
+import { GET_ALL_SALES, GET_ONE_SALE, STORE_SALE } from "../../types";
 const SalesState = ({ children }) => {
   const initialState = {
     sales: [],
     ErrorsApi: [],
+    sale: {},
   };
   const history = useNavigate();
   const [state, dispatch] = useReducer(SalesReducer, initialState);
+
+  const getOneSale = (id) => {
+    let url = `/sales/${id}`;
+    MethodGet(url)
+      .then((res) => {
+        dispatch({
+          type: GET_ONE_SALE,
+          payload: res.data,
+        });
+      })
+      .catch((error) => {
+        console.log(
+          error,
+          "ocurrio un error al obtener la informacion de la venta"
+        );
+      });
+  };
 
   const getAllSales = () => {
     let url = "/sales";
@@ -56,8 +74,10 @@ const SalesState = ({ children }) => {
     <SalesContext.Provider
       value={{
         sales: state.sales,
+        sale: state.sale,
         getAllSales,
         storeSale,
+        getOneSale,
       }}
     >
       {children}
