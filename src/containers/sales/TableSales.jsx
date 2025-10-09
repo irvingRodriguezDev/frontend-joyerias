@@ -31,7 +31,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-export default function TableSales({ sale }) {
+export default function TableSales({ sale, downloadTicketSale }) {
   return (
     <TableContainer component={Paper}>
       <Table aria-label='customized table' sx={{ borderRadius: "12px" }}>
@@ -60,7 +60,7 @@ export default function TableSales({ sale }) {
               <StyledTableCell align='center'>{row.total}</StyledTableCell>
               <StyledTableCell align='center'>{row.paid_out}</StyledTableCell>
               <StyledTableCell align='center'>
-                <IconButton>
+                <IconButton onClick={() => downloadTicketSale(row.id)}>
                   <Tooltip placement='top' title='Descargar PDF'>
                     <PictureAsPdfIcon sx={{ color: "#06121E" }} />
                   </Tooltip>

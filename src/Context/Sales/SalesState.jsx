@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import SalesContext from "./SalesContext";
 import SalesReducer from "./SalesReducer";
 import { GET_ALL_SALES, GET_ONE_SALE, STORE_SALE } from "../../types";
+import fileDownload from "js-file-download";
+import clienteAxios from "../../config/Axios";
 const SalesState = ({ children }) => {
   const initialState = {
     sales: [],
@@ -35,8 +37,6 @@ const SalesState = ({ children }) => {
     let url = "/sales";
     MethodGet(url)
       .then((res) => {
-        console.log(res, "la respyests");
-
         dispatch({
           type: GET_ALL_SALES,
           payload: res.data,
@@ -70,6 +70,44 @@ const SalesState = ({ children }) => {
         console.log(error, "ocurrio un error al crear la venta");
       });
   };
+
+  const downloadTicketSale = async (id) => {
+    let timerInterval;
+
+    Swal.fire({
+      title: "Generando PDF...",
+      html: "Por favor espera mientras se genera el ticket.",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
+    try {
+      const url = `/sales/${id}/ticket`;
+      const res = await clienteAxios.get(url, { responseType: "blob" });
+
+      fileDownload(res.data, `Ticket_venta_#${id}.pdf`);
+
+      Swal.fire({
+        title: "Descargado correctamente",
+        text: "El ticket se descargó exitosamente.",
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      console.error("Error al descargar el PDF:", error);
+      Swal.fire({
+        title: "Error",
+        text: "Ocurrió un problema al generar o descargar el ticket.",
+        icon: "error",
+        confirmButtonText: "Entendido",
+      });
+    }
+  };
+
   return (
     <SalesContext.Provider
       value={{
@@ -78,6 +116,7 @@ const SalesState = ({ children }) => {
         getAllSales,
         storeSale,
         getOneSale,
+        downloadTicketSale,
       }}
     >
       {children}

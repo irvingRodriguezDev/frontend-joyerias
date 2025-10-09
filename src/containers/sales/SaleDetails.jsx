@@ -1,10 +1,15 @@
 import React, { useContext, useEffect } from "react";
 import Layout from "../../components/Layout/Layout";
-import { Chip, Divider, Grid, Paper, Typography } from "@mui/material";
+import { Button, Chip, Divider, Grid, Paper, Typography } from "@mui/material";
 import SalesContext from "../../Context/Sales/SalesContext";
 import { useParams } from "react-router-dom";
 import { PriceFormat } from "../../utils/PriceFormat";
+import TableDetails from "./Details/TableDetails";
+import TablePayments from "./Details/TablePayments";
+import { useNavigate } from "react-router-dom";
 const SaleDetails = (props) => {
+  const navigate = useNavigate();
+
   let params = useParams();
 
   const { id } = params;
@@ -13,11 +18,20 @@ const SaleDetails = (props) => {
     getOneSale(id);
   }, [id]);
 
-  const { branch, client, details } = sale;
+  const { branch, client, details, payments } = sale;
 
   return (
     <Layout>
       <Grid container spacing={2}>
+        <Grid size={12} sx={{ display: "flex", justifyContent: "end" }}>
+          <Button
+            variant='contained'
+            color='secondary'
+            onClick={() => navigate(-1)}
+          >
+            Regresar atras
+          </Button>
+        </Grid>
         <Grid size={12}>
           <Typography color='white' fontWeight='bold' fontSize='30px'>
             Detalle de venta - Suc:{branch ? branch.branch_name : ""} - F:
@@ -87,26 +101,22 @@ const SaleDetails = (props) => {
                     sx={{ backgroundColor: "#06121E", color: "white" }}
                   />
                 </Divider>
-                <Grid
-                  container
-                  spacing={2}
-                  sx={{ padding: "20", fontWeight: "bold" }}
-                >
-                  <Grid size={{ xs: 12, sm: 6, md: 4, xl: 3 }}>
-                    Fecha venta: {sale ? sale.created_at : ""}
+                <Grid container spacing={2}>
+                  <Grid size={12} sx={{ padding: "20px" }}>
+                    <TableDetails details={details ?? []} />
                   </Grid>
-                  <Grid size={{ xs: 12, sm: 6, md: 4, xl: 3 }}>
-                    Total: {"$"} {sale ? PriceFormat(Number(sale.total)) : ""}
-                  </Grid>
-                  <Grid size={{ xs: 12, sm: 6, md: 4, xl: 3 }}>
-                    Total pagado:{" $"}
-                    {sale ? PriceFormat(Number(sale.paid_out)) : ""}
-                  </Grid>
-                  <Grid size={{ xs: 12, sm: 6, md: 4, xl: 3 }}>
-                    Resta por pagar:{" $ "}
-                    {sale
-                      ? PriceFormat(Number(sale.total - sale.paid_out))
-                      : ""}
+                </Grid>
+              </Grid>
+              <Grid size={12}>
+                <Divider sx={{}}>
+                  <Chip
+                    label='Pagos realizados'
+                    sx={{ backgroundColor: "#06121E", color: "white" }}
+                  />
+                </Divider>
+                <Grid container spacing={2}>
+                  <Grid size={12} sx={{ padding: "20px" }}>
+                    <TablePayments payments={payments ?? []} />
                   </Grid>
                 </Grid>
               </Grid>

@@ -6,7 +6,7 @@ import SalesContext from "../../Context/Sales/SalesContext";
 import TableSales from "./TableSales";
 
 const Sales = () => {
-  const { sales, getAllSales } = useContext(SalesContext);
+  const { sales, getAllSales, downloadTicketSale } = useContext(SalesContext);
   useEffect(() => {
     getAllSales();
   }, []);
@@ -28,7 +28,10 @@ const Sales = () => {
         </Grid>
         <Grid size={12}>
           <Paper sx={{ padding: "20px", borderRadius: "12px" }}>
-            <TableSales sale={sales ? sales : []} />
+            <TableSales
+              downloadTicketSale={downloadTicketSale}
+              sale={sales ? sales : []}
+            />
           </Paper>
         </Grid>
       </Grid>
