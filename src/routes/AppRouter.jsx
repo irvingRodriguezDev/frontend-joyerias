@@ -25,6 +25,7 @@ import AddProducts from "../containers/products/AddProducts";
 import AddClients from "../containers/clients/AddClients";
 import AddSale from "../containers/sales/AddSale";
 import SaleDetails from "../containers/sales/SaleDetails";
+import ProductsByBranch from "../containers/products/Branch/ProductsByBranch";
 function AppRouter({ isAuthenticated }) {
   const { autenticado, usuarioAutenticado, cargando } = useContext(AuthContext);
 
@@ -78,6 +79,7 @@ function AppRouter({ isAuthenticated }) {
 
         <Route path='/productos' element={<Products />} />
         <Route path='/crear-producto' element={<AddProducts />} />
+        <Route path='/productos-sucursal/:id' element={<ProductsByBranch />} />
         {/**Usuarios */}
         <Route path='/usuarios' element={<Users />} />
         <Route path='/crear-usuario' element={<AddUser />} />
