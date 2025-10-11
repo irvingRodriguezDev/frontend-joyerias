@@ -20,13 +20,13 @@ import {
   Tooltip,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 
-const SalesTable = ({ data, onPageChange, downloadTicketSale }) => {
+const ClientsTable = ({ data, onPageChange }) => {
   const [filteredData, setFilteredData] = useState(data?.data || []);
   const [filters, setFilters] = useState({
-    search: "",
+    name: "",
+    lastname: "",
     branch: "",
   });
 
@@ -40,18 +40,20 @@ const SalesTable = ({ data, onPageChange, downloadTicketSale }) => {
     if (!data) return;
     let result = [...data];
 
-    if (filters.search) {
-      const term = filters.search.toLowerCase();
-      result = result.filter(
-        (s) =>
-          s.folio?.toString().includes(term) ||
-          (s.client?.name?.toLowerCase().includes(term) ?? false) ||
-          (s.client?.lastname?.toLowerCase().includes(term) ?? false)
+    if (filters.name) {
+      result = result.filter((c) =>
+        c.name?.toLowerCase().includes(filters.name.toLowerCase())
+      );
+    }
+
+    if (filters.lastname) {
+      result = result.filter((c) =>
+        c.lastname?.toLowerCase().includes(filters.lastname.toLowerCase())
       );
     }
 
     if (filters.branch) {
-      result = result.filter((s) => s.branch?.branch_name === filters.branch);
+      result = result.filter((c) => c.branch?.branch_name === filters.branch);
     }
 
     setFilteredData(result);
@@ -61,24 +63,30 @@ const SalesTable = ({ data, onPageChange, downloadTicketSale }) => {
     if (onPageChange) onPageChange(page);
   };
 
-  const uniqueBranches = [...new Set(data.map((s) => s.branch?.branch_name))];
+  const uniqueBranches = [...new Set(data.map((c) => c.branch?.branch_name))];
 
   return (
     <Paper sx={{ p: 3 }}>
       <Typography variant='h6' gutterBottom>
-        Ventas
+        Clientes
       </Typography>
 
       {/* 🎯 Filtros */}
       <Stack direction='row' spacing={2} sx={{ mb: 2, flexWrap: "wrap" }}>
         <TextField
-          label='Buscar folio o cliente'
+          label='Nombre'
           variant='outlined'
-          value={filters.search}
-          onChange={(e) => setFilters({ ...filters, search: e.target.value })}
-          sx={{ minWidth: 400 }}
+          value={filters.name}
+          onChange={(e) => setFilters({ ...filters, name: e.target.value })}
+          sx={{ minWidth: 250 }}
         />
-
+        <TextField
+          label='Apellido'
+          variant='outlined'
+          value={filters.lastname}
+          onChange={(e) => setFilters({ ...filters, lastname: e.target.value })}
+          sx={{ minWidth: 250 }}
+        />
         <FormControl sx={{ minWidth: 250 }}>
           <InputLabel>Sucursal</InputLabel>
           <Select
@@ -101,11 +109,10 @@ const SalesTable = ({ data, onPageChange, downloadTicketSale }) => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell align='center'>Folio</TableCell>
-              <TableCell align='center'>Cliente</TableCell>
+              <TableCell align='center'>Nombre</TableCell>
+              <TableCell align='center'>Apellido</TableCell>
+              <TableCell align='center'>Teléfono</TableCell>
               <TableCell align='center'>Sucursal</TableCell>
-              <TableCell align='center'>Total</TableCell>
-              <TableCell align='center'>Total Pagado</TableCell>
               <TableCell align='center'>Opciones</TableCell>
             </TableRow>
           </TableHead>
@@ -113,22 +120,14 @@ const SalesTable = ({ data, onPageChange, downloadTicketSale }) => {
             {filteredData.length > 0 ? (
               filteredData.map((row) => (
                 <TableRow key={row.id}>
-                  <TableCell align='center'>{row.folio}</TableCell>
-                  <TableCell align='center'>
-                    {row.client?.name} {row.client?.lastname}
-                  </TableCell>
+                  <TableCell align='center'>{row.name}</TableCell>
+                  <TableCell align='center'>{row.lastname}</TableCell>
+                  <TableCell align='center'>{row.phone}</TableCell>
                   <TableCell align='center'>
                     {row.branch?.branch_name}
                   </TableCell>
-                  <TableCell align='center'>{row.total}</TableCell>
-                  <TableCell align='center'>{row.paid_out}</TableCell>
                   <TableCell align='center'>
-                    <Tooltip title='Descargar PDF'>
-                      <IconButton onClick={() => downloadTicketSale(row.id)}>
-                        <PictureAsPdfIcon sx={{ color: "#06121E" }} />
-                      </IconButton>
-                    </Tooltip>
-                    <Link to={`/detalle-venta/${row.id}`}>
+                    <Link to={`/detalle-cliente/${row.id}`}>
                       <Tooltip title='Ver detalle'>
                         <IconButton>
                           <RemoveRedEyeIcon sx={{ color: "#06121E" }} />
@@ -162,4 +161,4 @@ const SalesTable = ({ data, onPageChange, downloadTicketSale }) => {
   );
 };
 
-export default SalesTable;
+export default ClientsTable;

@@ -1,17 +1,21 @@
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Layout from "../../components/Layout/Layout";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import ProductContext from "../../Context/Products/ProductsContext";
-import ProductsCard from "../../components/Cards/ProductsCard";
+import ProductsTable from "../../components/Tables/ProductsTable";
+
 const Products = () => {
   const { products, getAllProducts } = useContext(ProductContext);
+  const [page, setPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(30);
   useEffect(() => {
-    getAllProducts();
-  }, []);
-  console.log(products);
+    getAllProducts(page, rowsPerPage);
+  }, [page, rowsPerPage]);
+
+  if (!products) return <p style={{ color: "white" }}>Cargando productos...</p>;
 
   return (
     <Layout>
@@ -28,11 +32,16 @@ const Products = () => {
             </Button>
           </Link>
         </Grid>
-        {products.map((p, index) => (
-          <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={index}>
-            <ProductsCard product={p} />
-          </Grid>
-        ))}
+
+        {/* 🧩 Aquí usamos el nuevo componente */}
+        <Grid size={12}>
+          {products && (
+            <ProductsTable
+              data={products}
+              onPageChange={(page) => getAllProducts(page)}
+            />
+          )}
+        </Grid>
       </Grid>
     </Layout>
   );

@@ -1,15 +1,20 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Layout from "../../components/Layout/Layout";
 import { Button, Grid, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import ClientsContext from "../../Context/Clients/ClientsContext";
-import ClientsCard from "../../components/Cards/ClientsCard";
+import ClientsTable from "../../components/Tables/ClientsTable";
 const Clients = () => {
   const { clients, getAllClients } = useContext(ClientsContext);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [rowsPerPage, setRowsPerPage] = useState(15);
 
   useEffect(() => {
-    getAllClients();
-  }, []);
+    getAllClients(page, rowsPerPage);
+  }, [page, rowsPerPage]);
+
+  if (loading) return <LoadingSpinner message='Cargando clientes...' />;
 
   return (
     <Layout>
@@ -26,11 +31,13 @@ const Clients = () => {
             </Button>
           </Link>
         </Grid>
-        {clients.map((c, index) => (
-          <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={index}>
-            <ClientsCard client={c} />
-          </Grid>
-        ))}
+        <Grid size={12}>
+          <ClientsTable
+            data={clients}
+            onPageChange={(p) => setPage(p)}
+            onRowsPerPageChange={(r) => setRowsPerPage(r)}
+          />
+        </Grid>
       </Grid>
     </Layout>
   );

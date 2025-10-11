@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Layout from "../../components/Layout/Layout";
 import { Button, Grid, Paper, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -7,9 +7,13 @@ import TableSales from "./TableSales";
 
 const Sales = () => {
   const { sales, getAllSales, downloadTicketSale } = useContext(SalesContext);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [rowsPerPage, setRowsPerPage] = useState(15);
   useEffect(() => {
-    getAllSales();
-  }, []);
+    getAllSales(page, rowsPerPage);
+  }, [page, rowsPerPage]);
+  if (loading) return <LoadingSpinner message='Cargando ventas...' />;
 
   return (
     <Layout>
@@ -27,12 +31,12 @@ const Sales = () => {
           </Link>
         </Grid>
         <Grid size={12}>
-          <Paper sx={{ padding: "20px", borderRadius: "12px" }}>
-            <TableSales
-              downloadTicketSale={downloadTicketSale}
-              sale={sales ? sales : []}
-            />
-          </Paper>
+          <TableSales
+            data={sales}
+            downloadTicketSale={downloadTicketSale}
+            onPageChange={(p) => setPage(p)}
+            onRowsPerPageChange={(r) => setRowsPerPage(r)}
+          />
         </Grid>
       </Grid>
     </Layout>

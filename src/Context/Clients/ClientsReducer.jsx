@@ -5,7 +5,7 @@ export default (state, action) => {
     case GET_ALL_CLIENTS:
       return {
         ...state,
-        clients: action.payload,
+        clients: Array.isArray(action.payload.data) ? action.payload.data : [],
         ErrorsApi: [],
       };
     case STORE_CLIENTS:

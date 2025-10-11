@@ -33,13 +33,18 @@ const SalesState = ({ children }) => {
       });
   };
 
-  const getAllSales = () => {
-    let url = "/sales";
+  const getAllSales = (page, rowsPerPage) => {
+    let url = `/sales?page=${page}&limit=${rowsPerPage}`;
     MethodGet(url)
       .then((res) => {
         dispatch({
           type: GET_ALL_SALES,
-          payload: res.data,
+          payload: {
+            data: res.data.data,
+            total: res.data.total,
+            page: res.data.current_page,
+            perPage: res.data.per_page,
+          },
         });
       })
       .catch((error) => {

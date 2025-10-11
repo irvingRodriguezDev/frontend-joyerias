@@ -5,7 +5,7 @@ export default (state, action) => {
     case GET_ALL_SALES:
       return {
         ...state,
-        sales: action.payload,
+        sales: Array.isArray(action.payload.data) ? action.payload.data : [],
         ErrorsApi: [],
       };
     case GET_ONE_SALE:

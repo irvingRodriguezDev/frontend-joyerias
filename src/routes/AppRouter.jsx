@@ -26,6 +26,8 @@ import AddClients from "../containers/clients/AddClients";
 import AddSale from "../containers/sales/AddSale";
 import SaleDetails from "../containers/sales/SaleDetails";
 import ProductsByBranch from "../containers/products/Branch/ProductsByBranch";
+import ShowProducts from "../containers/products/ShowProducts";
+import LoadingSpinner from "../components/Loading/Spinner";
 function AppRouter({ isAuthenticated }) {
   const { autenticado, usuarioAutenticado, cargando } = useContext(AuthContext);
 
@@ -35,17 +37,7 @@ function AppRouter({ isAuthenticated }) {
   if (cargando) {
     return (
       <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
-        <Box
-          sx={{
-            width: "105%",
-            height: "177%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          cargando
-        </Box>
+        <LoadingSpinner />
       </Grid>
     );
   }
@@ -80,6 +72,7 @@ function AppRouter({ isAuthenticated }) {
         <Route path='/productos' element={<Products />} />
         <Route path='/crear-producto' element={<AddProducts />} />
         <Route path='/productos-sucursal/:id' element={<ProductsByBranch />} />
+        <Route path='/detalle-producto/:id' element={<ShowProducts />} />
         {/**Usuarios */}
         <Route path='/usuarios' element={<Users />} />
         <Route path='/crear-usuario' element={<AddUser />} />

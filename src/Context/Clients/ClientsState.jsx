@@ -13,13 +13,18 @@ const ClientsState = ({ children }) => {
   const history = useNavigate();
   const [state, dispatch] = useReducer(ClientsReducer, initialState);
 
-  const getAllClients = () => {
-    let url = "/clients";
+  const getAllClients = (page, rowsPerPage) => {
+    let url = `/clients?page=${page}&limit=${rowsPerPage}`;
     MethodGet(url)
       .then((res) => {
         dispatch({
           type: GET_ALL_CLIENTS,
-          payload: res.data,
+          payload: {
+            data: res.data.data,
+            total: res.data.total,
+            page: res.data.current_page,
+            perPage: res.data.per_page,
+          },
         });
       })
       .catch((error) => {
