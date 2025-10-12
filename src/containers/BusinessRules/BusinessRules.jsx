@@ -26,7 +26,7 @@ const BusinessRules = () => {
           </Link>
         </Grid>
         {business_rules.map((b, index) => (
-          <Grid size={{ sx: 12, md: 6, lg: 4, xl: 3 }} key={index}>
+          <Grid size={{ xs: 12, md: 6, lg: 4, xl: 3 }} key={index}>
             <BusinessCard business={b} />
           </Grid>
         ))}

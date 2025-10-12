@@ -41,16 +41,16 @@ const AddBranch = () => {
           spacing={2}
           sx={{ display: "flex", justifyContent: "center" }}
         >
-          <Grid item size={12}>
+          <Grid size={12}>
             <Typography color='white' fontWeight='bold' fontSize='30px'>
               Registrar nueva sucursal
             </Typography>
           </Grid>
-          <Grid item size={8}>
-            <Paper sx={{ padding: 2 }}>
+          <Grid size={{ xs: 12, sm: 10, md: 10, lg: 9 }}>
+            <Paper sx={{ padding: "20px", borderRadius: "12px" }}>
               <Grid container spacing={2}>
                 {/* Nombre */}
-                <Grid item size={6}>
+                <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
                   <Controller
                     name='branch_name'
                     control={control}
@@ -69,7 +69,7 @@ const AddBranch = () => {
                   />
                 </Grid>
                 {/* Nombre */}
-                <Grid item size={6}>
+                <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
                   <Controller
                     name='legal_representative'
                     control={control}
@@ -91,7 +91,7 @@ const AddBranch = () => {
                 </Grid>
 
                 {/* Email */}
-                <Grid item size={6}>
+                <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
                   <Controller
                     name='email'
                     control={control}
@@ -117,7 +117,7 @@ const AddBranch = () => {
                 </Grid>
 
                 {/* RFC */}
-                <Grid item size={6}>
+                <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
                   <Controller
                     name='rfc'
                     control={control}
@@ -143,7 +143,7 @@ const AddBranch = () => {
                 </Grid>
 
                 {/* Teléfono */}
-                <Grid item size={6}>
+                <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
                   <Controller
                     name='phone'
                     control={control}
@@ -169,7 +169,7 @@ const AddBranch = () => {
                 </Grid>
 
                 {/* Dirección */}
-                <Grid item size={12}>
+                <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
                   <Controller
                     name='address'
                     control={control}
@@ -189,7 +189,7 @@ const AddBranch = () => {
                 </Grid>
 
                 {/* Estado */}
-                <Grid item size={6}>
+                <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
                   <StateSelect detectarCambiosState={detectarCambiosState} />
                   {errors.state_id && (
                     <Typography color='error' variant='caption'>
@@ -200,7 +200,7 @@ const AddBranch = () => {
 
                 {/* Municipio */}
                 {state && (
-                  <Grid item size={6}>
+                  <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
                     <MunicipalitySelect
                       detectarCambiosMunicipality={detectarCambiosMunicipality}
                       state_id={state}
@@ -213,11 +213,7 @@ const AddBranch = () => {
                   </Grid>
                 )}
 
-                <Grid
-                  item
-                  size={12}
-                  sx={{ display: "flex", justifyContent: "end" }}
-                >
+                <Grid size={12} sx={{ display: "flex", justifyContent: "end" }}>
                   <Button
                     type='submit'
                     variant='contained'

@@ -1,10 +1,14 @@
 import React, { useReducer } from "react";
-import MethodGet, { MethodPost } from "../../config/Service";
+import MethodGet, { MethodDelete, MethodPost } from "../../config/Service";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import BusinessRuleContext from "./BusinessRuleContext";
 import BusinessRuleReducer from "./BusinessRuleReducer";
-import { GET_ALL_BUSINESS_RULE, STORE_BUSINESS_RULE } from "../../types";
+import {
+  DELETE_BUSINESS_RULE,
+  GET_ALL_BUSINESS_RULE,
+  STORE_BUSINESS_RULE,
+} from "../../types";
 const BusinessRulesState = ({ children }) => {
   const initialState = {
     business_rules: [],
@@ -50,12 +54,35 @@ const BusinessRulesState = ({ children }) => {
         console.log(error, "ocurrio un error al crear la regla");
       });
   };
+
+  const deleteBusiness = (id) => {
+    let url = `/business-rules/${id}`;
+    MethodDelete(url)
+      .then((res) => {
+        dispatch({
+          type: DELETE_BUSINESS_RULE,
+          payload: id,
+        });
+        Swal.fire({
+          title: "Eliminado",
+          text: res.data.message,
+          icon: "success",
+          timer: 1200,
+          showConfirmButton: false,
+        });
+      })
+      .catch((error) => {
+        console.log(error, "ocurrio un error al eliminar la regla de negocio");
+      });
+  };
+
   return (
     <BusinessRuleContext.Provider
       value={{
         business_rules: state.business_rules,
         getAllBusiness,
         storeBusiness,
+        deleteBusiness,
       }}
     >
       {children}

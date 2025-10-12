@@ -9,7 +9,7 @@ const DeleteIcon = ({ width }) => {
       id='delete-alt'
       data-name='Flat Line'
       xmlns='http://www.w3.org/2000/svg'
-      class='icon flat-line'
+      className='icon flat-line'
     >
       <g id='SVGRepo_bgCarrier' strokeWidth='0'></g>
       <g

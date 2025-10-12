@@ -86,10 +86,11 @@ const AuthState = (props) => {
     }
   };
 
-  const registerUser = (data, history) => {
+  const registerUser = (data) => {
     let url = "/auth/register";
     MethodPost(url, data)
       .then((res) => {
+        localStorage.setItem("token", res.data.token);
         const token = res.data.token;
         // Setea el token en Axios inmediatamente
         tokenAuth(token);

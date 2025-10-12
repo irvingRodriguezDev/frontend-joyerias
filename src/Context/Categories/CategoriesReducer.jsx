@@ -1,4 +1,8 @@
-import { GET_ALL_CATEGORIES, STORE_CATEGORIES } from "../../types";
+import {
+  DELETE_CATEGORY,
+  GET_ALL_CATEGORIES,
+  STORE_CATEGORIES,
+} from "../../types";
 
 export default (state, action) => {
   switch (action.type) {
@@ -13,6 +17,12 @@ export default (state, action) => {
         ...state,
         categories: [...state.categories, action.payload],
         ErrorsApi: [],
+      };
+    case DELETE_CATEGORY:
+      return {
+        ...state,
+        success: true,
+        categories: state.categories.filter((c) => c.id !== action.payload),
       };
     default:
       return state;

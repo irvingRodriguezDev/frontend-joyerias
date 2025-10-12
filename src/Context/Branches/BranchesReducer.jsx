@@ -1,4 +1,4 @@
-import { GET_ALL_BRANCHES, STORE_BRANCH } from "../../types";
+import { DELETE_BRANCH, GET_ALL_BRANCHES, STORE_BRANCH } from "../../types";
 
 export default (state, action) => {
   switch (action.type) {
@@ -13,6 +13,12 @@ export default (state, action) => {
         ...state,
         branches: [...state.branches, action.payload],
         ErrorsApi: [],
+      };
+    case DELETE_BRANCH:
+      return {
+        ...state,
+        success: true,
+        branches: state.branches.filter((b) => b.id !== action.payload),
       };
     default:
       return state;

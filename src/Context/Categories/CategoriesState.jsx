@@ -1,6 +1,10 @@
 import React, { useReducer } from "react";
-import MethodGet, { MethodPost } from "../../config/Service";
-import { GET_ALL_CATEGORIES, STORE_CATEGORIES } from "../../types";
+import MethodGet, { MethodDelete, MethodPost } from "../../config/Service";
+import {
+  DELETE_CATEGORY,
+  GET_ALL_CATEGORIES,
+  STORE_CATEGORIES,
+} from "../../types";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import CategoriesContext from "./CategoriesContext";
@@ -50,12 +54,34 @@ const CategoriesState = ({ children }) => {
         console.log(error, "ocurrio un error al crear la categoria");
       });
   };
+
+  const deleteCategory = (id) => {
+    let url = `/category/${id}`;
+    MethodDelete(url)
+      .then((res) => {
+        dispatch({
+          type: DELETE_CATEGORY,
+          payload: id,
+        });
+        Swal.fire({
+          title: "Eliminado",
+          text: res.data.message,
+          icon: "success",
+          timer: 1200,
+          showConfirmButton: false,
+        });
+      })
+      .catch((error) => {
+        console.log(error, "ocurrio un error al eliminar la categoria");
+      });
+  };
   return (
     <CategoriesContext.Provider
       value={{
         categories: state.categories,
         getAllCategories,
         storeCategory,
+        deleteCategory,
       }}
     >
       {children}

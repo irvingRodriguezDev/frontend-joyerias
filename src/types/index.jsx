@@ -19,6 +19,8 @@ export const SHOW_ERRORS_API = "SHOW_ERRORS_API";
 }
 export const GET_ALL_BRANCHES = "GET_ALL_BRANCHES";
 export const STORE_BRANCH = "STORE_BRANCH";
+export const DELETE_BRANCH = "DELETE_BRANCH";
+
 {
   /**Users */
 }
@@ -30,11 +32,13 @@ export const STORE_USERS = "STORE_USERS";
 }
 export const GET_ALL_BUSINESS_RULE = "GET_ALL_BUSINESS_RULE";
 export const STORE_BUSINESS_RULE = "STORE_BUSINESS_RULE";
+export const DELETE_BUSINESS_RULE = "DELETE_BUSINESS_RULE";
 {
   /**Categorias */
 }
 export const GET_ALL_CATEGORIES = "GET_ALL_CATEGORIAS";
 export const STORE_CATEGORIES = "STORE_CATEGORIES";
+export const DELETE_CATEGORY = "DELETE_CATEGORY";
 
 {
   /**Lines */

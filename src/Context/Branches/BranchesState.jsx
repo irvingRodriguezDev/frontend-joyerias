@@ -1,8 +1,8 @@
 import React, { useReducer } from "react";
 import BranchesReducer from "./BranchesReducer";
-import MethodGet, { MethodPost } from "../../config/Service";
+import MethodGet, { MethodDelete, MethodPost } from "../../config/Service";
 import BranchesContext from "./BranchesContext";
-import { GET_ALL_BRANCHES, STORE_BRANCH } from "../../types";
+import { DELETE_BRANCH, GET_ALL_BRANCHES, STORE_BRANCH } from "../../types";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 const BranchesState = ({ children }) => {
@@ -50,12 +50,34 @@ const BranchesState = ({ children }) => {
         console.log(error, "ocurrio un error al crear la sucursal");
       });
   };
+
+  const deleteBranch = (id) => {
+    let url = `/branches/${id}`;
+    MethodDelete(url)
+      .then((res) => {
+        dispatch({
+          type: DELETE_BRANCH,
+          payload: id,
+        });
+        Swal.fire({
+          title: "Eliminado",
+          text: res.data.message,
+          icon: "success",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      })
+      .catch((error) => {
+        console.log(error, "Ocurrio un error al eliminar la sucursal");
+      });
+  };
   return (
     <BranchesContext.Provider
       value={{
         branches: state.branches,
         getAllBranches,
         storeBranch,
+        deleteBranch,
       }}
     >
       {children}
