@@ -5,11 +5,21 @@ import { Link } from "react-router-dom";
 import ClientsContext from "../../Context/Clients/ClientsContext";
 import ClientsTable from "../../components/Tables/ClientsTable";
 const Clients = () => {
-  const { clients, getAllClients } = useContext(ClientsContext);
+  const {
+    clients,
+    getAllClients,
+    total,
+    lastPage,
+    currentPage,
+    next_page_url,
+    prev_page_url,
+  } = useContext(ClientsContext);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(15);
-
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
   useEffect(() => {
     getAllClients(page, rowsPerPage);
   }, [page, rowsPerPage]);
@@ -34,8 +44,12 @@ const Clients = () => {
         <Grid size={12}>
           <ClientsTable
             data={clients}
-            onPageChange={(p) => setPage(p)}
-            onRowsPerPageChange={(r) => setRowsPerPage(r)}
+            total={total}
+            lastPage={lastPage}
+            currentPage={currentPage}
+            next_page_url={next_page_url}
+            prev_page_url={prev_page_url}
+            handleChangePage={handleChangePage}
           />
         </Grid>
       </Grid>

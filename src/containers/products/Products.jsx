@@ -6,16 +6,28 @@ import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import ProductContext from "../../Context/Products/ProductsContext";
 import ProductsTable from "../../components/Tables/ProductsTable";
-
+import LoadingSpinner from "../../components/Loading/Spinner";
 const Products = () => {
-  const { products, getAllProducts } = useContext(ProductContext);
+  const {
+    products,
+    getAllProducts,
+    total,
+    lastPage,
+    currentPage,
+    next_page_url,
+    prev_page_url,
+  } = useContext(ProductContext);
   const [page, setPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(30);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [loading, setLoading] = useState(false);
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
   useEffect(() => {
     getAllProducts(page, rowsPerPage);
   }, [page, rowsPerPage]);
 
-  if (!products) return <p style={{ color: "white" }}>Cargando productos...</p>;
+  if (loading) return <LoadingSpinner message='Cargando Productos...' />;
 
   return (
     <Layout>
@@ -34,11 +46,16 @@ const Products = () => {
         </Grid>
 
         {/* 🧩 Aquí usamos el nuevo componente */}
-        <Grid size={12}>
+        <Grid size={12} sx={{ padding: "12px", borderRadius: "12px" }}>
           {products && (
             <ProductsTable
               data={products}
-              onPageChange={(page) => getAllProducts(page)}
+              total={total}
+              lastPage={lastPage}
+              currentPage={currentPage}
+              next_page_url={next_page_url}
+              prev_page_url={prev_page_url}
+              handleChangePage={handleChangePage}
             />
           )}
         </Grid>

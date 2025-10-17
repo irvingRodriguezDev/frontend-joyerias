@@ -1,6 +1,11 @@
 import React, { useReducer } from "react";
 import MethodGet, { MethodPost } from "../../config/Service";
-import { GET_ALL_PRODUCTS, GET_ONE_PRODUCT, STORE_PRODUCT } from "../../types";
+import {
+  GET_ALL_PRODUCTS,
+  GET_ALL_PRODUCTS_NO_PAGINATE,
+  GET_ONE_PRODUCT,
+  STORE_PRODUCT,
+} from "../../types";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import ProductsReducer from "./ProductsReducer";
@@ -10,12 +15,19 @@ const ProductsState = ({ children }) => {
     products: [],
     product: [],
     ErrorsApi: [],
+    total: 0,
+    page: 0,
+    perPage: 0,
+    lastPage: 0,
+    currentPage: 0,
+    next_page_url: null,
+    prev_page_url: null,
   };
   const history = useNavigate();
   const [state, dispatch] = useReducer(ProductsReducer, initialState);
 
   const getAllProducts = (page, rowsPerPage) => {
-    let url = `/products?page=${page}&limit=${rowsPerPage}`;
+    let url = `/products?page=${page}&rowsPerPage=${rowsPerPage}`;
     MethodGet(url)
       .then((res) => {
         dispatch({
@@ -25,6 +37,10 @@ const ProductsState = ({ children }) => {
             total: res.data.total,
             page: res.data.current_page,
             perPage: res.data.per_page,
+            next_page_url: res.data.next_page_url,
+            prev_page_url: res.data.prev_page_url,
+            lastPage: res.data.last_page,
+            currentPage: res.data.current_page,
           },
         });
       })
@@ -71,14 +87,36 @@ const ProductsState = ({ children }) => {
       });
   };
 
+  const getAllProductsNoPaginate = () => {
+    let url = "/productsNoPaginate";
+    MethodGet(url)
+      .then((res) => {
+        dispatch({
+          type: GET_ALL_PRODUCTS_NO_PAGINATE,
+          payload: res.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error, "ocurrio un error al obtener todos los productos");
+      });
+  };
+
   return (
     <ProductsContext.Provider
       value={{
         products: state.products,
         product: state.product,
+        total: state.total,
+        perPage: state.perPage,
+        page: state.page,
+        lastPage: state.lastPage,
+        currentPage: state.currentPage,
+        next_page_url: state.next_page_url,
+        prev_page_url: state.prev_page_url,
         getOneProduct,
         getAllProducts,
         storeProduct,
+        getAllProductsNoPaginate,
       }}
     >
       {children}

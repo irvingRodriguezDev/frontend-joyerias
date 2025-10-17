@@ -9,6 +9,7 @@ import LinesState from "./Context/Lines/LinesState";
 import ProductsState from "./Context/Products/ProductsState";
 import ClientsState from "./Context/Clients/ClientsState";
 import SalesState from "./Context/Sales/SalesState";
+import DashboardState from "./Context/Dashboard/DashboardState";
 function App() {
   return (
     <AuthState>
@@ -20,7 +21,9 @@ function App() {
                 <ProductsState>
                   <ClientsState>
                     <SalesState>
-                      <AppRouter />
+                      <DashboardState>
+                        <AppRouter />
+                      </DashboardState>
                     </SalesState>
                   </ClientsState>
                 </ProductsState>

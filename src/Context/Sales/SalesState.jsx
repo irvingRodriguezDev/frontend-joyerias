@@ -4,7 +4,12 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import SalesContext from "./SalesContext";
 import SalesReducer from "./SalesReducer";
-import { GET_ALL_SALES, GET_ONE_SALE, STORE_SALE } from "../../types";
+import {
+  GET_ALL_SALES,
+  GET_ONE_SALE,
+  STORE_SALE,
+  TOTAL_VENTAS_DIA,
+} from "../../types";
 import fileDownload from "js-file-download";
 import clienteAxios from "../../config/Axios";
 const SalesState = ({ children }) => {
@@ -12,6 +17,13 @@ const SalesState = ({ children }) => {
     sales: [],
     ErrorsApi: [],
     sale: {},
+    total: 0,
+    page: 0,
+    perPage: 0,
+    lastPage: 0,
+    currentPage: 0,
+    next_page_url: null,
+    prev_page_url: null,
   };
   const history = useNavigate();
   const [state, dispatch] = useReducer(SalesReducer, initialState);
@@ -44,6 +56,10 @@ const SalesState = ({ children }) => {
             total: res.data.total,
             page: res.data.current_page,
             perPage: res.data.per_page,
+            next_page_url: res.data.next_page_url,
+            prev_page_url: res.data.prev_page_url,
+            lastPage: res.data.last_page,
+            currentPage: res.data.current_page,
           },
         });
       })
@@ -113,11 +129,58 @@ const SalesState = ({ children }) => {
     }
   };
 
+  const totalVentasDia = () => {
+    let url = "/ventas/dia";
+    MethodGet(url)
+      .then((res) => {
+        dispatch({
+          type: TOTAL_VENTAS_DIA,
+          payload: res.data.total_vendido_dia,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const totalVentasMes = () => {
+    let url = "/ventas/mes";
+    MethodGet(url)
+      .then((res) => {
+        dispatch({
+          type: TOTAL_VENTAS_DIA,
+          payload: res.data.total_vendido_mes,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const totalVentasSemana = () => {
+    let url = "/ventas/semana";
+    MethodGet(url)
+      .then((res) => {
+        dispatch({
+          type: TOTAL_VENTAS_DIA,
+          payload: res.data.total_vendido_semana,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <SalesContext.Provider
       value={{
         sales: state.sales,
         sale: state.sale,
+        total: state.total,
+        perPage: state.perPage,
+        page: state.page,
+        lastPage: state.lastPage,
+        currentPage: state.currentPage,
+        next_page_url: state.next_page_url,
+        prev_page_url: state.prev_page_url,
         getAllSales,
         storeSale,
         getOneSale,

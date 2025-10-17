@@ -1,5 +1,5 @@
 // 📁 src/components/ProductsTable.jsx
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -23,8 +23,16 @@ import { PriceFormat } from "../../utils/PriceFormat";
 import EditIcon from "../icons/EditIcon";
 import EyeIcon from "../icons/EyeIcon";
 import { Link } from "react-router-dom";
-const ProductsTable = ({ data, onPageChange }) => {
-  const [filteredData, setFilteredData] = useState(data || []);
+import ProductsContext from "../../Context/Products/ProductsContext";
+
+const ProductsTable = ({ data, handleChangePage, lastPage, currentPage }) => {
+  const { getAllProductsNoPaginate, products } = useContext(ProductsContext);
+
+  useEffect(() => {
+    getAllProductsNoPaginate();
+  }, []);
+
+  const [filteredData, setFilteredData] = useState([]);
   const [filters, setFilters] = useState({
     search: "",
     category: "",
@@ -32,21 +40,33 @@ const ProductsTable = ({ data, onPageChange }) => {
     line: "",
   });
 
-  // Actualizar cuando cambie la data
-  useEffect(() => {
-    setFilteredData(data || []);
-  }, [data]);
+  // Saber si hay algún filtro activo o búsqueda
+  const isFiltering =
+    filters.search || filters.category || filters.status || filters.line;
 
-  // 🔍 Filtrar datos localmente
+  // Actualizar la data base según si hay filtros o no
   useEffect(() => {
-    if (!data) return;
-    let result = [...data];
+    if (isFiltering) {
+      // Si hay búsqueda o filtros, usar products del context
+      setFilteredData(products || []);
+    } else {
+      // Si no hay filtros activos, usar la data paginada
+      setFilteredData(data || []);
+    }
+  }, [data, products, isFiltering]);
+
+  // Aplicar filtros localmente
+  useEffect(() => {
+    const baseData = isFiltering ? products : data;
+    if (!baseData) return;
+
+    let result = [...baseData];
 
     if (filters.search) {
       result = result.filter(
         (p) =>
-          p.clave.toLowerCase().includes(filters.search.toLowerCase()) ||
-          p.description.toLowerCase().includes(filters.search.toLowerCase())
+          p.clave?.toLowerCase().includes(filters.search.toLowerCase()) ||
+          p.description?.toLowerCase().includes(filters.search.toLowerCase())
       );
     }
 
@@ -57,20 +77,23 @@ const ProductsTable = ({ data, onPageChange }) => {
     if (filters.status) {
       result = result.filter((p) => p.status?.name === filters.status);
     }
+
     if (filters.line) {
       result = result.filter((p) => p.line?.name === filters.line);
     }
 
     setFilteredData(result);
-  }, [filters, data]);
+  }, [filters, data, products]);
 
-  const handleChangePage = (event, page) => {
-    if (onPageChange) onPageChange(page);
-  };
-
-  const uniqueCategories = [...new Set(data.map((p) => p.category?.name))];
-  const uniqueStatuses = [...new Set(data.map((p) => p.status?.name))];
-  const uniqueLines = [...new Set(data.map((p) => p.line?.name))];
+  const uniqueCategories = [
+    ...new Set((isFiltering ? products : data)?.map((p) => p.category?.name)),
+  ].filter(Boolean);
+  const uniqueStatuses = [
+    ...new Set((isFiltering ? products : data)?.map((p) => p.status?.name)),
+  ].filter(Boolean);
+  const uniqueLines = [
+    ...new Set((isFiltering ? products : data)?.map((p) => p.line?.name)),
+  ].filter(Boolean);
 
   return (
     <Paper sx={{ p: 3 }}>
@@ -105,11 +128,12 @@ const ProductsTable = ({ data, onPageChange }) => {
             ))}
           </Select>
         </FormControl>
+
         <FormControl sx={{ minWidth: 150 }}>
-          <InputLabel>Linea</InputLabel>
+          <InputLabel>Línea</InputLabel>
           <Select
             value={filters.line}
-            label='Linea'
+            label='Línea'
             onChange={(e) => setFilters({ ...filters, line: e.target.value })}
           >
             <MenuItem value=''>Todas</MenuItem>
@@ -146,7 +170,8 @@ const ProductsTable = ({ data, onPageChange }) => {
               <TableCell>Clave</TableCell>
               <TableCell>Descripción</TableCell>
               <TableCell>Categoría</TableCell>
-              <TableCell>Linea</TableCell>
+              <TableCell>Línea</TableCell>
+              <TableCell>Peso</TableCell>
               <TableCell>P. venta</TableCell>
               <TableCell>P/c Descuento</TableCell>
               <TableCell>Estado</TableCell>
@@ -162,6 +187,7 @@ const ProductsTable = ({ data, onPageChange }) => {
                   <TableCell>{product.description}</TableCell>
                   <TableCell>{product.category?.name}</TableCell>
                   <TableCell>{product.line?.name ?? "N/A"}</TableCell>
+                  <TableCell>{product.weight ?? "N/A"}</TableCell>
                   <TableCell>${PriceFormat(Number(product.price))}</TableCell>
                   <TableCell>
                     ${PriceFormat(Number(product.price_with_discount))}
@@ -182,7 +208,7 @@ const ProductsTable = ({ data, onPageChange }) => {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={7} align='center'>
+                <TableCell colSpan={10} align='center'>
                   No se encontraron resultados
                 </TableCell>
               </TableRow>
@@ -191,15 +217,29 @@ const ProductsTable = ({ data, onPageChange }) => {
         </Table>
       </TableContainer>
 
-      {/* 📄 Paginación */}
-      <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
-        <Pagination
-          count={data.last_page}
-          page={data.current_page}
-          onChange={handleChangePage}
-          color='primary'
-        />
-      </Box>
+      {/* 📄 Paginación (solo si no se está filtrando) */}
+      {!isFiltering && lastPage > 1 && (
+        <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+          <Stack
+            spacing={2}
+            sx={{ marginTop: 4, display: "flex", justifyContent: "center" }}
+          >
+            <Pagination
+              count={lastPage}
+              variant='outlined'
+              shape='rounded'
+              onChange={handleChangePage}
+              color='secondary'
+              page={currentPage}
+              size='large'
+              sx={{
+                color: "#880e4f",
+                "&:hover": { color: "#f06292" },
+              }}
+            />
+          </Stack>
+        </Box>
+      )}
     </Paper>
   );
 };

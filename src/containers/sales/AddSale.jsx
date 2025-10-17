@@ -41,6 +41,8 @@ const AddSale = () => {
   const [paymentCash, setPaymentCash] = useState(0);
   const [paymentCard, setPaymentCard] = useState(0);
   const [cardReference, setCardReference] = useState("");
+  const [paymentTransfer, setPaymentTransfer] = useState(0);
+  const [transferReference, setTransferReference] = useState("");
 
   //carrito
   const [subtotal, saveSubtotal] = useState(0);
@@ -56,13 +58,14 @@ const AddSale = () => {
     }, 0);
 
     // Calcular total pagado
-    const totalPaid = Number(paymentCash) + Number(paymentCard);
+    const totalPaid =
+      Number(paymentCash) + Number(paymentCard) + Number(paymentTransfer);
 
     // Actualizar estados
     saveSubtotal(subtotalCalculated);
     setTotal(subtotalCalculated);
     setTotalPaidOut(totalPaid);
-  }, [productsList, paymentCard, paymentCash]);
+  }, [productsList, paymentCard, paymentCash, paymentTransfer]);
 
   const generatePaymentsArray = () => {
     const payments = [];
@@ -82,6 +85,15 @@ const AddSale = () => {
         amount: Number(paymentCard),
         payment_method: "card",
         reference: cardReference || "TARJ-000",
+      });
+    }
+
+    // Si hay transfer
+    if (Number(paymentTransfer) > 0) {
+      payments.push({
+        amount: Number(paymentTransfer),
+        payment_method: "transfer",
+        reference: transferReference || "TRANS-000",
       });
     }
 
@@ -178,6 +190,10 @@ const AddSale = () => {
                 setPaymentCash={setPaymentCash}
                 setCardReference={setCardReference}
                 cardReference={cardReference}
+                paymentTransfer={paymentTransfer}
+                setPaymentTransfer={setPaymentTransfer}
+                transferReference={transferReference}
+                setTransferReference={setTransferReference}
               />
             </Grid>
             <Grid size={12}>

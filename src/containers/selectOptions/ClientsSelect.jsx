@@ -3,9 +3,9 @@ import Select from "react-select";
 import { Typography } from "@mui/material";
 import ClientsContext from "../../Context/Clients/ClientsContext";
 const ClientsSelect = (props) => {
-  const { clients, getAllClients } = useContext(ClientsContext);
+  const { clients, allClients } = useContext(ClientsContext);
   useEffect(() => {
-    getAllClients();
+    allClients();
   }, []);
   const detectarCambiosClient = (value) => {
     props.detectarCambiosClient(value);

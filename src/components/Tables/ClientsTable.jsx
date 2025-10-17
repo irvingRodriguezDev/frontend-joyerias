@@ -22,7 +22,7 @@ import {
 import { Link } from "react-router-dom";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 
-const ClientsTable = ({ data, onPageChange }) => {
+const ClientsTable = ({ data, handleChangePage, lastPage, currentPage }) => {
   const [filteredData, setFilteredData] = useState(data?.data || []);
   const [filters, setFilters] = useState({
     name: "",
@@ -59,10 +59,6 @@ const ClientsTable = ({ data, onPageChange }) => {
     setFilteredData(result);
   }, [filters, data]);
 
-  const handleChangePage = (event, page) => {
-    if (onPageChange) onPageChange(page);
-  };
-
   const uniqueBranches = [...new Set(data.map((c) => c.branch?.branch_name))];
 
   return (
@@ -78,16 +74,16 @@ const ClientsTable = ({ data, onPageChange }) => {
           variant='outlined'
           value={filters.name}
           onChange={(e) => setFilters({ ...filters, name: e.target.value })}
-          sx={{ minWidth: 250 }}
+          sx={{ minWidth: 450 }}
         />
         <TextField
           label='Apellido'
           variant='outlined'
           value={filters.lastname}
           onChange={(e) => setFilters({ ...filters, lastname: e.target.value })}
-          sx={{ minWidth: 250 }}
+          sx={{ minWidth: 350 }}
         />
-        <FormControl sx={{ minWidth: 250 }}>
+        <FormControl sx={{ minWidth: 350 }}>
           <InputLabel>Sucursal</InputLabel>
           <Select
             value={filters.branch}
@@ -151,10 +147,17 @@ const ClientsTable = ({ data, onPageChange }) => {
       {/* 📄 Paginación */}
       <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
         <Pagination
-          count={data?.last_page || 1}
-          page={data?.current_page || 1}
+          count={lastPage}
+          variant='outlined'
+          shape='rounded'
           onChange={handleChangePage}
-          color='primary'
+          color='secondary'
+          page={currentPage}
+          size='large'
+          sx={{
+            color: "#880e4f",
+            "&:hover": { color: "#f06292" },
+          }}
         />
       </Box>
     </Paper>

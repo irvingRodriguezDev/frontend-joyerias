@@ -4,10 +4,13 @@ import React from "react";
 const PaymentsForm = ({
   setPaymentCash,
   setPaymentCard,
+  setPaymentTransfer,
   paymentCash,
   paymentCard,
+  paymentTransfer,
   cardReference,
   setCardReference,
+  setTransferReference,
 }) => {
   return (
     <Paper sx={{ padding: "20px", borderRadius: "10px" }}>
@@ -40,6 +43,24 @@ const PaymentsForm = ({
               label='Ref. Pago Tarjeta'
               fullWidth
               onChange={(e) => setCardReference(e.target.value)}
+            />
+          </Grid>
+        )}
+        <Grid size={12}>
+          <TextField
+            variant='outlined'
+            label='Pago con transferencia'
+            fullWidth
+            onChange={(e) => setPaymentTransfer(e.target.value)}
+          />
+        </Grid>
+        {paymentTransfer > 0 && (
+          <Grid size={12}>
+            <TextField
+              variant='outlined'
+              label='Ref. Pago transferencia'
+              fullWidth
+              onChange={(e) => setTransferReference(e.target.value)}
             />
           </Grid>
         )}

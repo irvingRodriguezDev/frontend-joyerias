@@ -1,6 +1,6 @@
 import React, { useReducer } from "react";
-import MethodGet, { MethodPost } from "../../config/Service";
-import { GET_ALL_LINES, STORE_LINE } from "../../types";
+import MethodGet, { MethodDelete, MethodPost } from "../../config/Service";
+import { DELETE_LINE, GET_ALL_LINES, STORE_LINE } from "../../types";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import LinesContext from "./LinesContext";
@@ -50,12 +50,33 @@ const LinesState = ({ children }) => {
         console.log(error, "ocurrio un error al crear la linea");
       });
   };
+  const deleteLine = (id) => {
+    let url = `/lines/${id}`;
+    MethodDelete(url)
+      .then((res) => {
+        dispatch({
+          type: DELETE_LINE,
+          payload: id,
+        });
+        Swal.fire({
+          title: "Eliminado",
+          text: res.data.message,
+          icon: "success",
+          timer: 1200,
+          showConfirmButton: false,
+        });
+      })
+      .catch((error) => {
+        console.log(error, "ocurrio un error al eliminar la linea");
+      });
+  };
   return (
     <LinesContext.Provider
       value={{
         lines: state.lines,
         getAllLines,
         storeLine,
+        deleteLine,
       }}
     >
       {children}

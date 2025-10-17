@@ -45,6 +45,7 @@ export const DELETE_CATEGORY = "DELETE_CATEGORY";
 }
 export const GET_ALL_LINES = "GET_ALL_LINES";
 export const STORE_LINE = "STORE_LINE";
+export const DELETE_LINE = "DELETE_LINE";
 
 {
   /**Productos */
@@ -52,12 +53,14 @@ export const STORE_LINE = "STORE_LINE";
 export const GET_ALL_PRODUCTS = "GET_ALL_PRODUCTS";
 export const STORE_PRODUCT = "STORE_PRODUCT";
 export const GET_ONE_PRODUCT = "GET_ONE_PRODUCT";
+export const GET_ALL_PRODUCTS_NO_PAGINATE = "GET_ALL_PRODUCTS_NO_PAGINATE";
 
 {
   /**Clientes */
 }
 export const GET_ALL_CLIENTS = "GET_ALL_CLIENTS";
 export const STORE_CLIENTS = "STORE_CLIENTS";
+export const GET_CLIENTS_SELECT = "GET_CLIENTS_SELECT";
 
 {
   /**Ventas */
@@ -65,3 +68,7 @@ export const STORE_CLIENTS = "STORE_CLIENTS";
 export const GET_ALL_SALES = "GET_ALL_SALES";
 export const STORE_SALE = "STORE_SALE";
 export const GET_ONE_SALE = "GET_ONE_SALE";
+
+export const TOTAL_VENTAS_DIA = "TOTAL_VENTAS_DIA";
+export const TOTAL_VENTAS_SEMANA = "TOTAL_VENTAS_SEMANA";
+export const TOTAL_VENTAS_MES = "TOTAL_VENTAS_MES";

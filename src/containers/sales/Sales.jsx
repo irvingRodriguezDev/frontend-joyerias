@@ -6,10 +6,22 @@ import SalesContext from "../../Context/Sales/SalesContext";
 import TableSales from "./TableSales";
 
 const Sales = () => {
-  const { sales, getAllSales, downloadTicketSale } = useContext(SalesContext);
+  const {
+    sales,
+    getAllSales,
+    downloadTicketSale,
+    total,
+    lastPage,
+    currentPage,
+    next_page_url,
+    prev_page_url,
+  } = useContext(SalesContext);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(15);
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
   useEffect(() => {
     getAllSales(page, rowsPerPage);
   }, [page, rowsPerPage]);
@@ -34,8 +46,12 @@ const Sales = () => {
           <TableSales
             data={sales}
             downloadTicketSale={downloadTicketSale}
-            onPageChange={(p) => setPage(p)}
-            onRowsPerPageChange={(r) => setRowsPerPage(r)}
+            total={total}
+            lastPage={lastPage}
+            currentPage={currentPage}
+            next_page_url={next_page_url}
+            prev_page_url={prev_page_url}
+            handleChangePage={handleChangePage}
           />
         </Grid>
       </Grid>

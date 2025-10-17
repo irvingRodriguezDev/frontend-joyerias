@@ -1,10 +1,22 @@
 import { Box, Grid, Paper, Typography } from "@mui/material";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import DayIcon from "../../../components/icons/DayIcon";
 import WeekIcon from "../../../components/icons/WeekIcon";
 import ChartIcon from "../../../components/icons/ChartIcon";
-
+import DashboardContext from "../../../Context/Dashboard/DashboardContext";
+import { PriceFormat } from "../../../utils/PriceFormat";
 const SalesInfo = () => {
+  const {
+    total_ventas_dia,
+    total_ventas_semana,
+    total_ventas_mes,
+    totalVentasDia,
+    totalVentasSemana,
+    totalVentasMes,
+  } = useContext(DashboardContext);
+  useEffect(() => {
+    totalVentasDia(), totalVentasSemana(), totalVentasMes();
+  }, []);
   return (
     <Grid container spacing={2} sx={{ mt: 2 }}>
       <Grid size={{ xs: 12, md: 4 }}>
@@ -26,7 +38,7 @@ const SalesInfo = () => {
             variant='subtitle2'
             sx={{ opacity: 0.8, fontSize: { xs: "0.9rem", md: "1rem" } }}
           >
-            Total de ingresos del día
+            Total de ingresos del Día
           </Typography>
 
           {/* Valor + Icono */}
@@ -43,7 +55,7 @@ const SalesInfo = () => {
               fontWeight='bold'
               sx={{ fontSize: { xs: "1.5rem", md: "2rem" } }}
             >
-              $7,659.90
+              $ {PriceFormat(Number(total_ventas_dia))}
             </Typography>
 
             {/* Icono SVG */}
@@ -82,7 +94,7 @@ const SalesInfo = () => {
             variant='subtitle2'
             sx={{ opacity: 0.8, fontSize: { xs: "0.9rem", md: "1rem" } }}
           >
-            Total de ingresos del día
+            Total de ingresos de la Semana
           </Typography>
 
           {/* Valor + Icono */}
@@ -99,7 +111,7 @@ const SalesInfo = () => {
               fontWeight='bold'
               sx={{ fontSize: { xs: "1.5rem", md: "2rem" } }}
             >
-              $7,659.90
+              $ {PriceFormat(Number(total_ventas_semana))}
             </Typography>
 
             {/* Icono SVG */}
@@ -138,7 +150,7 @@ const SalesInfo = () => {
             variant='subtitle2'
             sx={{ opacity: 0.8, fontSize: { xs: "0.9rem", md: "1rem" } }}
           >
-            Total de ingresos del día
+            Total de ingresos del Mes
           </Typography>
 
           {/* Valor + Icono */}
@@ -155,7 +167,7 @@ const SalesInfo = () => {
               fontWeight='bold'
               sx={{ fontSize: { xs: "1.5rem", md: "2rem" } }}
             >
-              $7,659.90
+              $ {PriceFormat(Number(total_ventas_mes))}
             </Typography>
 
             {/* Icono SVG */}

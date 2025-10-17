@@ -1,4 +1,4 @@
-import { GET_ALL_LINES, STORE_LINE } from "../../types";
+import { DELETE_LINE, GET_ALL_LINES, STORE_LINE } from "../../types";
 export default (state, action) => {
   switch (action.type) {
     case GET_ALL_LINES:
@@ -12,6 +12,12 @@ export default (state, action) => {
         ...state,
         lines: [...state.lines, action.payload],
         ErrorsApi: [],
+      };
+    case DELETE_LINE:
+      return {
+        ...state,
+        success: true,
+        lines: state.lines.filter((l) => l.id !== action.payload),
       };
     default:
       return state;
