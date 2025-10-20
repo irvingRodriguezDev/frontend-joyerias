@@ -29,10 +29,10 @@ const AddLines = () => {
               Registrar nueva linea
             </Typography>
           </Grid>
-          <Grid size={8}>
-            <Paper sx={{ padding: "20px" }}>
+          <Grid size={{ xs: 12, md: 8 }}>
+            <Paper sx={{ padding: "20px", borderRadius: "12px" }}>
               <Grid container spacing={2}>
-                <Grid item size={12}>
+                <Grid size={12}>
                   <Controller
                     name='name'
                     control={control}
@@ -53,7 +53,7 @@ const AddLines = () => {
                     )}
                   />
                 </Grid>
-                <Grid item size={{ xs: 12, md: 6, lg: 4 }}>
+                <Grid size={{ xs: 12, md: 6, lg: 4 }}>
                   <Controller
                     name='price_purchase'
                     control={control}
@@ -74,7 +74,7 @@ const AddLines = () => {
                     )}
                   />
                 </Grid>
-                <Grid item size={{ xs: 12, md: 6, lg: 4 }}>
+                <Grid size={{ xs: 12, md: 6, lg: 4 }}>
                   <Controller
                     name='price'
                     control={control}
@@ -95,7 +95,7 @@ const AddLines = () => {
                     )}
                   />
                 </Grid>
-                <Grid item size={{ xs: 12, md: 6, lg: 4 }}>
+                <Grid size={{ xs: 12, md: 6, lg: 4 }}>
                   <Controller
                     name='percent_discount'
                     control={control}
@@ -117,15 +117,15 @@ const AddLines = () => {
                   />
                 </Grid>
                 <Grid
-                  item
                   size={12}
-                  sx={{ display: "flex", justifyContent: "end" }}
+                  sx={{ display: "flex", justifyContent: "center" }}
                 >
                   <Button
                     size='large'
                     type='submit'
                     variant='contained'
                     color='primary'
+                    fullWidth
                   >
                     Guardar
                   </Button>

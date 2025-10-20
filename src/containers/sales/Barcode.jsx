@@ -10,12 +10,11 @@ import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
 import { useDebounce } from "use-debounce";
 import ProductsContext from "../../Context/Products/ProductsContext";
 import { useForm } from "react-hook-form";
-import Swal from "sweetalert2";
-
+import showToast from "../../utils/ShowToast";
 const Barcode = ({ productsList, saveProductsList, guardarProductId }) => {
   const [barcode, setBarcode] = useState("");
   const [debouncedBarcode] = useDebounce(barcode, 500);
-  const { products, getAllProducts } = useContext(ProductsContext);
+  const { products, getAllProductsNoPaginate } = useContext(ProductsContext);
 
   const {
     register,
@@ -23,7 +22,7 @@ const Barcode = ({ productsList, saveProductsList, guardarProductId }) => {
   } = useForm();
 
   useEffect(() => {
-    getAllProducts();
+    getAllProductsNoPaginate();
   }, []);
 
   useEffect(() => {
@@ -37,7 +36,7 @@ const Barcode = ({ productsList, saveProductsList, guardarProductId }) => {
     const foundProduct = products.find((p) => p.clave === code);
 
     if (!foundProduct) {
-      showToast("error", "El producto no está registrado", "red");
+      showToast("error", "El producto no encontrado");
       setBarcode("");
       return;
     }
@@ -66,7 +65,7 @@ const Barcode = ({ productsList, saveProductsList, guardarProductId }) => {
     );
 
     if (exists) {
-      showToast("info", "El producto ya se encuentra en la lista", "#1976d2");
+      showToast("error", "El producto ya se encuentra en la lista");
       setBarcode("");
       return;
     }
@@ -76,29 +75,13 @@ const Barcode = ({ productsList, saveProductsList, guardarProductId }) => {
     localStorage.setItem("productsSale", JSON.stringify(updatedList));
     saveProductsList(updatedList);
 
-    showToast("success", "El producto se agregó correctamente", "#388e3c");
+    showToast("success", "El producto se agregó correctamente");
     setBarcode("");
   };
 
   /**
    * 🎨 Helper para mostrar un Toast con estilos consistentes
    */
-  const showToast = (icon, title, bgColor = "#333") => {
-    Swal.mixin({
-      toast: true,
-      background: bgColor,
-      color: "white",
-      iconColor: "white",
-      position: "top-end",
-      showConfirmButton: false,
-      timer: 2000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener("mouseenter", Swal.stopTimer);
-        toast.addEventListener("mouseleave", Swal.resumeTimer);
-      },
-    }).fire({ icon, title });
-  };
 
   return (
     <Grid container justifyContent='center' alignItems='center' sx={{ mt: 2 }}>

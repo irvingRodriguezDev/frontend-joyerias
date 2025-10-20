@@ -213,12 +213,16 @@ const AddBranch = () => {
                   </Grid>
                 )}
 
-                <Grid size={12} sx={{ display: "flex", justifyContent: "end" }}>
+                <Grid
+                  size={12}
+                  sx={{ display: "flex", justifyContent: "center" }}
+                >
                   <Button
                     type='submit'
                     variant='contained'
                     color='primary'
                     size='large'
+                    fullWidth
                   >
                     Guardar
                   </Button>

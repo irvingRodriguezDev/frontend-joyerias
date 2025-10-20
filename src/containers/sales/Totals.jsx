@@ -39,6 +39,20 @@ const Totals = ({ subtotal, total, totalPaidOut, handleCreateSale }) => {
             $ {PriceFormat(Number(totalPaidOut))}
           </Typography>
         </Grid>
+        <Grid size={6}>
+          <Typography variant='h6' fontWeight='bold'>
+            Resta por pagar
+          </Typography>
+        </Grid>
+        <Grid size={6}>
+          <Typography
+            variant='h6'
+            fontWeight='bold'
+            color={total === totalPaidOut ? "green" : "red"}
+          >
+            $ {PriceFormat(Number(total) - Number(totalPaidOut))}
+          </Typography>
+        </Grid>
         <Grid size={12}>
           <Button
             variant='contained'

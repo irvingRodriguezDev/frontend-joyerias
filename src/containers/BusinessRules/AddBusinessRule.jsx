@@ -33,8 +33,8 @@ const AddBusinessRule = () => {
               Crear nueva regla de negocio
             </Typography>
           </Grid>
-          <Grid size={8}>
-            <Paper sx={{ padding: "20px" }}>
+          <Grid size={{ xs: 12, md: 8, lg: 8 }}>
+            <Paper sx={{ padding: "20px", borderRadius: "12px" }}>
               <Grid container spacing={2}>
                 <Grid size={12}>
                   <OperatorSelect
@@ -81,12 +81,16 @@ const AddBusinessRule = () => {
                     )}
                   />
                 </Grid>
-                <Grid size={12} sx={{ display: "flex", justifyContent: "end" }}>
+                <Grid
+                  size={12}
+                  sx={{ display: "flex", justifyContent: "center" }}
+                >
                   <Button
                     size='large'
                     variant='contained'
                     color='primary'
                     type='submit'
+                    fullWidth
                   >
                     Guardar
                   </Button>

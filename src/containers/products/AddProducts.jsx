@@ -182,8 +182,8 @@ const AddProducts = () => {
             </Typography>
           </Grid>
 
-          <Grid size={8}>
-            <Paper sx={{ padding: "20px" }}>
+          <Grid size={{ xs: 12, md: 10 }}>
+            <Paper sx={{ padding: "20px", borderRadius: "12px" }}>
               <Grid container spacing={2}>
                 {/* CATEGORY SELECT */}
                 <Grid size={{ xs: 12, md: 6, lg: 4, xl: 3 }}>
@@ -340,9 +340,18 @@ const AddProducts = () => {
                 {/* BOTÓN GUARDAR */}
                 <Grid
                   size={12}
-                  sx={{ display: "flex", justifyContent: "end", mt: 2 }}
+                  sx={{
+                    display: "flex",
+                    justifyContent: { xs: "center", md: "end" },
+                    mt: 2,
+                  }}
                 >
-                  <Button variant='contained' size='large' type='submit'>
+                  <Button
+                    variant='contained'
+                    size='large'
+                    type='submit'
+                    fullWidth
+                  >
                     Guardar
                   </Button>
                 </Grid>

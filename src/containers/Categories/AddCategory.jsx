@@ -23,7 +23,7 @@ const AddCategory = () => {
   };
   const detectarCambiosBusiness = (value) => {
     setBusiness(value.value);
-    setValue("business_id", value.value);
+    setValue("business_rule_id", value.value);
   };
 
   const onSubmit = (data) => {
@@ -44,7 +44,7 @@ const AddCategory = () => {
               Registrar nueva categoria
             </Typography>
           </Grid>
-          <Grid size={8}>
+          <Grid size={{ xs: 12, md: 8 }}>
             <Paper sx={{ padding: 3, borderRadius: "12px" }}>
               <Grid container spacing={2}>
                 <Grid size={12}>
@@ -89,8 +89,16 @@ const AddCategory = () => {
                     )}
                   </Grid>
                 )}
-                <Grid size={12} sx={{ display: "flex", justifyContent: "end" }}>
-                  <Button type='submit' variant='contained' size='large'>
+                <Grid
+                  size={12}
+                  sx={{ display: "flex", justifyContent: "center" }}
+                >
+                  <Button
+                    type='submit'
+                    variant='contained'
+                    size='large'
+                    fullWidth
+                  >
                     Guardar
                   </Button>
                 </Grid>

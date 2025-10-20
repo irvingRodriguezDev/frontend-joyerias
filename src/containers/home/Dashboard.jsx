@@ -1,12 +1,31 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Layout from "../../components/Layout/Layout";
 import CardWelcome from "../../components/home/CardWelcome";
 import AuthContext from "../../Context/Auth/AuthContext";
 import SalesInfo from "./SalesInfo/SalesInfo";
 import { Box, Chip, Divider, Grid, Paper, Typography } from "@mui/material";
-
+import DashboardContext from "../../Context/Dashboard/DashboardContext";
+import { PriceFormat } from "../../utils/PriceFormat";
 const Dashboard = () => {
   const { usuario } = useContext(AuthContext);
+  const {
+    total_dinero_gramos,
+    total_dinero_gramos_existentes,
+    totalDineroGramos,
+    totalDineroGramosExistente,
+    total_gramos,
+    total_gramos_existentes,
+    totalGramos,
+    totalGramosExistentes,
+  } = useContext(DashboardContext);
+
+  useEffect(() => {
+    totalDineroGramos();
+    totalDineroGramosExistente();
+    totalGramos();
+    totalGramosExistentes();
+  }, []);
+  console.log(total_gramos_existentes, "el total de gramos");
 
   return (
     <>
@@ -36,7 +55,7 @@ const Dashboard = () => {
               }}
             >
               <Typography sx={{ color: "white" }}>Total De Gramos</Typography>
-              <Typography sx={{ color: "white" }}>12,601.17 gr</Typography>
+              <Typography sx={{ color: "white" }}>{total_gramos}</Typography>
             </Paper>
           </Grid>
           <Grid size={{ xs: 12, md: 4 }}>
@@ -50,7 +69,9 @@ const Dashboard = () => {
               <Typography sx={{ color: "white" }}>
                 Total De Gramos Existentes
               </Typography>
-              <Typography sx={{ color: "white" }}>11,991.61 gr</Typography>
+              <Typography sx={{ color: "white" }}>
+                {total_gramos_existentes}
+              </Typography>
             </Paper>
           </Grid>
           <Grid size={{ xs: 12, md: 4 }}>
@@ -106,7 +127,9 @@ const Dashboard = () => {
               <Typography sx={{ color: "white" }}>
                 Total De Dinero Por Gramo
               </Typography>
-              <Typography sx={{ color: "white" }}>$ 18,388,815.86</Typography>
+              <Typography sx={{ color: "white" }}>
+                ${PriceFormat(Number(total_dinero_gramos))}
+              </Typography>
             </Paper>
           </Grid>
           <Grid size={{ xs: 12, md: 4 }}>
@@ -120,7 +143,9 @@ const Dashboard = () => {
               <Typography sx={{ color: "white" }}>
                 Total en Productos Existentes
               </Typography>
-              <Typography sx={{ color: "white" }}>$ 17,796,865.13</Typography>
+              <Typography sx={{ color: "white" }}>
+                $ {PriceFormat(Number(total_dinero_gramos_existentes))}
+              </Typography>
             </Paper>
           </Grid>
           <Grid size={{ xs: 12, md: 4 }}>

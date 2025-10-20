@@ -65,8 +65,8 @@ const AddClients = () => {
             </Typography>
           </Grid>
 
-          <Grid size={8}>
-            <Paper sx={{ padding: "20px", borderRadius: "10px" }}>
+          <Grid size={{ xs: 12, md: 10 }}>
+            <Paper sx={{ padding: "20px", borderRadius: "12px" }}>
               <Grid container spacing={2}>
                 {/* Nombre */}
                 <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
@@ -146,6 +146,7 @@ const AddClients = () => {
                   <Button
                     variant='contained'
                     color='primary'
+                    fullWidth
                     size='large'
                     type='submit'
                   >

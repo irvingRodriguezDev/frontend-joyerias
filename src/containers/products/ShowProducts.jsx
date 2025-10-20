@@ -128,7 +128,7 @@ const ShowProducts = () => {
               </>
             )}
 
-            {product.sale_details && (
+            {product.status_id === 1 && product.sale_details && (
               <>
                 <Divider sx={{ my: 3 }} />
                 <Typography variant='subtitle1' fontWeight='600' gutterBottom>
@@ -140,7 +140,7 @@ const ShowProducts = () => {
                       label='Folio venta'
                       value={
                         product.sale_details
-                          ? product.sale_details[0].sale?.folio
+                          ? product.sale_details[0]?.sale?.folio
                           : ""
                       }
                     />
@@ -150,7 +150,9 @@ const ShowProducts = () => {
                       label='Fecha Venta'
                       value={
                         product.sale_details
-                          ? FormatDate(product.sale_details[0].sale?.created_at)
+                          ? FormatDate(
+                              product.sale_details[0]?.sale?.created_at
+                            )
                           : ""
                       }
                     />
@@ -161,7 +163,7 @@ const ShowProducts = () => {
                       value={`$${
                         product.sale_details
                           ? PriceFormat(
-                              Number(product.sale_details[0].sale?.total)
+                              Number(product.sale_details[0]?.sale?.total)
                             )
                           : ""
                       }`}
@@ -173,7 +175,7 @@ const ShowProducts = () => {
                       value={`$${
                         product.sale_details
                           ? PriceFormat(
-                              Number(product.sale_details[0].sale?.paid_out)
+                              Number(product.sale_details[0]?.sale?.paid_out)
                             )
                           : ""
                       }`}
@@ -184,9 +186,9 @@ const ShowProducts = () => {
                       label='Cliente'
                       value={
                         product.sale_details
-                          ? product.sale_details[0].sale?.client.name +
+                          ? product.sale_details[0]?.sale?.client.name +
                             " " +
-                            product.sale_details[0].sale?.client.lastname
+                            product.sale_details[0]?.sale?.client.lastname
                           : ""
                       }
                     />
