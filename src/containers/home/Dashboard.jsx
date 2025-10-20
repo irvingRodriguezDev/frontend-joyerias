@@ -4,28 +4,11 @@ import CardWelcome from "../../components/home/CardWelcome";
 import AuthContext from "../../Context/Auth/AuthContext";
 import SalesInfo from "./SalesInfo/SalesInfo";
 import { Box, Chip, Divider, Grid, Paper, Typography } from "@mui/material";
-import DashboardContext from "../../Context/Dashboard/DashboardContext";
-import { PriceFormat } from "../../utils/PriceFormat";
+import SectionInfoGrs from "../../components/home/SectionInfoGrs";
+import SectionInfoPzas from "../../components/home/SectionInfoPzas";
+
 const Dashboard = () => {
   const { usuario } = useContext(AuthContext);
-  const {
-    total_dinero_gramos,
-    total_dinero_gramos_existentes,
-    totalDineroGramos,
-    totalDineroGramosExistente,
-    total_gramos,
-    total_gramos_existentes,
-    totalGramos,
-    totalGramosExistentes,
-  } = useContext(DashboardContext);
-
-  useEffect(() => {
-    totalDineroGramos();
-    totalDineroGramosExistente();
-    totalGramos();
-    totalGramosExistentes();
-  }, []);
-  console.log(total_gramos_existentes, "el total de gramos");
 
   return (
     <>
@@ -36,7 +19,7 @@ const Dashboard = () => {
           <Grid size={12}>
             <Divider sx={{ backgroundColor: "white", height: 2 }} />
             <Chip
-              label='Informacion Deodas Las '
+              label='Info. Productos Gramos'
               sx={{
                 color: "white",
                 bgcolor: "#173757",
@@ -46,154 +29,11 @@ const Dashboard = () => {
             />
             <Divider />
           </Grid>
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Paper
-              sx={{
-                backgroundColor: "#173757",
-                borderRadius: "20px",
-                padding: 2,
-              }}
-            >
-              <Typography sx={{ color: "white" }}>Total De Gramos</Typography>
-              <Typography sx={{ color: "white" }}>{total_gramos}</Typography>
-            </Paper>
-          </Grid>
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Paper
-              sx={{
-                backgroundColor: "#173757",
-                borderRadius: "20px",
-                padding: 2,
-              }}
-            >
-              <Typography sx={{ color: "white" }}>
-                Total De Gramos Existentes
-              </Typography>
-              <Typography sx={{ color: "white" }}>
-                {total_gramos_existentes}
-              </Typography>
-            </Paper>
-          </Grid>
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Paper
-              sx={{
-                backgroundColor: "#173757",
-                borderRadius: "20px",
-                padding: 2,
-              }}
-            >
-              <Typography sx={{ color: "white" }}>
-                Total De Gramos Traspasados
-              </Typography>
-              <Typography sx={{ color: "white" }}>7.87 gr</Typography>
-            </Paper>
-          </Grid>
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Paper
-              sx={{
-                backgroundColor: "#173757",
-                borderRadius: "20px",
-                padding: 2,
-              }}
-            >
-              <Typography sx={{ color: "white" }}>
-                Total De Gramos Dañados
-              </Typography>
-              <Typography sx={{ color: "white" }}>0 gr</Typography>
-            </Paper>
-          </Grid>
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Paper
-              sx={{
-                backgroundColor: "#173757",
-                borderRadius: "20px",
-                padding: 2,
-              }}
-            >
-              <Typography sx={{ color: "white" }}>
-                Total De Gramos Devueltos
-              </Typography>
-              <Typography sx={{ color: "white" }}>601.69 gr</Typography>
-            </Paper>
-          </Grid>
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Paper
-              sx={{
-                backgroundColor: "#173757",
-                borderRadius: "20px",
-                padding: 2,
-              }}
-            >
-              <Typography sx={{ color: "white" }}>
-                Total De Dinero Por Gramo
-              </Typography>
-              <Typography sx={{ color: "white" }}>
-                ${PriceFormat(Number(total_dinero_gramos))}
-              </Typography>
-            </Paper>
-          </Grid>
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Paper
-              sx={{
-                backgroundColor: "#173757",
-                borderRadius: "20px",
-                padding: 2,
-              }}
-            >
-              <Typography sx={{ color: "white" }}>
-                Total en Productos Existentes
-              </Typography>
-              <Typography sx={{ color: "white" }}>
-                $ {PriceFormat(Number(total_dinero_gramos_existentes))}
-              </Typography>
-            </Paper>
-          </Grid>
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Paper
-              sx={{
-                backgroundColor: "#173757",
-                borderRadius: "20px",
-                padding: 2,
-              }}
-            >
-              <Typography sx={{ color: "white" }}>
-                Total en Productos Traspasados
-              </Typography>
-              <Typography sx={{ color: "white" }}>$ 12,734.09</Typography>
-            </Paper>
-          </Grid>
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Paper
-              sx={{
-                backgroundColor: "#173757",
-                borderRadius: "20px",
-                padding: 2,
-              }}
-            >
-              <Typography sx={{ color: "white" }}>
-                Total en Productos Dañados
-              </Typography>
-              <Typography sx={{ color: "white" }}>$ 0</Typography>
-            </Paper>
-          </Grid>
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Paper
-              sx={{
-                backgroundColor: "#173757",
-                borderRadius: "20px",
-                padding: 2,
-              }}
-            >
-              <Typography sx={{ color: "white" }}>
-                Total en Productos Devueltos
-              </Typography>
-              <Typography sx={{ color: "white" }}>$ 579,216.64</Typography>
-            </Paper>
-          </Grid>
+          <SectionInfoGrs />
           <Grid size={12} sx={{ mt: 3 }}>
             <Divider sx={{ backgroundColor: "white", height: 2 }} />
             <Chip
-              label='Informacion '
+              label='Info. Productos Piezas '
               sx={{
                 color: "white",
                 bgcolor: "#173757",
@@ -203,6 +43,7 @@ const Dashboard = () => {
             />
             <Divider />
           </Grid>
+          <SectionInfoPzas />
           <Grid size={12} sx={{ mt: 3 }}>
             <Divider sx={{ backgroundColor: "white", height: 2 }} />
             <Chip

@@ -4,7 +4,7 @@ import DayIcon from "../../../components/icons/DayIcon";
 import WeekIcon from "../../../components/icons/WeekIcon";
 import ChartIcon from "../../../components/icons/ChartIcon";
 import DashboardContext from "../../../Context/Dashboard/DashboardContext";
-import { PriceFormat } from "../../../utils/PriceFormat";
+import { formatPriceMX } from "../../../utils/PriceFormat";
 const SalesInfo = () => {
   const {
     total_ventas_dia,
@@ -55,7 +55,7 @@ const SalesInfo = () => {
               fontWeight='bold'
               sx={{ fontSize: { xs: "1.5rem", md: "2rem" } }}
             >
-              $ {PriceFormat(Number(total_ventas_dia))}
+              {formatPriceMX(Number(total_ventas_dia))}
             </Typography>
 
             {/* Icono SVG */}
@@ -111,7 +111,7 @@ const SalesInfo = () => {
               fontWeight='bold'
               sx={{ fontSize: { xs: "1.5rem", md: "2rem" } }}
             >
-              $ {PriceFormat(Number(total_ventas_semana))}
+              {formatPriceMX(Number(total_ventas_semana))}
             </Typography>
 
             {/* Icono SVG */}
@@ -167,7 +167,7 @@ const SalesInfo = () => {
               fontWeight='bold'
               sx={{ fontSize: { xs: "1.5rem", md: "2rem" } }}
             >
-              $ {PriceFormat(Number(total_ventas_mes))}
+              {formatPriceMX(Number(total_ventas_mes))}
             </Typography>
 
             {/* Icono SVG */}

@@ -84,6 +84,7 @@ const SalesState = ({ children }) => {
           showConfirmButton: false,
         });
         if (res.status === 201) {
+          localStorage.removeItem("productsSale");
           history("/ventas");
         }
       })

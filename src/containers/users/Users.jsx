@@ -9,7 +9,6 @@ const Users = () => {
   useEffect(() => {
     getAllUsers();
   }, []);
-  console.log(users);
 
   return (
     <Layout>

@@ -23,6 +23,8 @@ import AuthContext from "../../Context/Auth/AuthContext";
 import CategoryIcon from "@mui/icons-material/Category";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import DiscountIcon from "@mui/icons-material/Discount";
+import CallSplitIcon from "@mui/icons-material/CallSplit";
+import SendAndArchiveIcon from "@mui/icons-material/SendAndArchive";
 const Aside = ({ open, onClose }) => {
   const menuItems = [
     { text: "Inicio", icon: <HomeIcon />, link: "/dashboard" },
@@ -34,12 +36,17 @@ const Aside = ({ open, onClose }) => {
     },
     { text: "Categorías", icon: <CategoryIcon />, link: "/categorias" },
     { text: "Líneas", icon: <ListAltIcon />, link: "/lineas" },
-    { text: "Productos", icon: <Inventory2Icon />, link: "/productos" },
     { text: "Clientes", icon: <GroupIcon />, link: "/clientes" },
+    { text: "Productos", icon: <Inventory2Icon />, link: "/productos" },
+    {
+      text: "Salida de Productos",
+      icon: <SendAndArchiveIcon />,
+      link: "/salidas",
+    },
+    { text: "Traspasos", icon: <CallSplitIcon />, link: "/traspasos" },
     { text: "Ventas", icon: <MonetizationOnIcon />, link: "/ventas" },
     { text: "Usuarios", icon: <SupervisedUserCircleIcon />, link: "/usuarios" },
     { text: "Reportes", icon: <PictureAsPdfIcon />, link: "/reportes" },
-    { text: "Acerca de", icon: <InfoIcon /> },
   ];
   const { cerrarSesion } = useContext(AuthContext);
   return (

@@ -28,6 +28,9 @@ import SaleDetails from "../containers/sales/SaleDetails";
 import ProductsByBranch from "../containers/products/Branch/ProductsByBranch";
 import ShowProducts from "../containers/products/ShowProducts";
 import LoadingSpinner from "../components/Loading/Spinner";
+import Transfers from "../containers/transfers/Transfers";
+import Departures from "../containers/Departures/Departures";
+import AddDeparture from "../containers/Departures/AddDeparture";
 function AppRouter({ isAuthenticated }) {
   const { autenticado, usuarioAutenticado, cargando } = useContext(AuthContext);
 
@@ -68,11 +71,15 @@ function AppRouter({ isAuthenticated }) {
         <Route path='/lineas' element={<Lines />} />
         <Route path='/crear-linea' element={<AddLines />} />
         {/**Productos */}
-
         <Route path='/productos' element={<Products />} />
         <Route path='/crear-producto' element={<AddProducts />} />
         <Route path='/productos-sucursal/:id' element={<ProductsByBranch />} />
         <Route path='/detalle-producto/:id' element={<ShowProducts />} />
+        {/**Traspasos */}
+        <Route path='/traspasos' element={<Transfers />} />
+        {/**Salidas */}
+        <Route path='/salidas' element={<Departures />} />
+        <Route path='/crear-salida' element={<AddDeparture />} />
         {/**Usuarios */}
         <Route path='/usuarios' element={<Users />} />
         <Route path='/crear-usuario' element={<AddUser />} />

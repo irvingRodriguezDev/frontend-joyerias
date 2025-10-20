@@ -37,14 +37,19 @@ const AddUser = () => {
     <Layout>
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <Grid container spacing={2} display='flex' justifyContent='center'>
-          <Grid item size={12}>
+          <Grid size={12}>
             <Typography
               sx={{ color: "white", fontWeight: "bold", fontSize: "30px" }}
             >
               Registrar nuevo usuario
             </Typography>
           </Grid>
-          <Grid item size={8} display='flex' justifyContent='center'>
+          <Grid
+            size={{ xs: 12, md: 10 }}
+            display='flex'
+            justifyContent='center'
+            sx={{ padding: "20px", borderRadius: "12px" }}
+          >
             <Paper
               sx={{
                 width: "100%",
@@ -54,7 +59,7 @@ const AddUser = () => {
             >
               <Grid container spacing={2}>
                 {/* Nombre */}
-                <Grid item size={12}>
+                <Grid size={12}>
                   <Controller
                     name='name'
                     control={control}
@@ -81,7 +86,7 @@ const AddUser = () => {
                 </Grid>
 
                 {/* Correo */}
-                <Grid item size={6}>
+                <Grid size={6}>
                   <Controller
                     name='email'
                     control={control}
@@ -108,7 +113,7 @@ const AddUser = () => {
                 </Grid>
 
                 {/* Contraseña */}
-                <Grid item size={6}>
+                <Grid size={6}>
                   <Controller
                     name='password'
                     control={control}
@@ -136,7 +141,7 @@ const AddUser = () => {
                 </Grid>
 
                 {/* Sucursal */}
-                <Grid item size={12}>
+                <Grid size={12}>
                   <BranchesSelect
                     detectarCambiosBranch={detectarCambiosBranch}
                   />
@@ -148,11 +153,12 @@ const AddUser = () => {
                 </Grid>
 
                 {/* Botón */}
-                <Grid item size={12} display='flex' justifyContent='end'>
+                <Grid size={12} display='flex' justifyContent='end'>
                   <Button
                     type='submit'
                     variant='contained'
                     color='primary'
+                    fullWidth
                     size='large'
                   >
                     Guardar
