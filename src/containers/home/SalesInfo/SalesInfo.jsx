@@ -15,8 +15,15 @@ const SalesInfo = () => {
     totalVentasMes,
   } = useContext(DashboardContext);
   useEffect(() => {
-    totalVentasDia(), totalVentasSemana(), totalVentasMes();
+    const loadData = async () => {
+      await totalVentasDia();
+      await totalVentasSemana();
+      await totalVentasMes();
+    };
+
+    loadData();
   }, []);
+
   return (
     <Grid container spacing={2} sx={{ mt: 2 }}>
       <Grid size={{ xs: 12, md: 4 }}>

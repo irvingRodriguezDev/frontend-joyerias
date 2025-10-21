@@ -1,25 +1,29 @@
 import React, { useReducer } from "react";
 import MethodGet, { MethodPost } from "../../config/Service";
-import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import DashboardReducer from "./DashboardReducer";
 import DashboardContext from "./DashboardContext";
 import {
-  GET_ALL_SALES,
-  GET_ONE_SALE,
-  STORE_SALE,
   TOTAL_DINERO_GRAMOS,
   TOTAL_DINERO_GRAMOS_DANADOS,
   TOTAL_DINERO_GRAMOS_EXISTENTES,
   TOTAL_DINERO_GRAMOS_TRASPASADOS,
+  TOTAL_DINERO_PIEZAS,
+  TOTAL_DINERO_PIEZAS_DANADOS,
+  TOTAL_DINERO_PIEZAS_EXISTENTES,
+  TOTAL_DINERO_PIEZAS_TRASPASADOS,
   TOTAL_GRAMOS,
   TOTAL_GRAMOS_DANADOS,
   TOTAL_GRAMOS_EXISTENTES,
   TOTAL_GRAMOS_TRASPASADOS,
+  TOTAL_PIEZAS,
+  TOTAL_PIEZAS_DANADOS,
+  TOTAL_PIEZAS_EXISTENTES,
+  TOTAL_PIEZAS_TRASPASADOS,
   TOTAL_VENTAS_DIA,
+  TOTAL_VENTAS_MES,
+  TOTAL_VENTAS_SEMANA,
 } from "../../types";
-import fileDownload from "js-file-download";
-import clienteAxios from "../../config/Axios";
 const DashboardState = ({ children }) => {
   const initialState = {
     total_ventas_dia: 0,
@@ -35,48 +39,51 @@ const DashboardState = ({ children }) => {
     total_dinero_gramos_traspasados: 0,
     total_gramos_danados: 0,
     total_dinero_gramos_danados: 0,
+    //piezas
+    total_piezas: 0,
+    total_dinero_piezas: 0,
+    total_piezas_existentes: 0,
+    total_dinero_piezas_existentes: 0,
+    total_piezas_traspasados: 0,
+    total_dinero_piezas_traspasadas: 0,
+    total_piezas_danadas: 0,
+    total_dinero_piezas_danadas: 0,
   };
   const history = useNavigate();
   const [state, dispatch] = useReducer(DashboardReducer, initialState);
 
   const totalVentasDia = () => {
     let url = "/ventas/hoy";
-    MethodGet(url)
+    return MethodGet(url)
       .then((res) => {
         dispatch({
           type: TOTAL_VENTAS_DIA,
-          payload: res.data.total_vendido_dia,
+          payload: res.data.total_vendido_hoy ?? 0,
         });
       })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  const totalVentasMes = () => {
-    let url = "/ventas/mes";
-    MethodGet(url)
-      .then((res) => {
-        dispatch({
-          type: TOTAL_VENTAS_DIA,
-          payload: res.data.total_vendido_mes,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => console.log(error));
   };
   const totalVentasSemana = () => {
     let url = "/ventas/semana";
-    MethodGet(url)
+    return MethodGet(url)
       .then((res) => {
         dispatch({
-          type: TOTAL_VENTAS_DIA,
-          payload: res.data.total_vendido_semana,
+          type: TOTAL_VENTAS_SEMANA,
+          payload: res.data.total_vendido_semana ?? 0,
         });
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => console.log(error));
+  };
+  const totalVentasMes = () => {
+    let url = "/ventas/mes";
+    return MethodGet(url)
+      .then((res) => {
+        dispatch({
+          type: TOTAL_VENTAS_MES,
+          payload: res.data.total_vendido_mes ?? 0,
+        });
+      })
+      .catch((error) => console.log(error));
   };
 
   const totalGramos = () => {
@@ -189,12 +196,121 @@ const DashboardState = ({ children }) => {
       });
   };
 
+  //piezas
+  const totalPiezas = () => {
+    let url = "/total_piezas";
+    MethodGet(url)
+      .then((res) => {
+        dispatch({
+          type: TOTAL_PIEZAS,
+          payload: res.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const totalDineroPiezas = () => {
+    let url = "/total_dinero_piezas";
+    MethodGet(url)
+      .then((res) => {
+        dispatch({
+          type: TOTAL_DINERO_PIEZAS,
+          payload: res.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const totalPiezasExistentes = () => {
+    let url = "/total_piezas_existentes";
+    MethodGet(url)
+      .then((res) => {
+        dispatch({
+          type: TOTAL_PIEZAS_EXISTENTES,
+          payload: res.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const totalDineroPiezasExistentes = () => {
+    let url = "/total_dinero_piezas_existentes";
+    MethodGet(url)
+      .then((res) => {
+        dispatch({
+          type: TOTAL_DINERO_PIEZAS_EXISTENTES,
+          payload: res.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const totalPiezasTraspasadas = () => {
+    let url = "/total_piezas_traspasados";
+    MethodGet(url)
+      .then((res) => {
+        dispatch({
+          type: TOTAL_PIEZAS_TRASPASADOS,
+          payload: res.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const totalDineroPiezasTraspasadas = () => {
+    let url = "/total_dinero_piezas_traspasados";
+    MethodGet(url)
+      .then((res) => {
+        dispatch({
+          type: TOTAL_DINERO_PIEZAS_TRASPASADOS,
+          payload: res.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const totalPiezasDanados = () => {
+    let url = "/total_piezas_danados";
+    MethodGet(url)
+      .then((res) => {
+        dispatch({
+          type: TOTAL_PIEZAS_DANADOS,
+          payload: res.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const totalDineroPiezasDanados = () => {
+    let url = "/total_dinero_piezas_danados";
+    MethodGet(url)
+      .then((res) => {
+        dispatch({
+          type: TOTAL_DINERO_PIEZAS_DANADOS,
+          payload: res.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <DashboardContext.Provider
       value={{
         total_ventas_dia: state.total_ventas_dia,
-        total_ventas_mes: state.total_ventas_mes,
         total_ventas_semana: state.total_ventas_semana,
+        total_ventas_mes: state.total_ventas_mes,
         total_gramos: state.total_gramos,
         total_dinero_gramos: state.total_dinero_gramos,
         total_gramos_existentes: state.total_gramos_existentes,
