@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Layout from "../../components/Layout/Layout";
 import {
+  Button,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -11,13 +12,22 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import Barcode from "./Barcode";
+import ProductsOfDeparture from "./ProductsOfDeparture";
+import ProductsSelect from "./SelectProducts";
 
 const AddDeparture = () => {
+  //radio
   const [value, setValue] = useState("barcode");
-
   const handleChange = (event) => {
     setValue(event.target.value);
   };
+  const productsDepartureLocal = localStorage.getItem("productsDeparture");
+  const [productsDeparture, setProductsDeparture] = useState(
+    productsDepartureLocal ? JSON.parse(productsDepartureLocal) : []
+  );
+  const [product, saveProduct] = useState("");
+  const [productId, guardarProductoID] = useState("");
 
   return (
     <Layout>
@@ -27,6 +37,13 @@ const AddDeparture = () => {
             <Typography fontWeight='bold' fontSize='30px'>
               Crear nueva salida de productos
             </Typography>
+          </Grid>
+          <Grid size={12} sx={{ display: "flex", justifyContent: "end" }}>
+            {productsDeparture.length >= 1 && (
+              <Button variant='contained' color='primary'>
+                Terminar salida
+              </Button>
+            )}
           </Grid>
           <Grid size={{ xs: 12, md: 4 }}>
             <TextField
@@ -76,6 +93,31 @@ const AddDeparture = () => {
                 />
               </RadioGroup>
             </FormControl>
+          </Grid>
+          {value === "barcode" ? (
+            <Grid size={12}>
+              <Barcode
+                productsList={productsDeparture}
+                saveProductsList={setProductsDeparture}
+                product={product}
+                saveProduct={saveProduct}
+                guardarProductId={guardarProductoID}
+              />
+            </Grid>
+          ) : (
+            <Grid size={12}>
+              <ProductsSelect
+                productsList={productsDeparture}
+                saveProductsList={setProductsDeparture}
+                guardarProductId={guardarProductoID}
+              />
+            </Grid>
+          )}
+          <Grid size={12}>
+            <ProductsOfDeparture
+              productsList={productsDeparture}
+              saveProductsList={setProductsDeparture}
+            />
           </Grid>
         </Grid>
       </Paper>
