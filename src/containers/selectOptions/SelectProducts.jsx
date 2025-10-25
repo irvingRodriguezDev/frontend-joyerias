@@ -3,9 +3,9 @@ import Select from "react-select";
 import { Typography } from "@mui/material";
 import ProductsContext from "../../Context/Products/ProductsContext";
 const SelectProducts = (props) => {
-  const { products, getAllProducts } = useContext(ProductsContext);
+  const { products, productsForSelect } = useContext(ProductsContext);
   useEffect(() => {
-    getAllProducts();
+    productsForSelect();
   }, []);
   const detectarCambiosProduct = (value) => {
     props.detectarCambiosProduct(value);

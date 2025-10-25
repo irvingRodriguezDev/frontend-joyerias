@@ -31,6 +31,7 @@ import LoadingSpinner from "../components/Loading/Spinner";
 import Transfers from "../containers/transfers/Transfers";
 import Departures from "../containers/Departures/Departures";
 import AddDeparture from "../containers/Departures/AddDeparture";
+import ShowDeparture from "../containers/Departures/ShowDeparture";
 function AppRouter({ isAuthenticated }) {
   const { autenticado, usuarioAutenticado, cargando } = useContext(AuthContext);
 
@@ -80,6 +81,7 @@ function AppRouter({ isAuthenticated }) {
         {/**Salidas */}
         <Route path='/salidas' element={<Departures />} />
         <Route path='/crear-salida' element={<AddDeparture />} />
+        <Route path='/detalle-salida/:id' element={<ShowDeparture />} />
         {/**Usuarios */}
         <Route path='/usuarios' element={<Users />} />
         <Route path='/crear-usuario' element={<AddUser />} />

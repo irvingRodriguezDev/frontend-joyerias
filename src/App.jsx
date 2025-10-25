@@ -11,6 +11,7 @@ import ClientsState from "./Context/Clients/ClientsState";
 import SalesState from "./Context/Sales/SalesState";
 import DashboardState from "./Context/Dashboard/DashboardState";
 import { ToastContainer } from "react-toastify";
+import DeparturesState from "./Context/Departures/DeparturesState";
 function App() {
   return (
     <AuthState>
@@ -23,8 +24,10 @@ function App() {
                   <ClientsState>
                     <SalesState>
                       <DashboardState>
-                        <ToastContainer />
-                        <AppRouter />
+                        <DeparturesState>
+                          <ToastContainer />
+                          <AppRouter />
+                        </DeparturesState>
                       </DashboardState>
                     </SalesState>
                   </ClientsState>

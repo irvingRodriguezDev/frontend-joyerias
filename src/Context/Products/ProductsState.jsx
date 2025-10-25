@@ -4,6 +4,7 @@ import {
   GET_ALL_PRODUCTS,
   GET_ALL_PRODUCTS_NO_PAGINATE,
   GET_ONE_PRODUCT,
+  PRODUCTS_FOR_SELECT,
   STORE_PRODUCT,
 } from "../../types";
 import Swal from "sweetalert2";
@@ -100,6 +101,19 @@ const ProductsState = ({ children }) => {
         console.log(error, "ocurrio un error al obtener todos los productos");
       });
   };
+  const productsForSelect = () => {
+    let url = "/productsSelect";
+    MethodGet(url)
+      .then((res) => {
+        dispatch({
+          type: PRODUCTS_FOR_SELECT,
+          payload: res.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <ProductsContext.Provider
@@ -117,6 +131,7 @@ const ProductsState = ({ children }) => {
         getAllProducts,
         storeProduct,
         getAllProductsNoPaginate,
+        productsForSelect,
       }}
     >
       {children}

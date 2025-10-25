@@ -2,6 +2,7 @@ import {
   GET_ALL_PRODUCTS,
   GET_ALL_PRODUCTS_NO_PAGINATE,
   GET_ONE_PRODUCT,
+  PRODUCTS_FOR_SELECT,
   STORE_PRODUCT,
 } from "../../types";
 export default (state, action) => {
@@ -34,6 +35,11 @@ export default (state, action) => {
         ...state,
         products: [...state.products, action.payload],
         ErrorsApi: [],
+      };
+    case PRODUCTS_FOR_SELECT:
+      return {
+        ...state,
+        products: action.payload,
       };
     default:
       return state;
