@@ -9,7 +9,9 @@ import {
   Fade,
 } from "@mui/material";
 import { BarChart, Inventory2, PointOfSale, Group } from "@mui/icons-material";
-
+import ReportInventory from "./ReportInventory";
+import ReportSales from "./ReportSales";
+import ReportCashCut from "./ReportCashcut";
 // 🔹 Componentes individuales de cada reporte
 const InventoryReport = () => (
   <Box>
@@ -19,6 +21,7 @@ const InventoryReport = () => (
     <Typography variant='body2' color='text.secondary'>
       Aquí podrás ver las piezas existentes, vendidas y en reparación.
     </Typography>
+    <ReportInventory />
   </Box>
 );
 
@@ -30,6 +33,7 @@ const SalesReport = () => (
     <Typography variant='body2' color='text.secondary'>
       Muestra ventas totales, por fecha o por sucursal.
     </Typography>
+    <ReportSales />
   </Box>
 );
 
@@ -41,6 +45,7 @@ const CashCutReport = () => (
     <Typography variant='body2' color='text.secondary'>
       Resumen de ingresos, egresos y saldo final del día.
     </Typography>
+    <ReportCashCut />
   </Box>
 );
 

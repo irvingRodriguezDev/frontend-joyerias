@@ -86,7 +86,7 @@ const AddUser = () => {
                 </Grid>
 
                 {/* Correo */}
-                <Grid size={6}>
+                <Grid size={{ xs: 12, md: 6 }}>
                   <Controller
                     name='email'
                     control={control}
@@ -113,7 +113,7 @@ const AddUser = () => {
                 </Grid>
 
                 {/* Contraseña */}
-                <Grid size={6}>
+                <Grid size={{ xs: 12, md: 6 }}>
                   <Controller
                     name='password'
                     control={control}
@@ -141,7 +141,7 @@ const AddUser = () => {
                 </Grid>
 
                 {/* Sucursal */}
-                <Grid size={12}>
+                <Grid size={{ xs: 12, md: 12 }}>
                   <BranchesSelect
                     detectarCambiosBranch={detectarCambiosBranch}
                   />
