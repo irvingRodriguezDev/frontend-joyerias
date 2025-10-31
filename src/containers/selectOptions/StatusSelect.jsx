@@ -77,7 +77,7 @@ const StatusSelect = (props) => {
         classNamePrefix='select'
         styles={customStyles}
         name='select-state'
-        placeholder='Selecciona una sucursal'
+        placeholder='Selecciona un status'
         options={
           status
             ? status.map((option) => ({

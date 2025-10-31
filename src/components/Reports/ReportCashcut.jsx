@@ -1,5 +1,5 @@
 // 📁 src/components/reports/CashCutReport.jsx
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Box,
   Paper,
@@ -14,10 +14,13 @@ import {
 } from "@mui/material";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import axios from "axios";
+import ReportsContext from "../../Context/Reports/ReportsContext";
 
 // 🔹 Tus componentes reutilizables
 import BranchesSelect from "../../containers/selectOptions/BranchesSelect";
 const CashCutReport = () => {
+  const { downloadReportBoxCutDayli, downloadReportBoxCutRange } =
+    useContext(ReportsContext);
   const [branch, setBranch] = useState("");
   const [reportType, setReportType] = useState("daily"); // daily | range
   const [startDate, setStartDate] = useState("");
@@ -38,41 +41,17 @@ const CashCutReport = () => {
       return;
     }
 
-    setLoading(true);
-    try {
-      let url = "";
-      let data = { branch_id: branch };
+    let data = { branch_id: branch };
 
-      if (reportType === "daily") {
-        url = "/api/reports/cash-cut/daily"; // corte diario
-      } else {
-        url = "/api/reports/cash-cut/range"; // corte por rango
-        data.startDate = startDate;
-        data.endDate = endDate;
-      }
-
-      const response = await axios.post(url, data, { responseType: "blob" });
-
-      const urlBlob = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement("a");
-      link.href = urlBlob;
-      link.setAttribute(
-        "download",
-        reportType === "daily"
-          ? `ticket_corte_diario_${branch}_${Date.now()}.pdf`
-          : `reporte_corte_rango_${branch}_${Date.now()}.pdf`
-      );
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-    } catch (error) {
-      console.error(error);
-      alert(
-        error.response?.data?.message ||
-          "Ocurrió un error al generar el corte de caja."
-      );
-    } finally {
-      setLoading(false);
+    if (reportType === "daily") {
+      downloadReportBoxCutDayli(data);
+    } else {
+      const datos = {
+        branch_id: branch,
+        startDate: startDate,
+        endDate: endDate,
+      };
+      downloadReportBoxCutRange(datos);
     }
   };
 

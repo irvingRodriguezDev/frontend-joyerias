@@ -1,5 +1,5 @@
 // 📁 src/components/reports/SalesReport.jsx
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Box,
   Paper,
@@ -10,11 +10,12 @@ import {
 } from "@mui/material";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import axios from "axios";
-
+import ReportsContext from "../../Context/Reports/ReportsContext";
 // 🔹 Reutilizables
 import BranchesSelect from "../../containers/selectOptions/BranchesSelect";
 
 const SalesReport = () => {
+  const { donwloadReportSales } = useContext(ReportsContext);
   const [branch, setBranch] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -29,37 +30,12 @@ const SalesReport = () => {
       return;
     }
 
-    setLoading(true);
-    try {
-      const response = await axios.post(
-        "/api/reports/sales",
-        {
-          branch_id: branch,
-          startDate,
-          endDate,
-        },
-        { responseType: "blob" } // PDF en blob
-      );
-
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute(
-        "download",
-        `reporte_ventas_${branch}_${Date.now()}.pdf`
-      );
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-    } catch (error) {
-      console.error(error);
-      alert(
-        error.response?.data?.message ||
-          "Ocurrió un error al generar el reporte de ventas."
-      );
-    } finally {
-      setLoading(false);
-    }
+    const datos = {
+      branch_id: branch,
+      startDate,
+      endDate,
+    };
+    donwloadReportSales(datos);
   };
 
   return (
