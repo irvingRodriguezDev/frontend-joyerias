@@ -77,7 +77,7 @@ const UserCard = ({ user }) => {
       </Stack>
       <Divider sx={{ width: "100%", my: 1.5 }} />
       <Grid spacing={0.5} sx={{ width: "100%" }}>
-        {user.type_user.id !== 1 && (
+        {user.type_user?.id !== 1 && (
           <Tooltip title='Bloquear Usuario' placement='top'>
             <IconButton onClick={() => disableUser(user.id)}>
               <LockIcon />
