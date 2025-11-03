@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Paper,
   Typography,
@@ -14,9 +14,10 @@ import PersonIcon from "@mui/icons-material/Person";
 import PasswordIcon from "@mui/icons-material/Password";
 import LockIcon from "@mui/icons-material/Lock";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import UsersContext from "../../Context/Users/UsersContext";
 const UserCard = ({ user }) => {
+  const { disableUser } = useContext(UsersContext);
   if (!user) return null;
-
   return (
     <Paper
       elevation={4}
@@ -76,16 +77,13 @@ const UserCard = ({ user }) => {
       </Stack>
       <Divider sx={{ width: "100%", my: 1.5 }} />
       <Grid spacing={0.5} sx={{ width: "100%" }}>
-        <Tooltip title='Restablecer contraseña' placement='top'>
-          <IconButton>
-            <PasswordIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title='Bloquear Usuario' placement='top'>
-          <IconButton>
-            <LockIcon />
-          </IconButton>
-        </Tooltip>
+        {user.type_user.id !== 1 && (
+          <Tooltip title='Bloquear Usuario' placement='top'>
+            <IconButton onClick={() => disableUser(user.id)}>
+              <LockIcon />
+            </IconButton>
+          </Tooltip>
+        )}
         <Tooltip title='Editar usuario' placement='top'>
           <IconButton>
             <ManageAccountsIcon />

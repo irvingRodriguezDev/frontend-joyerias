@@ -1,7 +1,7 @@
 import React, { useReducer } from "react";
 import MethodGet, { MethodPost } from "../../config/Service";
 import UsersReducer from "./UsersReducer";
-import { GET_ALL_USERS, STORE_USERS } from "../../types";
+import { DISABLE_USERS, GET_ALL_USERS, STORE_USERS } from "../../types";
 import Swal from "sweetalert2";
 import UsersContext from "./UsersContext";
 import { useNavigate } from "react-router-dom";
@@ -50,12 +50,33 @@ const UsersState = ({ children }) => {
         console.log(error, "ocurrio un error al crear el usuario");
       });
   };
+  const disableUser = (id) => {
+    let url = `/disableUsers/${id}`;
+    MethodPost(url)
+      .then((res) => {
+        dispatch({
+          type: DISABLE_USERS,
+          payload: id,
+        });
+        Swal.fire({
+          title: "Correcto",
+          icon: "success",
+          timer: 2500,
+          showConfirmButton: false,
+          text: "El usuario se ha desactivado de forma correcta",
+        });
+      })
+      .catch((error) => {
+        console.log(error, "ocurrio un error al deshabilitar el usuario");
+      });
+  };
   return (
     <UsersContext.Provider
       value={{
         users: state.users,
         getAllUsers,
         storeUser,
+        disableUser,
       }}
     >
       {children}

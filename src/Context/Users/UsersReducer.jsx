@@ -1,4 +1,4 @@
-import { GET_ALL_USERS, STORE_USERS } from "../../types";
+import { DISABLE_USERS, GET_ALL_USERS, STORE_USERS } from "../../types";
 
 export default (state, action) => {
   switch (action.type) {
@@ -14,7 +14,11 @@ export default (state, action) => {
         users: [...state.users, action.payload],
         ErrorsApi: [],
       };
-
+    case DISABLE_USERS:
+      return {
+        ...state,
+        users: state.users.filter((user) => user.id !== action.payload),
+      };
     default:
       return state;
   }

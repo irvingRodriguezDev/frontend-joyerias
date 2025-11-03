@@ -44,19 +44,6 @@ const Dashboard = () => {
             <Divider />
           </Grid>
           <SectionInfoPzas />
-          <Grid size={12} sx={{ mt: 3 }}>
-            <Divider sx={{ backgroundColor: "white", height: 2 }} />
-            <Chip
-              label='Sucursales Disponibles'
-              sx={{
-                color: "white",
-                bgcolor: "#173757",
-                fontSize: "23px",
-                mt: -3.5,
-              }}
-            />
-            <Divider />
-          </Grid>
         </Grid>
       </Layout>
     </>

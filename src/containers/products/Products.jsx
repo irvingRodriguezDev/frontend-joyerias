@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import ProductContext from "../../Context/Products/ProductsContext";
 import ProductsTable from "../../components/Tables/ProductsTable";
 import LoadingSpinner from "../../components/Loading/Spinner";
+import { usePermissions } from "../../hooks/usePermissions";
 const Products = () => {
   const {
     products,
@@ -17,6 +18,7 @@ const Products = () => {
     next_page_url,
     prev_page_url,
   } = useContext(ProductContext);
+  const permisos = usePermissions("productos");
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [loading, setLoading] = useState(false);
@@ -37,13 +39,15 @@ const Products = () => {
             Mis Productos
           </Typography>
         </Grid>
-        <Grid size={12} sx={{ display: "flex", justifyContent: "end" }}>
-          <Link to={"/crear-producto"}>
-            <Button variant='contained' color='secondary'>
-              Agregar
-            </Button>
-          </Link>
-        </Grid>
+        {permisos.write && (
+          <Grid size={12} sx={{ display: "flex", justifyContent: "end" }}>
+            <Link to={"/crear-producto"}>
+              <Button variant='contained' color='secondary'>
+                Agregar
+              </Button>
+            </Link>
+          </Grid>
+        )}
 
         {/* 🧩 Aquí usamos el nuevo componente */}
         <Grid size={12} sx={{ padding: "12px", borderRadius: "12px" }}>

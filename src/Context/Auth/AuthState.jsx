@@ -58,6 +58,7 @@ const AuthState = (props) => {
       const res = await MethodPost(url, datos);
       //Guardar token y datos del usuario
       localStorage.setItem("token", res.data.token);
+      localStorage.setItem("type_user_id", res.data.user.type_user_id);
       //Dispatch para actualizar el estado inmediatamente
       dispatch({
         type: types.LOGIN_EXITOSO,
@@ -123,7 +124,7 @@ const AuthState = (props) => {
   };
 
   const resetPassword = (data) => {
-    let url = "/reset-password";
+    let url = "/auth/reset-password";
     MethodPost(url, data)
       .then((res) => {
         Swal.fire({

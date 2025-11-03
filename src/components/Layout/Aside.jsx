@@ -10,45 +10,106 @@ import {
   Button,
 } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
-import SettingsIcon from "@mui/icons-material/Settings";
-import InfoIcon from "@mui/icons-material/Info";
 import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import GroupIcon from "@mui/icons-material/Group";
 import Inventory2Icon from "@mui/icons-material/Inventory2";
 import MapsHomeWorkIcon from "@mui/icons-material/MapsHomeWork";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
-import { Link } from "react-router-dom";
-import AuthContext from "../../Context/Auth/AuthContext";
 import CategoryIcon from "@mui/icons-material/Category";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import DiscountIcon from "@mui/icons-material/Discount";
 import CallSplitIcon from "@mui/icons-material/CallSplit";
 import SendAndArchiveIcon from "@mui/icons-material/SendAndArchive";
+import { Link } from "react-router-dom";
+import AuthContext from "../../Context/Auth/AuthContext";
+
 const Aside = ({ open, onClose }) => {
+  const { cerrarSesion } = useContext(AuthContext);
+
+  const userData = JSON.parse(localStorage.getItem("type_user_id")) || {};
+  const userType = userData; // 1 = admin, 2 = vendedor
+
   const menuItems = [
-    { text: "Inicio", icon: <HomeIcon />, link: "/dashboard" },
-    { text: "Sucursales", icon: <MapsHomeWorkIcon />, link: "/sucursales" },
+    {
+      text: "Inicio",
+      icon: <HomeIcon />,
+      link: "/dashboard",
+      type_user: [1, 3],
+    },
+    {
+      text: "Sucursales",
+      icon: <MapsHomeWorkIcon />,
+      link: "/sucursales",
+      type_user: [1],
+    },
     {
       text: "Reglas de negocio",
       icon: <DiscountIcon />,
       link: "/reglas-negocio",
+      type_user: [1],
     },
-    { text: "Categorías", icon: <CategoryIcon />, link: "/categorias" },
-    { text: "Líneas", icon: <ListAltIcon />, link: "/lineas" },
-    { text: "Clientes", icon: <GroupIcon />, link: "/clientes" },
-    { text: "Productos", icon: <Inventory2Icon />, link: "/productos" },
+    {
+      text: "Categorías",
+      icon: <CategoryIcon />,
+      link: "/categorias",
+      type_user: [1],
+    },
+    { text: "Líneas", icon: <ListAltIcon />, link: "/lineas", type_user: [1] },
+    {
+      text: "Clientes",
+      icon: <GroupIcon />,
+      link: "/clientes",
+      type_user: [1, 3],
+    },
+    {
+      text: "Productos",
+      icon: <Inventory2Icon />,
+      link: "/productos",
+      type_user: [1, 3],
+      permissions: {
+        read: true,
+        write: userType === 1,
+        update: userType === 1,
+        delete: userType === 1,
+      },
+    },
     {
       text: "Salida de Productos",
       icon: <SendAndArchiveIcon />,
       link: "/salidas",
+      type_user: [1],
     },
-    { text: "Traspasos", icon: <CallSplitIcon />, link: "/traspasos" },
-    { text: "Ventas", icon: <MonetizationOnIcon />, link: "/ventas" },
-    { text: "Usuarios", icon: <SupervisedUserCircleIcon />, link: "/usuarios" },
-    { text: "Reportes", icon: <PictureAsPdfIcon />, link: "/reportes" },
+    {
+      text: "Traspasos",
+      icon: <CallSplitIcon />,
+      link: "/traspasos",
+      type_user: [1, 3],
+    },
+    {
+      text: "Ventas",
+      icon: <MonetizationOnIcon />,
+      link: "/ventas",
+      type_user: [1, 3],
+    },
+    {
+      text: "Usuarios",
+      icon: <SupervisedUserCircleIcon />,
+      link: "/usuarios",
+      type_user: [1],
+    },
+    {
+      text: "Reportes",
+      icon: <PictureAsPdfIcon />,
+      link: "/reportes",
+      type_user: [1, 3],
+    },
   ];
-  const { cerrarSesion } = useContext(AuthContext);
+
+  const filteredMenu = menuItems.filter((item) =>
+    item.type_user.includes(userType)
+  );
+
   return (
     <Drawer
       anchor='left'
@@ -71,16 +132,23 @@ const Aside = ({ open, onClose }) => {
           Menú
         </Typography>
       </Box>
+
       <List>
-        {menuItems.map((item, index) => (
-          <Link to={item.link} style={{ textDecoration: "none" }} key={index}>
-            <ListItemButton key={index} sx={{ color: "white" }}>
+        {filteredMenu.map((item, index) => (
+          <Link
+            to={item.link}
+            style={{ textDecoration: "none" }}
+            key={index}
+            state={item.permissions} // <- Aquí puedes pasar los permisos al componente destino
+          >
+            <ListItemButton sx={{ color: "white" }}>
               <ListItemIcon sx={{ color: "white" }}>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItemButton>
           </Link>
         ))}
       </List>
+
       <Button
         sx={{ mb: 0, mt: "100%" }}
         variant='contained'

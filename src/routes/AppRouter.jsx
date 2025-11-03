@@ -32,6 +32,7 @@ import Transfers from "../containers/transfers/Transfers";
 import Departures from "../containers/Departures/Departures";
 import AddDeparture from "../containers/Departures/AddDeparture";
 import ShowDeparture from "../containers/Departures/ShowDeparture";
+import ResetPassword from "../components/auth/ResetPassword";
 function AppRouter({ isAuthenticated }) {
   const { autenticado, usuarioAutenticado, cargando } = useContext(AuthContext);
 
@@ -51,6 +52,7 @@ function AppRouter({ isAuthenticated }) {
       <Route element={<PublicRoute isAuthenticated={autenticado} />}>
         <Route path='/iniciar-sesion' element={<Login />} />
         <Route path='/registro' element={<Register />} />
+        <Route path='/recuperar-contraseña' element={<ResetPassword />} />
       </Route>
 
       {/* Rutas privadas */}

@@ -49,17 +49,6 @@ const CashCutReport = () => (
   </Box>
 );
 
-const ClientsReport = () => (
-  <Box>
-    <Typography variant='h6' fontWeight='bold' gutterBottom>
-      👥 Clientes Frecuentes
-    </Typography>
-    <Typography variant='body2' color='text.secondary'>
-      Ranking de los clientes con más compras.
-    </Typography>
-  </Box>
-);
-
 // 🔹 TabPanel reutilizable
 const TabPanel = ({ children, value, index }) => (
   <Fade in={value === index} timeout={400} unmountOnExit>
@@ -111,7 +100,6 @@ const ReportsTabs = () => {
           iconPosition='start'
           label='Corte de Caja'
         />
-        <Tab icon={<Group />} iconPosition='start' label='Clientes' />
       </Tabs>
 
       {/* Contenido de cada Tab */}
@@ -123,9 +111,6 @@ const ReportsTabs = () => {
       </TabPanel>
       <TabPanel value={value} index={2}>
         <CashCutReport />
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        <ClientsReport />
       </TabPanel>
     </Paper>
   );

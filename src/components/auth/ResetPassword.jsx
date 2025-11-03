@@ -15,15 +15,18 @@ import * as Yup from "yup";
 import AuthContext from "../../Context/Auth/AuthContext";
 
 // Esquema de validación
-const LoginSchema = Yup.object().shape({
+const ResetPasswordSchema = Yup.object().shape({
   email: Yup.string()
     .email("Correo inválido")
     .required("El correo es obligatorio"),
   password: Yup.string().required("La contraseña es obligatoria"),
+  password_confirmation: Yup.string().required(
+    "El campo confirmar contraseña es obligatoria"
+  ),
 });
 
-const Login = () => {
-  const { iniciarSesion } = useContext(AuthContext);
+const ResetPassword = () => {
+  const { resetPassword } = useContext(AuthContext);
 
   return (
     <Grid
@@ -48,13 +51,13 @@ const Login = () => {
             sx={{ color: "#06121E", fontWeight: "bold" }}
             variant='h2'
           >
-            Iniciar Sesión
+            Restablecer contraseña
           </Typography>
 
           <Formik
             initialValues={{ email: "", password: "" }}
-            validationSchema={LoginSchema}
-            onSubmit={(values) => iniciarSesion(values)}
+            validationSchema={ResetPasswordSchema}
+            onSubmit={(values) => resetPassword(values)}
           >
             {({ values, errors, touched, handleChange, handleBlur }) => (
               <Form>
@@ -91,23 +94,28 @@ const Login = () => {
                     helperText={touched.password && errors.password}
                   />
                 </FormControl>
-
-                {/* Olvidaste contraseña */}
-                <Grid size={12} sx={{ mt: 1, mb: 2 }}>
-                  <Typography>
-                    Olvidaste tu contraseña{" "}
-                    <Link
-                      to='/recuperar-contraseña'
-                      style={{
-                        textDecoration: "none",
-                        color: "#06121E",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      Recuperala aquí
-                    </Link>
-                  </Typography>
-                </Grid>
+                {/* Contraseña */}
+                <FormControl fullWidth margin='normal'>
+                  <TextField
+                    id='password_confirmation'
+                    name='password_confirmation'
+                    label='Confirmar contraseña'
+                    variant='outlined'
+                    type='password'
+                    placeholder='************'
+                    value={values.password_confirmation}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={
+                      touched.password_confirmation &&
+                      Boolean(errors.password_confirmation)
+                    }
+                    helperText={
+                      touched.password_confirmation &&
+                      errors.password_confirmation
+                    }
+                  />
+                </FormControl>
 
                 {/* Botón Iniciar Sesión */}
                 <FormControl fullWidth margin='normal'>
@@ -117,16 +125,16 @@ const Login = () => {
                     size='large'
                     color='primary'
                   >
-                    Iniciar Sesión
+                    Restablecer Contraseña
                   </Button>
                 </FormControl>
 
-                <Divider sx={{ my: 2 }}>Aún no tienes cuenta?</Divider>
+                <Divider sx={{ my: 2 }}>Recordaste la contraseña?</Divider>
 
                 <FormControl fullWidth margin='normal'>
-                  <Link to='/registro' style={{ textDecoration: "none" }}>
+                  <Link to='/iniciar-sesion' style={{ textDecoration: "none" }}>
                     <Button variant='contained' color='primary'>
-                      Regístrate aquí
+                      Iniciar sesion
                     </Button>
                   </Link>
                 </FormControl>
@@ -139,4 +147,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ResetPassword;

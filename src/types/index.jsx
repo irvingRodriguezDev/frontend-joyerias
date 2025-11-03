@@ -26,6 +26,7 @@ export const DELETE_BRANCH = "DELETE_BRANCH";
 }
 export const GET_ALL_USERS = "GET_ALL_USERS";
 export const STORE_USERS = "STORE_USERS";
+export const DISABLE_USERS = "DISABLE_USERS";
 
 {
   /**Business Rules */
