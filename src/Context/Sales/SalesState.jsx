@@ -52,14 +52,14 @@ const SalesState = ({ children }) => {
         dispatch({
           type: GET_ALL_SALES,
           payload: {
-            data: res.data.data,
-            total: res.data.total,
-            page: res.data.current_page,
-            perPage: res.data.per_page,
-            next_page_url: res.data.next_page_url,
-            prev_page_url: res.data.prev_page_url,
-            lastPage: res.data.last_page,
-            currentPage: res.data.current_page,
+            data: res.data.sales.data,
+            total: res.data.sales.total,
+            page: res.data.sales.current_page,
+            perPage: res.data.sales.per_page,
+            next_page_url: res.data.sales.next_page_url,
+            prev_page_url: res.data.sales.prev_page_url,
+            lastPage: res.data.sales.last_page,
+            currentPage: res.data.sales.current_page,
           },
         });
       })

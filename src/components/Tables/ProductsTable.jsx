@@ -24,8 +24,9 @@ import EditIcon from "../icons/EditIcon";
 import EyeIcon from "../icons/EyeIcon";
 import { Link } from "react-router-dom";
 import ProductsContext from "../../Context/Products/ProductsContext";
-
+import { usePermissions } from "../../hooks/usePermissions";
 const ProductsTable = ({ data, handleChangePage, lastPage, currentPage }) => {
+  const permisos = usePermissions("productos");
   const { getAllProductsNoPaginate, products } = useContext(ProductsContext);
 
   useEffect(() => {
@@ -195,9 +196,11 @@ const ProductsTable = ({ data, handleChangePage, lastPage, currentPage }) => {
                   <TableCell>{product.status?.name}</TableCell>
                   <TableCell>{product.branch?.branch_name}</TableCell>
                   <TableCell>
-                    <IconButton>
-                      <EditIcon width={40} />
-                    </IconButton>
+                    {permisos.update && (
+                      <IconButton>
+                        <EditIcon width={40} />
+                      </IconButton>
+                    )}
                     <Link to={`/detalle-producto/${product.id}`}>
                       <IconButton>
                         <EyeIcon width={40} />

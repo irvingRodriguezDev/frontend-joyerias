@@ -28,17 +28,19 @@ const ClientsState = ({ children }) => {
     let url = `/clients?page=${page}&limit=${rowsPerPage}`;
     MethodGet(url)
       .then((res) => {
+        console.log(res.data.customers, "el response");
+
         dispatch({
           type: GET_ALL_CLIENTS,
           payload: {
-            data: res.data.data,
-            total: res.data.total,
-            page: res.data.current_page,
-            perPage: res.data.per_page,
-            next_page_url: res.data.next_page_url,
-            prev_page_url: res.data.prev_page_url,
-            lastPage: res.data.last_page,
-            currentPage: res.data.current_page,
+            data: res.data.customers.data,
+            total: res.data.customers.total,
+            page: res.data.customers.current_page,
+            perPage: res.data.customers.per_page,
+            next_page_url: res.data.customers.next_page_url,
+            prev_page_url: res.data.customers.prev_page_url,
+            lastPage: res.data.customers.last_page,
+            currentPage: res.data.customers.current_page,
           },
         });
       })

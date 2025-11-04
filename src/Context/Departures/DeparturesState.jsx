@@ -29,14 +29,14 @@ const DeparturesState = ({ children }) => {
         dispatch({
           type: GET_ALL_DEPARTURES,
           payload: {
-            data: res.data.data,
-            total: res.data.total,
-            page: res.data.current_page,
-            perPage: res.data.per_page,
-            next_page_url: res.data.next_page_url,
-            prev_page_url: res.data.prev_page_url,
-            lastPage: res.data.last_page,
-            currentPage: res.data.current_page,
+            data: res.data.departures.data,
+            total: res.data.departures.total,
+            page: res.data.departures.current_page,
+            perPage: res.data.departures.per_page,
+            next_page_url: res.data.departures.next_page_url,
+            prev_page_url: res.data.departures.prev_page_url,
+            lastPage: res.data.departures.last_page,
+            currentPage: res.data.departures.current_page,
           },
         });
       })

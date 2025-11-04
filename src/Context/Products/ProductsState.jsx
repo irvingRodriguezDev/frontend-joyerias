@@ -34,14 +34,14 @@ const ProductsState = ({ children }) => {
         dispatch({
           type: GET_ALL_PRODUCTS,
           payload: {
-            data: res.data.data,
-            total: res.data.total,
-            page: res.data.current_page,
-            perPage: res.data.per_page,
-            next_page_url: res.data.next_page_url,
-            prev_page_url: res.data.prev_page_url,
-            lastPage: res.data.last_page,
-            currentPage: res.data.current_page,
+            data: res.data.products.data,
+            total: res.data.products.total,
+            page: res.data.products.current_page,
+            perPage: res.data.products.per_page,
+            next_page_url: res.data.products.next_page_url,
+            prev_page_url: res.data.products.prev_page_url,
+            lastPage: res.data.products.last_page,
+            currentPage: res.data.products.current_page,
           },
         });
       })
