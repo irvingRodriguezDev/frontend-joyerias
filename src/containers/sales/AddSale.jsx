@@ -10,12 +10,16 @@ import ProductsSelect from "./SelectProducts";
 import ModalAddClients from "../clients/ModalAddClients";
 import PaymentsForm from "./PaymentsForm";
 import SalesContext from "../../Context/Sales/SalesContext";
+import AuthContext from "../../Context/Auth/AuthContext";
+import BranchesSelect from "../selectOptions/BranchesSelect";
 const AddSale = () => {
+  const { usuario } = useContext(AuthContext);
   const { storeSale } = useContext(SalesContext);
   const ProductsSaleOnLocal = localStorage.getItem("productsSale");
   const [productsList, saveProductsList] = useState(
     ProductsSaleOnLocal ? JSON.parse(ProductsSaleOnLocal) : []
   );
+  const [branch, setBranch] = useState(null);
   const [product, saveProduct] = useState("");
   const [productoID, guardarProductoID] = useState("");
   const [value, setValue] = useState("barcode");
@@ -102,7 +106,7 @@ const AddSale = () => {
   const handleCreateSale = () => {
     const payload = {
       client_id: client,
-      branch_id: 1,
+      branch_id: usuario.type_user_id === 1 ? branch : usuario.branch_id,
       user_id: 1,
       total: total, // calculado con useEffect
       paid_out: totalPaidOut, // sumatoria de pagos
@@ -131,8 +135,18 @@ const AddSale = () => {
         <Grid size={8}>
           <Paper sx={{ padding: "20px", borderRadius: "10px" }}>
             <Grid container spacing={2}>
+              {usuario.type_user_id === 1 && (
+                <Grid size={12}>
+                  <BranchesSelect />
+                </Grid>
+              )}
               <Grid size={8}>
-                <ClientsSelect detectarCambiosClient={detectarCambiosClient} />
+                <ClientsSelect
+                  detectarCambiosClient={detectarCambiosClient}
+                  branch_id={
+                    usuario.type_user_id === 3 ? usuario.branch_id : null
+                  }
+                />
               </Grid>
               <Grid sie={4}>
                 <Button

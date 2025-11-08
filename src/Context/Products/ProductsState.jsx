@@ -107,7 +107,7 @@ const ProductsState = ({ children }) => {
       .then((res) => {
         dispatch({
           type: PRODUCTS_FOR_SELECT,
-          payload: res.data,
+          payload: res.data.products,
         });
       })
       .catch((error) => {

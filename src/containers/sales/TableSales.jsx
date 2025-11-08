@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -22,7 +22,7 @@ import {
 import { Link } from "react-router-dom";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-
+import AuthContext from "../../Context/Auth/AuthContext";
 const SalesTable = ({
   data,
   handleChangePage,
@@ -30,6 +30,7 @@ const SalesTable = ({
   currentPage,
   downloadTicketSale,
 }) => {
+  const { usuario } = useContext(AuthContext);
   const [filteredData, setFilteredData] = useState(data?.data || []);
   const [filters, setFilters] = useState({
     search: "",
@@ -80,22 +81,25 @@ const SalesTable = ({
           onChange={(e) => setFilters({ ...filters, search: e.target.value })}
           sx={{ minWidth: 400 }}
         />
-
-        <FormControl sx={{ minWidth: 250 }}>
-          <InputLabel>Sucursal</InputLabel>
-          <Select
-            value={filters.branch}
-            label='Sucursal'
-            onChange={(e) => setFilters({ ...filters, branch: e.target.value })}
-          >
-            <MenuItem value=''>Todas</MenuItem>
-            {uniqueBranches.map((b) => (
-              <MenuItem key={b} value={b}>
-                {b}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        {usuario.type_user_id === 1 && (
+          <FormControl sx={{ minWidth: 250 }}>
+            <InputLabel>Sucursal</InputLabel>
+            <Select
+              value={filters.branch}
+              label='Sucursal'
+              onChange={(e) =>
+                setFilters({ ...filters, branch: e.target.value })
+              }
+            >
+              <MenuItem value=''>Todas</MenuItem>
+              {uniqueBranches.map((b) => (
+                <MenuItem key={b} value={b}>
+                  {b}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        )}
       </Stack>
 
       {/* 🧾 Tabla */}

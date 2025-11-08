@@ -21,8 +21,9 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-
+import { usePermissions } from "../../hooks/usePermissions";
 const ClientsTable = ({ data, handleChangePage, lastPage, currentPage }) => {
+  const permisos = usePermissions();
   const [filteredData, setFilteredData] = useState(data?.data || []);
   const [filters, setFilters] = useState({
     name: "",
@@ -83,21 +84,25 @@ const ClientsTable = ({ data, handleChangePage, lastPage, currentPage }) => {
           onChange={(e) => setFilters({ ...filters, lastname: e.target.value })}
           sx={{ minWidth: 350 }}
         />
-        <FormControl sx={{ minWidth: 350 }}>
-          <InputLabel>Sucursal</InputLabel>
-          <Select
-            value={filters.branch}
-            label='Sucursal'
-            onChange={(e) => setFilters({ ...filters, branch: e.target.value })}
-          >
-            <MenuItem value=''>Todas</MenuItem>
-            {uniqueBranches.map((b) => (
-              <MenuItem key={b} value={b}>
-                {b}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        {permisos.write && (
+          <FormControl sx={{ minWidth: 350 }}>
+            <InputLabel>Sucursal</InputLabel>
+            <Select
+              value={filters.branch}
+              label='Sucursal'
+              onChange={(e) =>
+                setFilters({ ...filters, branch: e.target.value })
+              }
+            >
+              <MenuItem value=''>Todas</MenuItem>
+              {uniqueBranches.map((b) => (
+                <MenuItem key={b} value={b}>
+                  {b}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        )}
       </Stack>
 
       {/* 🧾 Tabla */}

@@ -28,8 +28,6 @@ const ClientsState = ({ children }) => {
     let url = `/clients?page=${page}&limit=${rowsPerPage}`;
     MethodGet(url)
       .then((res) => {
-        console.log(res.data.customers, "el response");
-
         dispatch({
           type: GET_ALL_CLIENTS,
           payload: {
@@ -49,8 +47,8 @@ const ClientsState = ({ children }) => {
       });
   };
 
-  const allClients = () => {
-    let url = "all-clients";
+  const allClients = (id) => {
+    let url = `/clients-per-branch/${id}`;
     MethodGet(url)
       .then((res) => {
         dispatch({

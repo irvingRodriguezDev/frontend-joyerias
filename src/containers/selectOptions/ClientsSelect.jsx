@@ -5,8 +5,8 @@ import ClientsContext from "../../Context/Clients/ClientsContext";
 const ClientsSelect = (props) => {
   const { clients, allClients } = useContext(ClientsContext);
   useEffect(() => {
-    allClients();
-  }, []);
+    allClients(props.branch_id);
+  }, [props.branch_id]);
   const detectarCambiosClient = (value) => {
     props.detectarCambiosClient(value);
   };

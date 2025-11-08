@@ -4,8 +4,10 @@ import { Button, Grid, Paper, TextField, Typography } from "@mui/material";
 import BranchesSelect from "../selectOptions/BranchesSelect";
 import ClientsContext from "../../Context/Clients/ClientsContext";
 import { useForm, Controller } from "react-hook-form";
-
+import Swal from "sweetalert2";
+import AuthContext from "../../Context/Auth/AuthContext";
 const AddClients = () => {
+  const { usuario } = useContext(AuthContext);
   const { storeClient } = useContext(ClientsContext);
   const [branch, setBranch] = useState(null);
 
@@ -29,25 +31,45 @@ const AddClients = () => {
   // --- Envío del formulario ---
   const onSubmit = async (data) => {
     try {
-      // Validar que haya una sucursal seleccionada
-      if (!branch) {
-        alert("Debes seleccionar una sucursal antes de guardar.");
-        return;
+      // Si es admin, debe seleccionar una sucursal
+      if (usuario.type_user_id === 1 && !branch) {
+        Swal.fire({
+          title: "Cuidado",
+          icon: "warning",
+          timer: 2500,
+          showConfirmButton: false,
+          text: "Debes seleccionar una sucursal para continuar",
+        });
+        return; // 🔥 Importante: detener ejecución aquí
       }
-      // Armar payload para enviar al backend
+
       const payload = {
-        name: data.name,
-        lastname: data.lastname,
-        phone: data.phone || null,
-        branch_id: branch,
+        name: data.name.trim(),
+        lastname: data.lastname.trim(),
+        phone: data.phone?.trim() || null,
+        branch_id: usuario.type_user_id === 1 ? branch : usuario.branch_id, // ✅ correcto
       };
 
       await storeClient(payload);
+
+      Swal.fire({
+        title: "Éxito",
+        text: "Cliente registrado correctamente",
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
+      });
 
       reset();
       setBranch(null);
     } catch (error) {
       console.error("Error al guardar cliente:", error);
+      Swal.fire({
+        title: "Error",
+        text: "Hubo un problema al guardar el cliente",
+        icon: "error",
+        showConfirmButton: true,
+      });
     }
   };
 
@@ -132,11 +154,13 @@ const AddClients = () => {
                 </Grid>
 
                 {/* Sucursal */}
-                <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-                  <BranchesSelect
-                    detectarCambiosBranch={detectarCambiosBranch}
-                  />
-                </Grid>
+                {usuario.type_user_id === 1 && (
+                  <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                    <BranchesSelect
+                      detectarCambiosBranch={detectarCambiosBranch}
+                    />
+                  </Grid>
+                )}
 
                 {/* Botón Guardar */}
                 <Grid

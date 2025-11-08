@@ -3,7 +3,7 @@ import { Card, CardContent, Typography, Box, Grid } from "@mui/material";
 import moon from "../../assets/gift/moon.gif";
 import morning from "../../assets/gift/morning.gif";
 import sunset from "../../assets/gift/sunset.gif";
-const CardWelcome = ({ name }) => {
+const CardWelcome = ({ name, type_user }) => {
   // Obtenemos la hora actual
   const hour = new Date().getHours();
   let greeting = "Hola";
@@ -69,6 +69,17 @@ const CardWelcome = ({ name }) => {
             }}
           />
         </Box>
+        <div style={{ display: "flex", justifyContent: "start" }}>
+          {type_user === 1 ? (
+            <Typography variant='caption' sx={{ color: "white" }}>
+              Admin
+            </Typography>
+          ) : (
+            <Typography variant='caption' sx={{ color: "white" }}>
+              Vendedor
+            </Typography>
+          )}
+        </div>
       </CardContent>
     </Card>
   );

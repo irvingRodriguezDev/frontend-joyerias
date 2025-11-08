@@ -13,7 +13,10 @@ const Dashboard = () => {
   return (
     <>
       <Layout>
-        <CardWelcome name={usuario ? usuario.name : ""} />
+        <CardWelcome
+          name={usuario ? usuario.name : ""}
+          type_user={usuario ? usuario.type_user_id : ""}
+        />
         <SalesInfo />
         <Grid container spacing={2} sx={{ mt: 5 }}>
           <Grid size={12}>
