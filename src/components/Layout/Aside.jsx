@@ -28,7 +28,7 @@ const Aside = ({ open, onClose }) => {
   const { cerrarSesion } = useContext(AuthContext);
 
   const userData = JSON.parse(localStorage.getItem("type_user_id")) || {};
-  const userType = userData; // 1 = admin, 2 = vendedor
+  const userType = userData; // 1 = admin, 3 = vendedor
 
   const menuItems = [
     {
@@ -89,7 +89,8 @@ const Aside = ({ open, onClose }) => {
     {
       text: "Ventas",
       icon: <MonetizationOnIcon />,
-      link: "/ventas",
+      getLink: (type_user) =>
+        type_user === 1 ? "/ventas/seleccionar-sucursal" : "/ventas",
       type_user: [1, 3],
     },
     {
@@ -134,19 +135,23 @@ const Aside = ({ open, onClose }) => {
       </Box>
 
       <List>
-        {filteredMenu.map((item, index) => (
-          <Link
-            to={item.link}
-            style={{ textDecoration: "none" }}
-            key={index}
-            state={item.permissions} // <- Aquí puedes pasar los permisos al componente destino
-          >
-            <ListItemButton sx={{ color: "white" }}>
-              <ListItemIcon sx={{ color: "white" }}>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItemButton>
-          </Link>
-        ))}
+        {filteredMenu.map((item, index) => {
+          const destination = item.getLink ? item.getLink(userType) : item.link;
+
+          return (
+            <Link
+              to={destination}
+              style={{ textDecoration: "none" }}
+              key={index}
+              state={item.permissions}
+            >
+              <ListItemButton sx={{ color: "white" }}>
+                <ListItemIcon sx={{ color: "white" }}>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.text} />
+              </ListItemButton>
+            </Link>
+          );
+        })}
       </List>
 
       <Button

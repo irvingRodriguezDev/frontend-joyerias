@@ -88,7 +88,7 @@ const ProductsState = ({ children }) => {
       });
   };
 
-  const getAllProductsNoPaginate = () => {
+  const getAllProductsNoPaginate = (data) => {
     let url = "/productsNoPaginate";
     MethodGet(url)
       .then((res) => {

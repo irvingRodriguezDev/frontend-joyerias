@@ -50,6 +50,17 @@ const CategoryCard = ({ category }) => {
                 : "Sin descripción disponible"
             }
           />
+          <CardContent sx={{ pt: 0 }}>
+            <Divider sx={{ mb: 2 }} />
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              {category.type_product_id && (
+                <Typography variant='body2'>
+                  <strong>Tipo de producto:</strong>{" "}
+                  {category.type_product_id === 1 ? "Piezas" : "Gramos"}
+                </Typography>
+              )}
+            </Box>
+          </CardContent>
 
           <CardContent sx={{ pt: 0 }}>
             <Divider sx={{ mb: 2 }} />

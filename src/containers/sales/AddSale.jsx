@@ -41,6 +41,10 @@ const AddSale = () => {
     setClient(value.value);
   };
 
+  const detectarCambiosBranch = (value) => {
+    setBranch(value.value);
+  };
+
   //pagos
   const [paymentCash, setPaymentCash] = useState(0);
   const [paymentCard, setPaymentCard] = useState(0);
@@ -137,7 +141,9 @@ const AddSale = () => {
             <Grid container spacing={2}>
               {usuario.type_user_id === 1 && (
                 <Grid size={12}>
-                  <BranchesSelect />
+                  <BranchesSelect
+                    detectarCambiosBranch={detectarCambiosBranch}
+                  />
                 </Grid>
               )}
               <Grid size={8}>
@@ -174,6 +180,7 @@ const AddSale = () => {
                     product={product}
                     saveProduct={saveProduct}
                     guardarProductId={guardarProductoID}
+                    branchId={branch}
                   />
                 </Grid>
               ) : (
@@ -182,6 +189,7 @@ const AddSale = () => {
                     productsList={productsList}
                     saveProductsList={saveProductsList}
                     guardarProductId={guardarProductoID}
+                    branchId={branch}
                   />
                 </Grid>
               )}

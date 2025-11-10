@@ -33,6 +33,10 @@ import Departures from "../containers/Departures/Departures";
 import AddDeparture from "../containers/Departures/AddDeparture";
 import ShowDeparture from "../containers/Departures/ShowDeparture";
 import ResetPassword from "../components/auth/ResetPassword";
+import SelectBranches from "../containers/branches/SelectBranches";
+import SalesBranch from "../containers/sales/Branches/SalesBranch";
+import AddSaleBranch from "../containers/sales/Branches/AddSaleBranch";
+
 function AppRouter({ isAuthenticated }) {
   const { autenticado, usuarioAutenticado, cargando } = useContext(AuthContext);
 
@@ -91,6 +95,12 @@ function AppRouter({ isAuthenticated }) {
         <Route path='/clientes' element={<Clients />} />
         <Route path='/crear-cliente' element={<AddClients />} />
         {/**Ventas */}
+        <Route
+          path='/ventas/seleccionar-sucursal'
+          element={<SelectBranches />}
+        />
+        <Route path='/nueva-venta-sucursal/:id' element={<AddSaleBranch />} />
+        <Route path={`/ventas-sucursal/:id`} element={<SalesBranch />} />
         <Route path='/ventas' element={<Sales />} />
         <Route path='/detalle-venta/:id' element={<SaleDetails />} />
 

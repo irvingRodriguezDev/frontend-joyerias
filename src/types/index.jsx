@@ -70,6 +70,7 @@ export const GET_CLIENTS_SELECT = "GET_CLIENTS_SELECT";
 export const GET_ALL_SALES = "GET_ALL_SALES";
 export const STORE_SALE = "STORE_SALE";
 export const GET_ONE_SALE = "GET_ONE_SALE";
+export const SALES_FOR_ADMIN = "SALES_FOR_ADMIN";
 
 export const TOTAL_VENTAS_DIA = "TOTAL_VENTAS_DIA";
 export const TOTAL_VENTAS_SEMANA = "TOTAL_VENTAS_SEMANA";

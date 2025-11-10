@@ -7,6 +7,7 @@ import SalesReducer from "./SalesReducer";
 import {
   GET_ALL_SALES,
   GET_ONE_SALE,
+  SALES_FOR_ADMIN,
   STORE_SALE,
   TOTAL_VENTAS_DIA,
 } from "../../types";
@@ -130,39 +131,22 @@ const SalesState = ({ children }) => {
     }
   };
 
-  const totalVentasDia = () => {
-    let url = "/ventas/dia";
-    MethodGet(url)
+  const indexForAdmin = (page, limit, datos) => {
+    let url = `/admin/sales?page=${page}&limit=${limit}`;
+    MethodGet(url, datos)
       .then((res) => {
         dispatch({
-          type: TOTAL_VENTAS_DIA,
-          payload: res.data.total_vendido_dia,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  const totalVentasMes = () => {
-    let url = "/ventas/mes";
-    MethodGet(url)
-      .then((res) => {
-        dispatch({
-          type: TOTAL_VENTAS_DIA,
-          payload: res.data.total_vendido_mes,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  const totalVentasSemana = () => {
-    let url = "/ventas/semana";
-    MethodGet(url)
-      .then((res) => {
-        dispatch({
-          type: TOTAL_VENTAS_DIA,
-          payload: res.data.total_vendido_semana,
+          type: SALES_FOR_ADMIN,
+          payload: {
+            data: res.data.sales.data,
+            total: res.data.sales.total,
+            page: res.data.sales.current_page,
+            perPage: res.data.sales.per_page,
+            next_page_url: res.data.sales.next_page_url,
+            prev_page_url: res.data.sales.prev_page_url,
+            lastPage: res.data.sales.last_page,
+            currentPage: res.data.sales.current_page,
+          },
         });
       })
       .catch((error) => {
@@ -186,6 +170,7 @@ const SalesState = ({ children }) => {
         storeSale,
         getOneSale,
         downloadTicketSale,
+        indexForAdmin,
       }}
     >
       {children}

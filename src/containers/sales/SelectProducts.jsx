@@ -7,14 +7,16 @@ const ProductsSelect = ({
   guardarProductId,
   productsList,
   saveProductsList,
+  branchId,
 }) => {
   const { products, getAllProductsNoPaginate } = useContext(ProductsContext);
   const [product, setProduct] = useState(null);
   const detectarCambiosProduct = (value) => {
     setProduct(value.value);
   };
-
-  useEffect(() => getAllProductsNoPaginate, []);
+  const datos = {};
+  datos.branch_id = branchId;
+  useEffect(() => getAllProductsNoPaginate(datos), []);
   const AgregarProductoState = () => {
     if (product === null) {
       Swal.fire({
