@@ -22,11 +22,7 @@ const AddSale = () => {
   const [branch, setBranch] = useState(null);
   const [product, saveProduct] = useState("");
   const [productoID, guardarProductoID] = useState("");
-  const [value, setValue] = useState("barcode");
 
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
   //modal addclient
   const [open, setOpen] = useState(false);
 

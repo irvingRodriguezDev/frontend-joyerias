@@ -48,6 +48,8 @@ const ClientsState = ({ children }) => {
   };
 
   const allClients = (id) => {
+    console.log(id, "el id en el state");
+
     let url = `/clients-per-branch/${id}`;
     MethodGet(url)
       .then((res) => {

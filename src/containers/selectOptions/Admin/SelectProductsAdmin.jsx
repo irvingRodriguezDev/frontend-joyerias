@@ -1,15 +1,23 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
-import { Typography } from "@mui/material";
-import ClientsContext from "../../../Context/Clients/ClientsContext";
-const ClientsSelectAdmin = (props) => {
-  const { clients, allClients } = useContext(ClientsContext);
-
+import MethodGet from "../../../config/Service";
+const SelectProductsAdmin = (props) => {
+  const [products, setProducts] = useState([]);
   useEffect(() => {
-    allClients(props.branch_id);
+    let url = `/productsAvailablePerBranch/${props.branch_id}`;
+    MethodGet(url)
+      .then((res) => {
+        setProducts(res.data);
+      })
+      .catch((error) => {
+        console.log(
+          error,
+          "ocurrio un error al obtener productos disponibles por sucursal"
+        );
+      });
   }, [props.branch_id]);
-  const detectarCambiosClientAdmin = (value) => {
-    props.detectarCambiosClientAdmin(value);
+  const detectarCambiosProductAdmin = (value) => {
+    props.detectarCambiosProductAdmin(value);
   };
 
   const customStyles = {
@@ -56,18 +64,18 @@ const ClientsSelectAdmin = (props) => {
 
   return (
     <>
-      <Typography textAlign={"start"}>Selecciona un cliente</Typography>
+      {/* <Typography textAlign={"start"}>Selecciona un producto</Typography> */}
       <Select
-        onChange={detectarCambiosClientAdmin}
+        onChange={detectarCambiosProductAdmin}
         className='basic-single'
         classNamePrefix='select'
         styles={customStyles}
         name='select-state'
-        placeholder='Selecciona un cliente'
+        placeholder='Selecciona un producto'
         options={
-          clients
-            ? clients.map((option) => ({
-                label: `${option.name}  ${option.lastname} - ${option.phone}`,
+          products
+            ? products.map((option) => ({
+                label: `${option.clave}  ${option.description}`,
                 value: `${option.id}`,
               }))
             : null
@@ -77,4 +85,4 @@ const ClientsSelectAdmin = (props) => {
   );
 };
 
-export default ClientsSelectAdmin;
+export default SelectProductsAdmin;

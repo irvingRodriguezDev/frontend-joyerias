@@ -1,13 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../../components/Layout/Layout";
 import { Button, Grid, Paper, Typography } from "@mui/material";
 import ClientsSelectAdmin from "../../selectOptions/Admin/ClientsSelectAdmin";
 import { useParams } from "react-router-dom";
 import ModalAddClients from "../../clients/ModalAddClients";
+import RadioSelect from "../../../components/RadioSelect";
+import BarcodeAdmin from "./Barcode";
+import ProductsSelectAdmin from "./SelectProducts";
+import ProductsOfSale from "../ProductsOfSale";
+import PaymentsForm from "../PaymentsForm";
+import Totals from "../Totals";
 
 const AddSaleBranch = () => {
-  const params = useParams;
+  const params = useParams();
+
   const { id } = params;
+
   const [client, setClient] = useState(null);
   const detectarCambiosClientAdmin = (value) => {
     setClient(value.value);
@@ -20,6 +28,94 @@ const AddSaleBranch = () => {
   };
   const handleClose = () => {
     setOpen(false);
+  };
+  const [value, setValue] = useState("barcode");
+
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
+  const ProductsSaleOnLocal = localStorage.getItem("productsSale");
+  const [productsList, saveProductsList] = useState(
+    ProductsSaleOnLocal ? JSON.parse(ProductsSaleOnLocal) : []
+  );
+  const [product, saveProduct] = useState("");
+  const [productoID, guardarProductoID] = useState("");
+  //pagos
+  const [paymentCash, setPaymentCash] = useState(0);
+  const [paymentCard, setPaymentCard] = useState(0);
+  const [cardReference, setCardReference] = useState("");
+  const [paymentTransfer, setPaymentTransfer] = useState(0);
+  const [transferReference, setTransferReference] = useState("");
+  //carrito
+  const [subtotal, saveSubtotal] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [totalPaidOut, setTotalPaidOut] = useState(0);
+  useEffect(() => {
+    // Calcular subtotal (suma de productos)
+    const subtotalCalculated = productsList.reduce((sum, p) => {
+      const price = Number(p.final_price ?? p.price);
+      const quantity = Number(p.quantity ?? 1);
+      return sum + price * quantity;
+    }, 0);
+
+    // Calcular total pagado
+    const totalPaid =
+      Number(paymentCash) + Number(paymentCard) + Number(paymentTransfer);
+
+    // Actualizar estados
+    saveSubtotal(subtotalCalculated);
+    setTotal(subtotalCalculated);
+    setTotalPaidOut(totalPaid);
+  }, [productsList, paymentCard, paymentCash, paymentTransfer]);
+  const generatePaymentsArray = () => {
+    const payments = [];
+
+    // Si hay efectivo
+    if (Number(paymentCash) > 0) {
+      payments.push({
+        amount: Number(paymentCash),
+        payment_method: "cash",
+        reference: "CAJA-001", // o lo que quieras generar dinámicamente
+      });
+    }
+
+    // Si hay tarjeta
+    if (Number(paymentCard) > 0) {
+      payments.push({
+        amount: Number(paymentCard),
+        payment_method: "card",
+        reference: cardReference || "TARJ-000",
+      });
+    }
+
+    // Si hay transfer
+    if (Number(paymentTransfer) > 0) {
+      payments.push({
+        amount: Number(paymentTransfer),
+        payment_method: "transfer",
+        reference: transferReference || "TRANS-000",
+      });
+    }
+
+    return payments;
+  };
+  const handleCreateSale = () => {
+    const payload = {
+      client_id: client,
+      branch_id: usuario.type_user_id === 1 ? branch : usuario.branch_id,
+      user_id: 1,
+      total: total, // calculado con useEffect
+      paid_out: totalPaidOut, // sumatoria de pagos
+      productsList: productsList.map((p) => ({
+        product_id: p.product_id,
+        final_price: Number(p.final_price ?? p.price),
+        price_purchase: p.price_purchase,
+        quantity: p.quantity ?? 1,
+      })),
+      payments: generatePaymentsArray(),
+    };
+
+    storeSale(payload);
   };
   return (
     <Layout>
@@ -51,8 +147,68 @@ const AddSaleBranch = () => {
                   Registrar cliente
                 </Button>
               </Grid>
+              <Grid size={12}>
+                <RadioSelect
+                  setValue={setValue}
+                  handleChange={handleChange}
+                  value={value}
+                />
+              </Grid>
+              {value === "barcode" ? (
+                <Grid size={12}>
+                  <BarcodeAdmin
+                    productsList={productsList}
+                    saveProductsList={saveProductsList}
+                    product={product}
+                    saveProduct={saveProduct}
+                    guardarProductId={guardarProductoID}
+                    branch_id={id}
+                  />
+                </Grid>
+              ) : (
+                <Grid size={12}>
+                  <ProductsSelectAdmin
+                    productsList={productsList}
+                    saveProductsList={saveProductsList}
+                    guardarProductId={guardarProductoID}
+                    branchId={id}
+                  />
+                </Grid>
+              )}
+              <Grid size={12}>
+                <ProductsOfSale
+                  productsList={productsList}
+                  saveProductsList={saveProductsList}
+                />
+              </Grid>
             </Grid>
           </Paper>
+        </Grid>
+        <Grid size={4}>
+          <Grid container spacing={2}>
+            <Grid size={12}>
+              <PaymentsForm
+                paymentCard={paymentCard}
+                paymentCash={paymentCash}
+                setPaymentCard={setPaymentCard}
+                setPaymentCash={setPaymentCash}
+                setCardReference={setCardReference}
+                cardReference={cardReference}
+                paymentTransfer={paymentTransfer}
+                setPaymentTransfer={setPaymentTransfer}
+                transferReference={transferReference}
+                setTransferReference={setTransferReference}
+              />
+            </Grid>
+            <Grid size={12}>
+              <Totals
+                subtotal={subtotal}
+                total={total}
+                totalPaidOut={totalPaidOut}
+                handleCreateSale={handleCreateSale}
+              />
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
       <ModalAddClients open={open} handleClose={handleClose} />
