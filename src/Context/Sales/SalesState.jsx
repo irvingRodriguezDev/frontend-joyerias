@@ -9,6 +9,7 @@ import {
   GET_ONE_SALE,
   SALES_FOR_ADMIN,
   STORE_SALE,
+  STORE_SALE_BY_ADMIN,
   TOTAL_VENTAS_DIA,
 } from "../../types";
 import fileDownload from "js-file-download";
@@ -94,6 +95,31 @@ const SalesState = ({ children }) => {
       });
   };
 
+  const storeSaleByAdmin = (data) => {
+    let url = "/admin/sales";
+    MethodPost(url, data)
+      .then((res) => {
+        dispatch({
+          type: STORE_SALE_BY_ADMIN,
+          payload: res.data,
+        });
+        Swal.fire({
+          title: "Exito",
+          text: "La venta se ha creado de forma correcta",
+          icon: "success",
+          timer: 2500,
+          showConfirmButton: false,
+        });
+        if (res.status === 201) {
+          localStorage.removeItem("productsSale");
+          history(`/ventas-sucursal/${data.branch_id}`);
+        }
+      })
+      .catch((error) => {
+        console.log(error, "ocurrio un error al crear la venta con el admin");
+      });
+  };
+
   const downloadTicketSale = async (id) => {
     let timerInterval;
 
@@ -131,9 +157,11 @@ const SalesState = ({ children }) => {
     }
   };
 
-  const indexForAdmin = (page, limit, datos) => {
+  const indexForAdmin = (id, page, limit) => {
+    console.log(id, "los datos");
+
     let url = `/admin/sales?page=${page}&limit=${limit}`;
-    MethodGet(url, datos)
+    MethodGet(url, id)
       .then((res) => {
         dispatch({
           type: SALES_FOR_ADMIN,
@@ -171,6 +199,7 @@ const SalesState = ({ children }) => {
         getOneSale,
         downloadTicketSale,
         indexForAdmin,
+        storeSaleByAdmin,
       }}
     >
       {children}

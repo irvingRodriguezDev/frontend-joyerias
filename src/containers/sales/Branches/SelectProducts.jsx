@@ -11,7 +11,7 @@ const ProductsSelectAdmin = ({
 }) => {
   const { products, getAllProductsNoPaginate } = useContext(ProductsContext);
   const [product, setProduct] = useState(null);
-  const detectarCambiosProduct = (value) => {
+  const detectarCambiosProductAdmin = (value) => {
     setProduct(value.value);
   };
   const datos = {};
@@ -96,7 +96,7 @@ const ProductsSelectAdmin = ({
       <Grid size={8}>
         <SelectProductsAdmin
           branch_id={branchId}
-          detectarCambiosProduct={detectarCambiosProduct}
+          detectarCambiosProductAdmin={detectarCambiosProductAdmin}
         />
       </Grid>
       <Grid size={4}>

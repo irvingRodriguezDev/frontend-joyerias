@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Layout from "../../../components/Layout/Layout";
 import { Button, Grid, Paper, Typography } from "@mui/material";
 import ClientsSelectAdmin from "../../selectOptions/Admin/ClientsSelectAdmin";
@@ -10,10 +10,10 @@ import ProductsSelectAdmin from "./SelectProducts";
 import ProductsOfSale from "../ProductsOfSale";
 import PaymentsForm from "../PaymentsForm";
 import Totals from "../Totals";
-
+import SalesContext from "../../../Context/Sales/SalesContext";
 const AddSaleBranch = () => {
+  const { storeSaleByAdmin } = useContext(SalesContext);
   const params = useParams();
-
   const { id } = params;
 
   const [client, setClient] = useState(null);
@@ -102,8 +102,7 @@ const AddSaleBranch = () => {
   const handleCreateSale = () => {
     const payload = {
       client_id: client,
-      branch_id: usuario.type_user_id === 1 ? branch : usuario.branch_id,
-      user_id: 1,
+      branch_id: id,
       total: total, // calculado con useEffect
       paid_out: totalPaidOut, // sumatoria de pagos
       productsList: productsList.map((p) => ({
@@ -115,7 +114,7 @@ const AddSaleBranch = () => {
       payments: generatePaymentsArray(),
     };
 
-    storeSale(payload);
+    storeSaleByAdmin(payload);
   };
   return (
     <Layout>

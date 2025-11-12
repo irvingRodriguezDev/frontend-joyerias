@@ -3,6 +3,7 @@ import {
   GET_ONE_SALE,
   SALES_FOR_ADMIN,
   STORE_SALE,
+  STORE_SALE_BY_ADMIN,
 } from "../../types";
 
 export default (state, action) => {
@@ -42,6 +43,12 @@ export default (state, action) => {
         ErrorsApi: [],
       };
     case STORE_SALE:
+      return {
+        ...state,
+        sales: [...state.sales, action.payload],
+        ErrorsApi: [],
+      };
+    case STORE_SALE_BY_ADMIN:
       return {
         ...state,
         sales: [...state.sales, action.payload],

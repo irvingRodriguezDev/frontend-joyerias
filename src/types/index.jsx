@@ -69,6 +69,7 @@ export const GET_CLIENTS_SELECT = "GET_CLIENTS_SELECT";
 }
 export const GET_ALL_SALES = "GET_ALL_SALES";
 export const STORE_SALE = "STORE_SALE";
+export const STORE_SALE_BY_ADMIN = "STORE_SALE_BY_ADMIN";
 export const GET_ONE_SALE = "GET_ONE_SALE";
 export const SALES_FOR_ADMIN = "SALES_FOR_ADMIN";
 
