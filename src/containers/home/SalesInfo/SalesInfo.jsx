@@ -1,27 +1,44 @@
 import { Box, Grid, Paper, Typography } from "@mui/material";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import DayIcon from "../../../components/icons/DayIcon";
 import WeekIcon from "../../../components/icons/WeekIcon";
 import ChartIcon from "../../../components/icons/ChartIcon";
 import DashboardContext from "../../../Context/Dashboard/DashboardContext";
 import { formatPriceMX } from "../../../utils/PriceFormat";
+import MethodGet from "../../../config/Service";
 const SalesInfo = () => {
-  const {
-    total_ventas_dia,
-    total_ventas_semana,
-    total_ventas_mes,
-    totalVentasDia,
-    totalVentasSemana,
-    totalVentasMes,
-  } = useContext(DashboardContext);
+  const [ventas_dia, setVentasDia] = useState(0);
+  const [ventas_semana, setVentasSemana] = useState(0);
+  const [ventas_mes, setVentasMes] = useState(0);
   useEffect(() => {
-    const loadData = async () => {
-      await totalVentasDia();
-      await totalVentasSemana();
-      await totalVentasMes();
-    };
-
-    loadData();
+    let url = "/ventas/hoy";
+    MethodGet(url)
+      .then((res) => {
+        setVentasDia(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+  useEffect(() => {
+    let url = "/ventas/semana";
+    MethodGet(url)
+      .then((res) => {
+        setVentasSemana(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+  useEffect(() => {
+    let url = "/ventas/mes";
+    MethodGet(url)
+      .then((res) => {
+        setVentasMes(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   return (
@@ -62,7 +79,7 @@ const SalesInfo = () => {
               fontWeight='bold'
               sx={{ fontSize: { xs: "1.5rem", md: "2rem" } }}
             >
-              {formatPriceMX(Number(total_ventas_dia))}
+              {formatPriceMX(Number(ventas_dia.total_vendido_hoy))}
             </Typography>
 
             {/* Icono SVG */}
@@ -118,7 +135,7 @@ const SalesInfo = () => {
               fontWeight='bold'
               sx={{ fontSize: { xs: "1.5rem", md: "2rem" } }}
             >
-              {formatPriceMX(Number(total_ventas_semana))}
+              {formatPriceMX(Number(ventas_semana.total_vendido_semana))}
             </Typography>
 
             {/* Icono SVG */}
@@ -174,7 +191,7 @@ const SalesInfo = () => {
               fontWeight='bold'
               sx={{ fontSize: { xs: "1.5rem", md: "2rem" } }}
             >
-              {formatPriceMX(Number(total_ventas_mes))}
+              {formatPriceMX(Number(ventas_mes.total_vendido_mes))}
             </Typography>
 
             {/* Icono SVG */}

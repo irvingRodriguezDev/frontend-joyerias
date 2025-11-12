@@ -29,7 +29,6 @@ const DashboardState = ({ children }) => {
     total_ventas_dia: 0,
     total_ventas_semana: 0,
     total_ventas_mes: 0,
-
     //gramos
     total_gramos: 0,
     total_dinero_gramos: 0,
@@ -52,17 +51,6 @@ const DashboardState = ({ children }) => {
   const history = useNavigate();
   const [state, dispatch] = useReducer(DashboardReducer, initialState);
 
-  const totalVentasDia = () => {
-    let url = "/ventas/hoy";
-    return MethodGet(url)
-      .then((res) => {
-        dispatch({
-          type: TOTAL_VENTAS_DIA,
-          payload: res.data.total_vendido_hoy ?? 0,
-        });
-      })
-      .catch((error) => console.log(error));
-  };
   const totalVentasSemana = () => {
     let url = "/ventas/semana";
     return MethodGet(url)
@@ -308,7 +296,6 @@ const DashboardState = ({ children }) => {
   return (
     <DashboardContext.Provider
       value={{
-        total_ventas_dia: state.total_ventas_dia,
         total_ventas_semana: state.total_ventas_semana,
         total_ventas_mes: state.total_ventas_mes,
         total_gramos: state.total_gramos,
@@ -319,7 +306,6 @@ const DashboardState = ({ children }) => {
         total_dinero_gramos_traspasados: state.total_dinero_gramos_traspasados,
         total_gramos_danados: state.total_gramos_danados,
         total_dinero_gramos_danados: state.total_dinero_gramos_danados,
-        totalVentasDia,
         totalVentasSemana,
         totalVentasMes,
         totalGramos,

@@ -18,7 +18,6 @@ export default (state, action) => {
       return {
         ...state,
         total_ventas_dia: action.payload,
-        ErrorsApi: [],
       };
 
     case TOTAL_VENTAS_MES:
