@@ -13,6 +13,7 @@ import DashboardState from "./Context/Dashboard/DashboardState";
 import { ToastContainer } from "react-toastify";
 import DeparturesState from "./Context/Departures/DeparturesState";
 import ReportsState from "./Context/Reports/ReportsState";
+import TransferState from "./Context/Transfer/TransferState";
 function App() {
   return (
     <AuthState>
@@ -27,8 +28,10 @@ function App() {
                       <DashboardState>
                         <DeparturesState>
                           <ReportsState>
-                            <ToastContainer />
-                            <AppRouter />
+                            <TransferState>
+                              <ToastContainer />
+                              <AppRouter />
+                            </TransferState>
                           </ReportsState>
                         </DeparturesState>
                       </DashboardState>

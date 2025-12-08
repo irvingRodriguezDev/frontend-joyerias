@@ -103,6 +103,11 @@ const AddSale = () => {
 
     return payments;
   };
+  const [value, setValue] = useState("barcode");
+
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
   const handleCreateSale = () => {
     const payload = {
       client_id: client,

@@ -81,16 +81,17 @@ const Aside = ({ open, onClose }) => {
       type_user: [1],
     },
     {
-      text: "Traspasos",
-      icon: <CallSplitIcon />,
-      link: "/traspasos",
-      type_user: [1, 3],
-    },
-    {
       text: "Ventas",
       icon: <MonetizationOnIcon />,
       getLink: (type_user) =>
         type_user === 1 ? "/ventas/seleccionar-sucursal" : "/ventas",
+      type_user: [1, 3],
+    },
+    {
+      text: "Traspasos",
+      icon: <CallSplitIcon />,
+      getLink: (type_user) =>
+        type_user === 1 ? "/traspasos/seleccionar-sucursal" : "/traspasos",
       type_user: [1, 3],
     },
     {

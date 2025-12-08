@@ -36,6 +36,10 @@ import ResetPassword from "../components/auth/ResetPassword";
 import SelectBranches from "../containers/branches/SelectBranches";
 import SalesBranch from "../containers/sales/Branches/SalesBranch";
 import AddSaleBranch from "../containers/sales/Branches/AddSaleBranch";
+import AddTransfer from "../containers/transfers/AddTransfer";
+import SelectBranchesTransfer from "../containers/transfers/Admin/SelectBranchesTransfer";
+import TransferAdmin from "../containers/transfers/Admin/TransferAdmin";
+import AddTransferAdmin from "../containers/transfers/Admin/AddTransferAdmin";
 
 function AppRouter({ isAuthenticated }) {
   const { autenticado, usuarioAutenticado, cargando } = useContext(AuthContext);
@@ -84,6 +88,16 @@ function AppRouter({ isAuthenticated }) {
         <Route path='/detalle-producto/:id' element={<ShowProducts />} />
         {/**Traspasos */}
         <Route path='/traspasos' element={<Transfers />} />
+        <Route path='/traspasos/sucursal/:id' element={<TransferAdmin />} />
+        <Route
+          path='/traspasos/crear/sucursal/:id'
+          element={<AddTransferAdmin />}
+        />
+        <Route
+          path='/traspasos/seleccionar-sucursal'
+          element={<SelectBranchesTransfer />}
+        />
+        <Route path='/crear-traspaso' element={<AddTransfer />} />
         {/**Salidas */}
         <Route path='/salidas' element={<Departures />} />
         <Route path='/crear-salida' element={<AddDeparture />} />

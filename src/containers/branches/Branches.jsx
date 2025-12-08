@@ -9,7 +9,6 @@ const Branches = () => {
   useEffect(() => {
     getAllBranches();
   }, []);
-  console.log(branches);
 
   return (
     <Layout>
