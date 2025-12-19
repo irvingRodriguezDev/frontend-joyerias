@@ -101,12 +101,20 @@ const TransferState = ({ children }) => {
     try {
       const { data } = await MethodPost("/transfers/respond", {
         action,
-        transfer_ids: [transferId],
+        transfer_ids: [transferId], // siempre array
       });
-      dispatch({
-        type: UPDATE_TRANSFER_STATUS,
-        payload: res.updated_transfers[0],
-      });
+
+      // 🔥 Actualizamos el estado con el traspaso ya actualizado
+      if (Array.isArray(data.updated_transfers)) {
+        data.updated_transfers.forEach((transfer) => {
+          dispatch({
+            type: UPDATE_TRANSFER_STATUS,
+            payload: transfer,
+          });
+        });
+      }
+
+      // ⬅️ regresamos todo para usar message, success, etc.
       return data;
     } catch (error) {
       console.error("Error respondiendo traspaso:", error);

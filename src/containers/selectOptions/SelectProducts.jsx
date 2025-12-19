@@ -1,12 +1,23 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Select from "react-select";
 import { Typography } from "@mui/material";
 import ProductsContext from "../../Context/Products/ProductsContext";
+import AuthContext from "../../Context/Auth/AuthContext";
+import MethodGet from "../../config/Service";
 const SelectProducts = (props) => {
-  const { products, productsForSelect } = useContext(ProductsContext);
+  const { usuario } = useContext(AuthContext);
+  const [products, setProducts] = useState(null);
   useEffect(() => {
-    productsForSelect();
-  }, []);
+    let url = "/productsSelect";
+    MethodGet(url)
+      .then((res) => {
+        setProducts(res.data.products);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [usuario]);
+
   const detectarCambiosProduct = (value) => {
     props.detectarCambiosProduct(value);
   };

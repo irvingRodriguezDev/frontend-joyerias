@@ -30,7 +30,32 @@ const TableTransfersIncome = ({
   onPageChange,
 }) => {
   const [search, setSearch] = useState("");
+  const [loadingId, setLoadingId] = useState(null);
   const { respondTransfer } = useContext(TransferContext);
+  const handleRespond = async (transferId, action) => {
+    try {
+      setLoadingId(transferId);
+
+      const res = await respondTransfer(transferId, action);
+
+      Swal.fire({
+        icon: "success",
+        title: "Correcto",
+        text: res.message,
+        timer: 2000,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text:
+          error.response?.data?.message || "No se pudo procesar el traspaso",
+      });
+    } finally {
+      setLoadingId(null);
+    }
+  };
   return (
     <Box>
       {/* Buscador */}
@@ -86,17 +111,20 @@ const TableTransfersIncome = ({
                         color='success'
                         size='large'
                         sx={{ mr: 2 }}
-                        onClick={() => respondTransfer(row.id, "accept")}
+                        disabled={loadingId === row.id}
+                        onClick={() => handleRespond(row.id, "accept")}
                       >
-                        Aceptar
+                        {loadingId === row.id ? "Procesando..." : "Aceptar"}
                       </Button>
+
                       <Button
-                        onClick={() => respondTransfer(row.id, "reject")}
                         variant='contained'
                         color='error'
                         size='large'
+                        disabled={loadingId === row.id}
+                        onClick={() => handleRespond(row.id, "reject")}
                       >
-                        Rechazar
+                        {loadingId === row.id ? "Procesando..." : "Rechazar"}
                       </Button>
                     </>
                   )}

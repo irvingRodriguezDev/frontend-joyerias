@@ -28,6 +28,20 @@ const TableTransferOutgoing = ({
   onPageChange,
 }) => {
   const { respondTransfer } = useContext(TransferContext);
+  const handleCancel = async (row) => {
+    const result = await Swal.fire({
+      title: "¿Cancelar traspaso?",
+      text: "Esta acción no se puede deshacer",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, cancelar",
+      cancelButtonText: "No",
+    });
+
+    if (result.isConfirmed) {
+      handleRespond(row.id, "cancel");
+    }
+  };
   return (
     <Box>
       {/* Tabla */}
@@ -76,12 +90,13 @@ const TableTransferOutgoing = ({
                 <TableCell>
                   {row.status === 1 && (
                     <Button
-                      onClick={() => respondTransfer(row.id, "cancel")}
                       variant='contained'
                       color='error'
                       size='large'
+                      disabled={loadingId === row.id}
+                      onClick={() => handleCancel(row)}
                     >
-                      Cancelar
+                      {loadingId === row.id ? "Cancelando..." : "Cancelar"}
                     </Button>
                   )}
                 </TableCell>

@@ -48,6 +48,13 @@ const BranchesState = ({ children }) => {
       })
       .catch((error) => {
         console.log(error, "ocurrio un error al crear la sucursal");
+        Swal.fire({
+          title: "Error",
+          text: error.response.data.error,
+          icon: "error",
+          showConfirmButton: false,
+          timer: 2500,
+        });
       });
   };
 
