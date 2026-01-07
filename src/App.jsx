@@ -14,35 +14,41 @@ import { ToastContainer } from "react-toastify";
 import DeparturesState from "./Context/Departures/DeparturesState";
 import ReportsState from "./Context/Reports/ReportsState";
 import TransferState from "./Context/Transfer/TransferState";
+import GramosState from "./Context/Gramos/GramosState";
+import PiezasState from "./Context/Piezas/PiezasState";
 function App() {
   return (
     <AuthState>
-      <BranchesState>
-        <CategoriesState>
-          <UsersState>
-            <BusinessRulesState>
-              <LinesState>
-                <ProductsState>
-                  <ClientsState>
-                    <SalesState>
-                      <DashboardState>
-                        <DeparturesState>
-                          <ReportsState>
-                            <TransferState>
-                              <ToastContainer />
-                              <AppRouter />
-                            </TransferState>
-                          </ReportsState>
-                        </DeparturesState>
-                      </DashboardState>
-                    </SalesState>
-                  </ClientsState>
-                </ProductsState>
-              </LinesState>
-            </BusinessRulesState>
-          </UsersState>
-        </CategoriesState>
-      </BranchesState>
+      <DashboardState>
+        <GramosState>
+          <PiezasState>
+            <BranchesState>
+              <CategoriesState>
+                <UsersState>
+                  <BusinessRulesState>
+                    <LinesState>
+                      <ProductsState>
+                        <ClientsState>
+                          <SalesState>
+                            <DeparturesState>
+                              <ReportsState>
+                                <TransferState>
+                                  <ToastContainer />
+                                  <AppRouter />
+                                </TransferState>
+                              </ReportsState>
+                            </DeparturesState>
+                          </SalesState>
+                        </ClientsState>
+                      </ProductsState>
+                    </LinesState>
+                  </BusinessRulesState>
+                </UsersState>
+              </CategoriesState>
+            </BranchesState>
+          </PiezasState>
+        </GramosState>
+      </DashboardState>
     </AuthState>
   );
 }

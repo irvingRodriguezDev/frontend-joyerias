@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
-import DashboardContext from "../../Context/Dashboard/DashboardContext";
 import { PriceFormat } from "../../utils/PriceFormat";
 import { Grid, Paper, Typography } from "@mui/material";
+import PiezasContext from "../../Context/Piezas/PiezasContext";
 const SectionInfoPzas = () => {
   const {
     total_piezas,
@@ -20,7 +20,7 @@ const SectionInfoPzas = () => {
     totalDineroPiezasTraspasadas,
     totalPiezasDanados,
     totalDineroPiezasDanados,
-  } = useContext(DashboardContext);
+  } = useContext(PiezasContext);
 
   useEffect(() => {
     totalPiezas();

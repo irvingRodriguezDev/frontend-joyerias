@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { Grid, Paper, Typography } from "@mui/material";
-import DashboardContext from "../../Context/Dashboard/DashboardContext";
 import { formatPriceMX } from "../../utils/PriceFormat";
+import GramosContext from "../../Context/Gramos/GramosContext";
 
 const SectionInfoGrs = () => {
   const {
@@ -21,7 +21,7 @@ const SectionInfoGrs = () => {
     totalDineroGramosTraspasados,
     totalGramosDanados,
     totalDineroGramosDanados,
-  } = useContext(DashboardContext);
+  } = useContext(GramosContext);
 
   useEffect(() => {
     totalGramos();
@@ -38,19 +38,15 @@ const SectionInfoGrs = () => {
   const cards = [
     {
       label: "Total de Gramos",
-      value: `${total_gramos ? total_gramos.total_gramos : 0} gr`,
+      value: `${total_gramos ?? 0} gr`,
     },
     {
       label: "Total de Gramos Existentes",
-      value: `${
-        total_gramos_existentes
-          ? total_gramos_existentes.total_gramos_existentes
-          : 0
-      } gr`,
+      value: `${total_gramos_existentes} gr`,
     },
     {
       label: "Total de Gramos Traspasados",
-      value: `${total_gramos_traspasados || 0} gr`,
+      value: `${total_gramos_traspasados ?? 0} gr`,
     },
     { label: "Total de Gramos Dañados", value: `${total_gramos_danados} gr` },
     {
