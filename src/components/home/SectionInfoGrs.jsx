@@ -36,10 +36,17 @@ const SectionInfoGrs = () => {
 
   // 💡 Datos estructurados para evitar repetición
   const cards = [
-    { label: "Total de Gramos", value: `${total_gramos} gr` },
+    {
+      label: "Total de Gramos",
+      value: `${total_gramos ? total_gramos.total_gramos : 0} gr`,
+    },
     {
       label: "Total de Gramos Existentes",
-      value: `${total_gramos_existentes} gr`,
+      value: `${
+        total_gramos_existentes
+          ? total_gramos_existentes.total_gramos_existentes
+          : 0
+      } gr`,
     },
     {
       label: "Total de Gramos Traspasados",
