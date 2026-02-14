@@ -10,24 +10,15 @@ import {
   Button,
 } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
-import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
-import GroupIcon from "@mui/icons-material/Group";
-import Inventory2Icon from "@mui/icons-material/Inventory2";
-import MapsHomeWorkIcon from "@mui/icons-material/MapsHomeWork";
-import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
-import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
-import CategoryIcon from "@mui/icons-material/Category";
-import ListAltIcon from "@mui/icons-material/ListAlt";
-import DiscountIcon from "@mui/icons-material/Discount";
-import CallSplitIcon from "@mui/icons-material/CallSplit";
-import SendAndArchiveIcon from "@mui/icons-material/SendAndArchive";
 import { Link } from "react-router-dom";
 import AuthContext from "../../Context/Auth/AuthContext";
+import TourIcon from "../icons/TourIcon";
 
 const Aside = ({ open, onClose }) => {
   const { cerrarSesion } = useContext(AuthContext);
 
-  const userData = JSON.parse(localStorage.getItem("type_user_id")) || {};
+  const userData = JSON.parse(localStorage.getItem("type_user"));
+
   const userType = userData; // 1 = admin, 3 = vendedor
 
   const menuItems = [
@@ -35,76 +26,13 @@ const Aside = ({ open, onClose }) => {
       text: "Inicio",
       icon: <HomeIcon />,
       link: "/dashboard",
-      type_user: [1, 3],
+      type_user: ["admin"],
     },
     {
-      text: "Sucursales",
-      icon: <MapsHomeWorkIcon />,
-      link: "/sucursales",
-      type_user: [1],
-    },
-    {
-      text: "Reglas de negocio",
-      icon: <DiscountIcon />,
-      link: "/reglas-negocio",
-      type_user: [1],
-    },
-    {
-      text: "Categorías",
-      icon: <CategoryIcon />,
-      link: "/categorias",
-      type_user: [1],
-    },
-    { text: "Líneas", icon: <ListAltIcon />, link: "/lineas", type_user: [1] },
-    {
-      text: "Clientes",
-      icon: <GroupIcon />,
-      link: "/clientes",
-      type_user: [1, 3],
-    },
-    {
-      text: "Productos",
-      icon: <Inventory2Icon />,
-      link: "/productos",
-      type_user: [1, 3],
-      permissions: {
-        read: true,
-        write: userType === 1,
-        update: userType === 1,
-        delete: userType === 1,
-      },
-    },
-    {
-      text: "Salida de Productos",
-      icon: <SendAndArchiveIcon />,
-      link: "/salidas",
-      type_user: [1],
-    },
-    {
-      text: "Ventas",
-      icon: <MonetizationOnIcon />,
-      getLink: (type_user) =>
-        type_user === 1 ? "/ventas/seleccionar-sucursal" : "/ventas",
-      type_user: [1, 3],
-    },
-    {
-      text: "Traspasos",
-      icon: <CallSplitIcon />,
-      getLink: (type_user) =>
-        type_user === 1 ? "/traspasos/seleccionar-sucursal" : "/traspasos",
-      type_user: [1, 3],
-    },
-    {
-      text: "Usuarios",
-      icon: <SupervisedUserCircleIcon />,
-      link: "/usuarios",
-      type_user: [1],
-    },
-    {
-      text: "Reportes",
-      icon: <PictureAsPdfIcon />,
-      link: "/reportes",
-      type_user: [1, 3],
+      text: "Tours",
+      icon: <TourIcon width={30} />,
+      link: "/tours",
+      type_user: ["admin"],
     },
   ];
 

@@ -28,7 +28,7 @@ const CardWelcome = ({ name, type_user }) => {
         boxShadow: 4,
         textAlign: "center",
         overflow: "hidden",
-        bgcolor: "#173757",
+        bgcolor: "#ADC138",
       }}
     >
       <CardContent>
@@ -70,7 +70,7 @@ const CardWelcome = ({ name, type_user }) => {
           />
         </Box>
         <div style={{ display: "flex", justifyContent: "start" }}>
-          {type_user === 1 ? (
+          {type_user === "admin" ? (
             <Typography variant='caption' sx={{ color: "white" }}>
               Admin
             </Typography>

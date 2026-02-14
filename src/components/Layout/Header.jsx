@@ -1,7 +1,7 @@
 import React from "react";
 import { AppBar, Toolbar, IconButton, Typography, Box } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-
+import Logo from "../../assets/img/LOGO EXPERIENCIAS MEXICO VECTOR.png";
 const Header = ({ onMenuClick }) => {
   return (
     <AppBar
@@ -26,7 +26,7 @@ const Header = ({ onMenuClick }) => {
           <MenuIcon />
         </IconButton>
         <Typography variant='h6' noWrap component='div'>
-          Mi Sistema
+          <img src={Logo} width={100} height={80} />
         </Typography>
         <Box sx={{ flexGrow: 1 }} />
         {/* Aquí podrías poner avatar de usuario, notificaciones, etc */}

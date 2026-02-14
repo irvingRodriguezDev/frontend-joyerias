@@ -47,7 +47,7 @@ const SalesInfo = () => {
         <Paper
           elevation={4}
           sx={{
-            bgcolor: "#173757",
+            bgcolor: "#ADC138",
             color: "white",
             borderRadius: "20px",
             p: 3,
@@ -79,7 +79,7 @@ const SalesInfo = () => {
               fontWeight='bold'
               sx={{ fontSize: { xs: "1.5rem", md: "2rem" } }}
             >
-              {formatPriceMX(Number(ventas_dia.total_vendido_hoy))}
+              {formatPriceMX(Number(ventas_dia.total_vendido_hoy) || 0)}
             </Typography>
 
             {/* Icono SVG */}
@@ -103,7 +103,7 @@ const SalesInfo = () => {
         <Paper
           elevation={4}
           sx={{
-            bgcolor: "#173757",
+            bgcolor: "#ADC138",
             color: "white",
             borderRadius: "20px",
             p: 3,
@@ -159,7 +159,7 @@ const SalesInfo = () => {
         <Paper
           elevation={4}
           sx={{
-            bgcolor: "#173757",
+            bgcolor: "#ADC138",
             color: "white",
             borderRadius: "20px",
             p: 3,

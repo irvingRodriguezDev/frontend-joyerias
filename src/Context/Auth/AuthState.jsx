@@ -37,7 +37,7 @@ const AuthState = (props) => {
     tokenAuth(token);
 
     try {
-      const { data } = await MethodGet("me"); // sin la barra inicial
+      const { data } = await MethodGet("/auth/me"); // sin la barra inicial
 
       dispatch({ type: types.OBTENER_USUARIO, payload: data });
       return true;
@@ -58,7 +58,7 @@ const AuthState = (props) => {
       const res = await MethodPost(url, datos);
       //Guardar token y datos del usuario
       localStorage.setItem("token", res.data.token);
-      localStorage.setItem("type_user_id", res.data.user.type_user_id);
+      localStorage.setItem("type_user", JSON.stringify(res.data?.user.role));
       //Dispatch para actualizar el estado inmediatamente
       dispatch({
         type: types.LOGIN_EXITOSO,
@@ -85,43 +85,6 @@ const AuthState = (props) => {
       });
       return false; // Indicador de fallo
     }
-  };
-
-  const registerUser = (data) => {
-    let url = "/auth/register";
-    MethodPost(url, data)
-      .then((res) => {
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("type_user_id", res.data.usuario.type_user_id);
-        const token = res.data.token;
-        // Setea el token en Axios inmediatamente
-        tokenAuth(token);
-
-        dispatch({
-          type: types.REGISTRO_EXITOSO,
-          payload: res.data,
-        });
-
-        Swal.fire({
-          title: "Registrado",
-          text: "Te has registrado de manera exitosa",
-          icon: "success",
-          timer: 2000,
-          showConfirmButton: false,
-        });
-
-        // Aquí puedes redirigir o recargar usuario
-        // Por ejemplo, para asegurarte que está autenticado:
-        usuarioAutenticado();
-      })
-      .catch((error) => {
-        Swal.fire({
-          title: "Error",
-          text: error.response?.data?.message || "Error al registrar",
-          icon: "error",
-          showConfirmButton: false,
-        });
-      });
   };
 
   const resetPassword = (data) => {
@@ -340,7 +303,7 @@ const AuthState = (props) => {
         iniciarSesion,
         usuarioAutenticado,
         cerrarSesion,
-        registerUser,
+        // registerUser,
         ChangePasswordUser,
         ChangePhoto,
         resetPassword,

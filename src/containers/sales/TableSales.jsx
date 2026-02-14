@@ -81,7 +81,7 @@ const SalesTable = ({
           onChange={(e) => setFilters({ ...filters, search: e.target.value })}
           sx={{ minWidth: 400 }}
         />
-        {usuario.type_user_id === 1 && (
+        {usuario.type_user === "admin" && (
           <FormControl sx={{ minWidth: 250 }}>
             <InputLabel>Sucursal</InputLabel>
             <Select

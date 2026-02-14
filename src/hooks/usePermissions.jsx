@@ -40,7 +40,7 @@ const menuPermissions = {
 };
 
 export const usePermissions = (moduleKey) => {
-  const userData = JSON.parse(localStorage.getItem("type_user_id")) || {};
+  const userData = JSON.parse(localStorage.getItem("type_user")) || {};
   const type_user = userData; // por defecto vendedor
 
   const moduleConfig = menuPermissions[moduleKey];

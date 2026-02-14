@@ -9,16 +9,17 @@ import SectionInfoPzas from "../../components/home/SectionInfoPzas";
 
 const Dashboard = () => {
   const { usuario } = useContext(AuthContext);
+  console.log(usuario);
 
   return (
     <>
       <Layout>
         <CardWelcome
           name={usuario ? usuario.name : ""}
-          type_user={usuario ? usuario.type_user_id : ""}
+          type_user={usuario ? usuario.role : ""}
         />
         <SalesInfo />
-        <Grid container spacing={2} sx={{ mt: 5 }}>
+        {/* <Grid container spacing={2} sx={{ mt: 5 }}>
           <Grid size={12}>
             <Divider sx={{ backgroundColor: "white", height: 2 }} />
             <Chip
@@ -47,7 +48,7 @@ const Dashboard = () => {
             <Divider />
           </Grid>
           <SectionInfoPzas />
-        </Grid>
+        </Grid> */}
       </Layout>
     </>
   );

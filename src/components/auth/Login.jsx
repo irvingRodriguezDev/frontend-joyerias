@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import AuthContext from "../../Context/Auth/AuthContext";
-
+import logo from "../../assets/img/LOGO EXPERIENCIAS MEXICO VECTOR.png";
 // Esquema de validación
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
@@ -38,14 +38,15 @@ const Login = () => {
       <Box
         sx={{
           width: { xs: "100%", md: "50%" },
-          border: "2px solid #3979CB",
+          border: "2px solid #adc138",
           padding: 2,
           borderRadius: 4,
         }}
       >
         <Paper sx={{ padding: 2, borderRadius: 4 }}>
+          <img src={logo} width={150} height={120} />
           <Typography
-            sx={{ color: "#06121E", fontWeight: "bold" }}
+            sx={{ color: "#266398", fontWeight: "bold" }}
             variant='h2'
           >
             Iniciar Sesión

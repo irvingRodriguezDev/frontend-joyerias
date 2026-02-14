@@ -8,7 +8,7 @@ export default (state, action) => {
         ...state,
         autenticado: true,
         cargando: false,
-        usuario: action.payload.client,
+        usuario: action.payload.user,
         token: action.payload.token, // Mantener el token en el estado
       };
     case types.LOGIN_EXITOSO:

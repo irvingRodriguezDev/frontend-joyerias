@@ -7,39 +7,11 @@ import { PrivateRoute } from "./PrivateRoute";
 import AuthContext from "../Context/Auth/AuthContext";
 import { useContext, useEffect } from "react";
 import { Box, Grid } from "@mui/material";
-import Branches from "../containers/branches/Branches";
-import Products from "../containers/products/Products";
-import Users from "../containers/users/Users";
-import Clients from "../containers/clients/Clients";
-import Sales from "../containers/sales/Sales";
-import Reports from "../containers/reports/Reports";
-import AddUser from "../containers/users/AddUser";
-import AddBranch from "../containers/branches/AddBranch";
-import Categories from "../containers/Categories/Categories";
-import Lines from "../containers/Lines/Lines";
-import AddCategory from "../containers/Categories/AddCategory";
-import BusinessRules from "../containers/BusinessRules/BusinessRules";
-import AddBusinessRule from "../containers/BusinessRules/AddBusinessRule";
-import AddLines from "../containers/Lines/AddLines";
-import AddProducts from "../containers/products/AddProducts";
-import AddClients from "../containers/clients/AddClients";
-import AddSale from "../containers/sales/AddSale";
-import SaleDetails from "../containers/sales/SaleDetails";
-import ProductsByBranch from "../containers/products/Branch/ProductsByBranch";
-import ShowProducts from "../containers/products/ShowProducts";
-import LoadingSpinner from "../components/Loading/Spinner";
-import Transfers from "../containers/transfers/Transfers";
-import Departures from "../containers/Departures/Departures";
-import AddDeparture from "../containers/Departures/AddDeparture";
-import ShowDeparture from "../containers/Departures/ShowDeparture";
+import Tours from "../containers/Tours/Tours";
 import ResetPassword from "../components/auth/ResetPassword";
-import SelectBranches from "../containers/branches/SelectBranches";
-import SalesBranch from "../containers/sales/Branches/SalesBranch";
-import AddSaleBranch from "../containers/sales/Branches/AddSaleBranch";
-import AddTransfer from "../containers/transfers/AddTransfer";
-import SelectBranchesTransfer from "../containers/transfers/Admin/SelectBranchesTransfer";
-import TransferAdmin from "../containers/transfers/Admin/TransferAdmin";
-import AddTransferAdmin from "../containers/transfers/Admin/AddTransferAdmin";
+import LoadingSpinner from "../components/Loading/Spinner";
+import CreateTour from "../containers/Tours/CreateTours";
+import EditTour from "../containers/Tours/EditTour";
 
 function AppRouter({ isAuthenticated }) {
   const { autenticado, usuarioAutenticado, cargando } = useContext(AuthContext);
@@ -66,60 +38,9 @@ function AppRouter({ isAuthenticated }) {
       {/* Rutas privadas */}
       <Route element={<PrivateRoute isAuthenticated={autenticado} />}>
         <Route path='/dashboard' element={<Dashboard />} />
-        {/***Sucursales */}
-        <Route path='/sucursales' element={<Branches />} />
-        <Route path='/crear-sucursal' element={<AddBranch />} />
-
-        {/**Reglas de negocio */}
-        <Route path='/reglas-negocio' element={<BusinessRules />} />
-        <Route path='/agregar-regla' element={<AddBusinessRule />} />
-
-        {/**Categorias */}
-        <Route path='/categorias' element={<Categories />} />
-        <Route path='/crear-categoria' element={<AddCategory />} />
-
-        {/**Lineas */}
-        <Route path='/lineas' element={<Lines />} />
-        <Route path='/crear-linea' element={<AddLines />} />
-        {/**Productos */}
-        <Route path='/productos' element={<Products />} />
-        <Route path='/crear-producto' element={<AddProducts />} />
-        <Route path='/productos-sucursal/:id' element={<ProductsByBranch />} />
-        <Route path='/detalle-producto/:id' element={<ShowProducts />} />
-        {/**Traspasos */}
-        <Route path='/traspasos' element={<Transfers />} />
-        <Route path='/traspasos/sucursal/:id' element={<TransferAdmin />} />
-        <Route
-          path='/traspasos/crear/sucursal/:id'
-          element={<AddTransferAdmin />}
-        />
-        <Route
-          path='/traspasos/seleccionar-sucursal'
-          element={<SelectBranchesTransfer />}
-        />
-        <Route path='/crear-traspaso' element={<AddTransfer />} />
-        {/**Salidas */}
-        <Route path='/salidas' element={<Departures />} />
-        <Route path='/crear-salida' element={<AddDeparture />} />
-        <Route path='/detalle-salida/:id' element={<ShowDeparture />} />
-        {/**Usuarios */}
-        <Route path='/usuarios' element={<Users />} />
-        <Route path='/crear-usuario' element={<AddUser />} />
-        {/**Clients */}
-        <Route path='/clientes' element={<Clients />} />
-        <Route path='/crear-cliente' element={<AddClients />} />
-        {/**Ventas */}
-        <Route
-          path='/ventas/seleccionar-sucursal'
-          element={<SelectBranches />}
-        />
-        <Route path='/nueva-venta-sucursal/:id' element={<AddSaleBranch />} />
-        <Route path={`/ventas-sucursal/:id`} element={<SalesBranch />} />
-        <Route path='/ventas' element={<Sales />} />
-        <Route path='/detalle-venta/:id' element={<SaleDetails />} />
-
-        <Route path='/crear-venta' element={<AddSale />} />
-        <Route path='/reportes' element={<Reports />} />
+        <Route path='/tours' element={<Tours />} />
+        <Route path='/registrar-tour' element={<CreateTour />} />
+        <Route path='/tour/:id/edit' element={<EditTour />} />
       </Route>
 
       {/* Ruta por defecto */}

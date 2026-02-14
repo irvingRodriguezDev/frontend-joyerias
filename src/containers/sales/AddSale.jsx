@@ -140,7 +140,7 @@ const AddSale = () => {
         <Grid size={8}>
           <Paper sx={{ padding: "20px", borderRadius: "10px" }}>
             <Grid container spacing={2}>
-              {usuario.type_user_id === 1 && (
+              {usuario.type_user === "admin" && (
                 <Grid size={12}>
                   <BranchesSelect
                     detectarCambiosBranch={detectarCambiosBranch}
