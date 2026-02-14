@@ -10,9 +10,8 @@ import {
 } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
 import Layout from "../../components/Layout/Layout";
-
+import MethodGet, { MethodPut } from "../../config/Service";
 const STATUS_OPTIONS = [
   { value: "draft", label: "Borrador" },
   { value: "published", label: "Publicado" },
@@ -21,6 +20,7 @@ const STATUS_OPTIONS = [
 
 export default function EditTour() {
   const { id } = useParams();
+
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
 
@@ -48,9 +48,7 @@ export default function EditTour() {
   useEffect(() => {
     const fetchTour = async () => {
       try {
-        const { data } = await axios.get(
-          `${import.meta.env.VITE_API_URL}/tours/${id}`
-        );
+        const { data } = await MethodGet(`/tours/${id}`);
 
         reset({
           ...data,
@@ -75,8 +73,8 @@ export default function EditTour() {
     };
 
     try {
-      await axios.put(`${import.meta.env.VITE_API_URL}/tours/${id}`, payload);
-      navigate("/admin/tours");
+      await MethodPut(`/tours/${id}`, payload);
+      navigate("/tours");
     } catch (error) {
       console.error("Error al actualizar el tour", error);
     }

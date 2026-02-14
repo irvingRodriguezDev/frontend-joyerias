@@ -12,6 +12,7 @@ import ResetPassword from "../components/auth/ResetPassword";
 import LoadingSpinner from "../components/Loading/Spinner";
 import CreateTour from "../containers/Tours/CreateTours";
 import EditTour from "../containers/Tours/EditTour";
+import TourMediaForm from "../containers/Tours/TourMediaForm";
 
 function AppRouter({ isAuthenticated }) {
   const { autenticado, usuarioAutenticado, cargando } = useContext(AuthContext);
@@ -41,6 +42,7 @@ function AppRouter({ isAuthenticated }) {
         <Route path='/tours' element={<Tours />} />
         <Route path='/registrar-tour' element={<CreateTour />} />
         <Route path='/tour/:id/edit' element={<EditTour />} />
+        <Route path='/tour/:id/media' element={<TourMediaForm />} />
       </Route>
 
       {/* Ruta por defecto */}

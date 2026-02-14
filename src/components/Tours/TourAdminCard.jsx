@@ -11,7 +11,7 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Link } from "react-router-dom";
-
+import FilterIcon from "@mui/icons-material/Filter";
 const statusColor = {
   draft: "default",
   published: "success",
@@ -86,6 +86,11 @@ export default function TourAdminCard({ tour, onView }) {
           >
             Ver
           </Button>
+          <Link to={`/tour/${tour.id}/media`}>
+            <Button size='small' startIcon={<FilterIcon />}>
+              Multimedia
+            </Button>
+          </Link>
           <Link to={`/tour/${tour.id}/edit`}>
             <Button size='small' startIcon={<EditIcon />}>
               Editar
