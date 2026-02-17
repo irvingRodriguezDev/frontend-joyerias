@@ -7,11 +7,20 @@ import {
   Button,
   Box,
   Stack,
+  Divider,
+  IconButton,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { Link } from "react-router-dom";
 import FilterIcon from "@mui/icons-material/Filter";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import ScheduleIcon from "@mui/icons-material/Schedule";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import CategoryIcon from "@mui/icons-material/Category";
+import { Link } from "react-router-dom";
+import TourShowModal from "./TourShowModal";
+import { useState } from "react";
+
 const statusColor = {
   draft: "default",
   published: "success",
@@ -19,85 +28,124 @@ const statusColor = {
 };
 
 export default function TourAdminCard({ tour, onView }) {
+  const [selectedTour, setSelectedTour] = useState(null);
   return (
     <Card
       sx={{
-        borderRadius: "14px",
         height: "100%",
         display: "flex",
         flexDirection: "column",
+        borderRadius: 3,
+        transition: "all .25s ease",
+        border: "1px solid",
+        borderColor: "divider",
+        "&:hover": {
+          transform: "translateY(-4px)",
+          boxShadow: 6,
+        },
       }}
     >
-      <CardContent sx={{ flexGrow: 1 }}>
-        {/* Título */}
-        <Typography variant='h6' fontWeight='bold' gutterBottom>
-          {tour.title}
-        </Typography>
+      <CardContent sx={{ flexGrow: 1, pb: 2 }}>
+        {/* Header */}
+        <Stack
+          direction='row'
+          justifyContent='space-between'
+          alignItems='flex-start'
+          mb={1}
+        >
+          <Typography variant='h6' fontWeight={600}>
+            {tour.title}
+          </Typography>
 
-        {/* Descripción corta */}
-        <Typography variant='body2' color='text.secondary' mb={2}>
+          <Chip
+            label={tour.status}
+            color={statusColor[tour.status] || "default"}
+            size='small'
+            sx={{ textTransform: "capitalize" }}
+          />
+        </Stack>
+
+        {/* Descripción */}
+        <Typography
+          variant='body2'
+          color='text.secondary'
+          sx={{
+            mb: 2,
+            display: "-webkit-box",
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+          }}
+        >
           {tour.short_description}
         </Typography>
 
-        {/* Info principal */}
-        <Stack spacing={1} mb={2}>
-          <Typography variant='body2'>
-            <strong>Ubicación:</strong> {tour.location}
-          </Typography>
-          <Typography variant='body2'>
-            <strong>Duración:</strong> {tour.duration}
-          </Typography>
-          <Typography variant='body2'>
-            <strong>Precio:</strong> ${tour.price}
-          </Typography>
-          <Typography variant='body2'>
-            <strong>Categoría:</strong> {tour.category}
-          </Typography>
+        {/* Info */}
+        <Stack spacing={1.2} mb={2}>
+          <InfoRow icon={<LocationOnIcon />} text={tour.location} />
+          <InfoRow icon={<ScheduleIcon />} text={tour.duration} />
+          <InfoRow icon={<AttachMoneyIcon />} text={`$${tour.price}`} />
+          <InfoRow icon={<CategoryIcon />} text={tour.category} />
         </Stack>
 
         {/* Tags */}
-        <Box sx={{ display: "flex", gap: 0.5, flexWrap: "wrap" }}>
-          {tour.tags?.map((tag, index) => (
-            <Chip key={index} label={tag} size='small' />
-          ))}
-        </Box>
+        {tour.tags?.length > 0 && (
+          <Box sx={{ display: "flex", gap: 0.5, flexWrap: "wrap" }}>
+            {tour.tags.map((tag, index) => (
+              <Chip key={index} label={tag} size='small' variant='outlined' />
+            ))}
+          </Box>
+        )}
       </CardContent>
 
+      <Divider />
+
+      {/* Acciones */}
       <CardActions
         sx={{
-          justifyContent: "space-between",
           px: 2,
-          pb: 2,
+          py: 1.5,
+          justifyContent: "space-between",
         }}
       >
-        {/* Status */}
-        <Chip
-          label={tour.status}
-          color={statusColor[tour.status] || "default"}
+        <Button
           size='small'
-        />
+          startIcon={<VisibilityIcon />}
+          onClick={() => setSelectedTour(tour)}
+        >
+          Ver
+        </Button>
 
-        {/* Acciones */}
-        <Box>
-          <Button
+        <Stack direction='row' spacing={0.5}>
+          <IconButton
             size='small'
-            startIcon={<VisibilityIcon />}
-            onClick={() => onView(tour)}
+            component={Link}
+            to={`/tour/${tour.id}/media`}
           >
-            Ver
-          </Button>
-          <Link to={`/tour/${tour.id}/media`}>
-            <Button size='small' startIcon={<FilterIcon />}>
-              Multimedia
-            </Button>
-          </Link>
-          <Link to={`/tour/${tour.id}/edit`}>
-            <Button size='small' startIcon={<EditIcon />}>
-              Editar
-            </Button>
-          </Link>
-        </Box>
+            <FilterIcon fontSize='small' />
+          </IconButton>
+
+          <IconButton
+            size='small'
+            component={Link}
+            to={`/tour/${tour.id}/edit`}
+          >
+            <EditIcon fontSize='small' />
+          </IconButton>
+        </Stack>
       </CardActions>
+      <TourShowModal
+        open={Boolean(selectedTour)}
+        onClose={() => setSelectedTour(null)}
+        tour={selectedTour}
+      />
     </Card>
   );
 }
+
+const InfoRow = ({ icon, text }) => (
+  <Stack direction='row' spacing={1} alignItems='center'>
+    <Box sx={{ color: "text.secondary", display: "flex" }}>{icon}</Box>
+    <Typography variant='body2'>{text}</Typography>
+  </Stack>
+);
