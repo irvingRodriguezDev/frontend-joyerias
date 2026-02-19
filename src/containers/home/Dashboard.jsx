@@ -2,14 +2,10 @@ import React, { useContext, useEffect } from "react";
 import Layout from "../../components/Layout/Layout";
 import CardWelcome from "../../components/home/CardWelcome";
 import AuthContext from "../../Context/Auth/AuthContext";
-import SalesInfo from "./SalesInfo/SalesInfo";
-import { Box, Chip, Divider, Grid, Paper, Typography } from "@mui/material";
-import SectionInfoGrs from "../../components/home/SectionInfoGrs";
-import SectionInfoPzas from "../../components/home/SectionInfoPzas";
+import Tours from "../Tours/Tours";
 
 const Dashboard = () => {
   const { usuario } = useContext(AuthContext);
-  console.log(usuario);
 
   return (
     <>
@@ -18,7 +14,7 @@ const Dashboard = () => {
           name={usuario ? usuario.name : ""}
           type_user={usuario ? usuario.role : ""}
         />
-        <SalesInfo />
+        <Tours />
         {/* <Grid container spacing={2} sx={{ mt: 5 }}>
           <Grid size={12}>
             <Divider sx={{ backgroundColor: "white", height: 2 }} />

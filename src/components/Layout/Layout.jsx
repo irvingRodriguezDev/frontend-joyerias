@@ -12,7 +12,7 @@ const Layout = ({ children }) => {
   return (
     <Box sx={{ display: "flex", minHeight: "100vh" }}>
       <Header onMenuClick={handleMenuClick} />
-      <Aside open={open} onClose={handleClose} />
+      {/* <Aside open={open} onClose={handleClose} /> */}
 
       {/* El contenido principal */}
       <Box component='main' sx={{ flexGrow: 1, p: 3 }}>

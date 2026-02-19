@@ -1,5 +1,12 @@
 import React from "react";
-import { AppBar, Toolbar, IconButton, Typography, Box } from "@mui/material";
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Box,
+  Button,
+} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Logo from "../../assets/img/LOGO EXPERIENCIAS MEXICO VECTOR.png";
 const Header = ({ onMenuClick }) => {
@@ -16,7 +23,7 @@ const Header = ({ onMenuClick }) => {
       }}
     >
       <Toolbar>
-        <IconButton
+        {/* <IconButton
           edge='start'
           color='inherit'
           aria-label='menu'
@@ -24,12 +31,12 @@ const Header = ({ onMenuClick }) => {
           sx={{ mr: 2 }}
         >
           <MenuIcon />
-        </IconButton>
+        </IconButton> */}
         <Typography variant='h6' noWrap component='div'>
           <img src={Logo} width={100} height={80} />
         </Typography>
         <Box sx={{ flexGrow: 1 }} />
-        {/* Aquí podrías poner avatar de usuario, notificaciones, etc */}
+        <Button variant='contained'>Cerrar Sesión</Button>
       </Toolbar>
     </AppBar>
   );
