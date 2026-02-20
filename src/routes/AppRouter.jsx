@@ -1,6 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "../components/auth/Login";
-import Register from "../components/auth/Register";
 import Dashboard from "../containers/home/Dashboard";
 import { PublicRoute } from "./PublicRoute";
 import { PrivateRoute } from "./PrivateRoute";
@@ -32,7 +31,6 @@ function AppRouter({ isAuthenticated }) {
       {/* Rutas públicas */}
       <Route element={<PublicRoute isAuthenticated={autenticado} />}>
         <Route path='/iniciar-sesion' element={<Login />} />
-        <Route path='/registro' element={<Register />} />
         <Route path='/recuperar-contraseña' element={<ResetPassword />} />
       </Route>
 

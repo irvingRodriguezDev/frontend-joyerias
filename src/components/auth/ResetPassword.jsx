@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import AuthContext from "../../Context/Auth/AuthContext";
+import logo from "../../assets/img/LOGO EXPERIENCIAS MEXICO VECTOR.png";
 
 // Esquema de validación
 const ResetPasswordSchema = Yup.object().shape({
@@ -47,6 +48,7 @@ const ResetPassword = () => {
         }}
       >
         <Paper sx={{ padding: 2, borderRadius: 4 }}>
+          <img src={logo} width={150} height={120} />
           <Typography
             sx={{ color: "#06121E", fontWeight: "bold" }}
             variant='h2'

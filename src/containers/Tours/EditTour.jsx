@@ -12,10 +12,32 @@ import { useForm, Controller } from "react-hook-form";
 import { useParams, useNavigate } from "react-router-dom";
 import Layout from "../../components/Layout/Layout";
 import MethodGet, { MethodPut } from "../../config/Service";
+import ReactQuill from "react-quill-new";
+import "react-quill-new/dist/quill.snow.css";
+import Swal from "sweetalert2";
+const quillModules = {
+  toolbar: [
+    [{ header: [1, 2, 3, false] }],
+    ["bold", "italic", "underline", "strike"],
+    [{ list: "ordered" }, { list: "bullet" }],
+    ["link"],
+    ["clean"],
+  ],
+};
+
+const quillFormats = [
+  "header",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "list",
+  "bullet",
+  "link",
+];
 const STATUS_OPTIONS = [
-  { value: "draft", label: "Borrador" },
-  { value: "published", label: "Publicado" },
-  { value: "archived", label: "Archivado" },
+  { value: "Borrador", label: "Borrador" },
+  { value: "Publicado", label: "Publicado" },
 ];
 
 export default function EditTour() {
@@ -72,21 +94,39 @@ export default function EditTour() {
       tags: formData.tags.split(",").map((tag) => tag.trim()),
     };
 
+    Swal.fire({
+      title: "Actualizando tour...",
+      text: "Por favor espera",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
     try {
       await MethodPut(`/tours/${id}`, payload);
-      navigate("/tours");
+
+      Swal.fire({
+        icon: "success",
+        title: "Tour actualizado",
+        text: "Los cambios se guardaron correctamente",
+        timer: 1800,
+        showConfirmButton: false,
+      });
+
+      setTimeout(() => {
+        navigate("/");
+      }, 1800);
     } catch (error) {
       console.error("Error al actualizar el tour", error);
+
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No se pudo actualizar el tour",
+      });
     }
   };
-
-  if (loading) {
-    return (
-      <Grid container justifyContent='center' mt={5}>
-        <CircularProgress />
-      </Grid>
-    );
-  }
 
   return (
     <Layout>
@@ -141,20 +181,30 @@ export default function EditTour() {
                     control={control}
                     rules={{ required: "La descripción es obligatoria" }}
                     render={({ field }) => (
-                      <TextField
-                        {...field}
-                        label='Descripción completa'
-                        multiline
-                        rows={4}
-                        fullWidth
-                        error={!!errors.description}
-                        helperText={errors.description?.message}
-                      />
+                      <>
+                        <Typography variant='subtitle2' mb={1}>
+                          Descripción larga
+                        </Typography>
+
+                        <ReactQuill
+                          theme='snow'
+                          value={field.value || ""}
+                          onChange={field.onChange}
+                          placeholder='Describe la experiencia del tour...'
+                          style={{ minHeight: 180 }}
+                        />
+
+                        {errors.description_long && (
+                          <Typography color='error' variant='caption'>
+                            {errors.description_long.message}
+                          </Typography>
+                        )}
+                      </>
                     )}
                   />
                 </Grid>
 
-                <Grid size={{ xs: 12, md: 4 }}>
+                <Grid size={{ xs: 12, md: 6 }}>
                   <Controller
                     name='price'
                     control={control}
@@ -172,7 +222,7 @@ export default function EditTour() {
                   />
                 </Grid>
 
-                <Grid size={{ xs: 12, md: 4 }}>
+                <Grid size={{ xs: 12, md: 6 }}>
                   <Controller
                     name='duration'
                     control={control}
@@ -189,19 +239,30 @@ export default function EditTour() {
                   />
                 </Grid>
 
-                <Grid size={{ xs: 12, md: 4 }}>
+                <Grid size={{ xs: 12 }}>
                   <Controller
                     name='location'
                     control={control}
                     rules={{ required: "La ubicación es obligatoria" }}
                     render={({ field }) => (
-                      <TextField
-                        {...field}
-                        label='Ubicación'
-                        fullWidth
-                        error={!!errors.location}
-                        helperText={errors.location?.message}
-                      />
+                      <>
+                        <Typography variant='subtitle2' mb={1}>
+                          Ubicación
+                        </Typography>
+
+                        <ReactQuill
+                          theme='snow'
+                          value={field.value || ""}
+                          onChange={field.onChange}
+                          placeholder='Trosten, Noruega'
+                        />
+
+                        {errors.location && (
+                          <Typography color='error' variant='caption'>
+                            {errors.location.message}
+                          </Typography>
+                        )}
+                      </>
                     )}
                   />
                 </Grid>

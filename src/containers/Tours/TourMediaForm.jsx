@@ -19,7 +19,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Layout from "../../components/Layout/Layout";
 import clienteAxios from "../../config/Axios";
-
+import Swal from "sweetalert2";
 const MAX_FILES = 4;
 
 export default function TourMediaForm() {
@@ -76,6 +76,17 @@ export default function TourMediaForm() {
 
     setLoading(true);
 
+    // 🔄 Spinner de carga
+    Swal.fire({
+      title: "Subiendo imágenes",
+      text: "Por favor espera...",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
     try {
       const formData = new FormData();
 
@@ -89,12 +100,25 @@ export default function TourMediaForm() {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      alert("Imágenes subidas correctamente");
-      setFiles([]);
-      setCoverIndex(0);
+      // ✅ Éxito
+      Swal.fire({
+        icon: "success",
+        title: "Imágenes subidas",
+        text: "La multimedia del tour se guardó correctamente",
+        confirmButtonText: "Continuar",
+      }).then(() => {
+        navigate("/");
+      });
     } catch (error) {
       console.error(error);
-      alert("Error al subir imágenes");
+
+      Swal.fire({
+        icon: "error",
+        title: "Error al subir imágenes",
+        text:
+          error?.response?.data?.msg ||
+          "Ocurrió un error al subir las imágenes",
+      });
     } finally {
       setLoading(false);
     }

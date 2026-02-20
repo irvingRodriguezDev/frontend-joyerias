@@ -20,6 +20,7 @@ import CategoryIcon from "@mui/icons-material/Category";
 import { Link } from "react-router-dom";
 import TourShowModal from "./TourShowModal";
 import { useState } from "react";
+import TagIcon from "../icons/TagIcon";
 
 const statusColor = {
   draft: "default",
@@ -82,7 +83,6 @@ export default function TourAdminCard({ tour, onView }) {
 
         {/* Info */}
         <Stack spacing={1.2} mb={2}>
-          <InfoRow icon={<LocationOnIcon />} text={tour.location} />
           <InfoRow icon={<ScheduleIcon />} text={tour.duration} />
           <InfoRow icon={<AttachMoneyIcon />} text={`$${tour.price}`} />
           <InfoRow icon={<CategoryIcon />} text={tour.category} />
@@ -92,7 +92,19 @@ export default function TourAdminCard({ tour, onView }) {
         {tour.tags?.length > 0 && (
           <Box sx={{ display: "flex", gap: 0.5, flexWrap: "wrap" }}>
             {tour.tags.map((tag, index) => (
-              <Chip key={index} label={tag} size='small' variant='outlined' />
+              <Chip
+                key={index}
+                size='small'
+                variant='outlined'
+                label={
+                  <span
+                    style={{ display: "flex", alignItems: "center", gap: 6 }}
+                  >
+                    <TagIcon width={19} />
+                    {tag}
+                  </span>
+                }
+              />
             ))}
           </Box>
         )}

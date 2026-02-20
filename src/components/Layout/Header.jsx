@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   AppBar,
   Toolbar,
@@ -9,7 +9,9 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Logo from "../../assets/img/LOGO EXPERIENCIAS MEXICO VECTOR.png";
+import AuthContext from "../../Context/Auth/AuthContext";
 const Header = ({ onMenuClick }) => {
+  const { cerrarSesion } = useContext(AuthContext);
   return (
     <AppBar
       position='fixed'
@@ -36,7 +38,9 @@ const Header = ({ onMenuClick }) => {
           <img src={Logo} width={100} height={80} />
         </Typography>
         <Box sx={{ flexGrow: 1 }} />
-        <Button variant='contained'>Cerrar Sesión</Button>
+        <Button variant='contained' onClick={() => cerrarSesion()}>
+          Cerrar Sesión
+        </Button>
       </Toolbar>
     </AppBar>
   );

@@ -88,7 +88,7 @@ const AuthState = (props) => {
   };
 
   const resetPassword = (data) => {
-    let url = "/auth/reset-password";
+    let url = "/auth/update-password";
     MethodPost(url, data)
       .then((res) => {
         Swal.fire({

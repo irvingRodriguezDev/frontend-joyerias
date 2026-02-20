@@ -16,7 +16,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import ScheduleIcon from "@mui/icons-material/Schedule";
 import CategoryIcon from "@mui/icons-material/Category";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
-
+import TagIcon from "../icons/TagIcon";
 const statusColor = {
   draft: "default",
   published: "success",
@@ -144,6 +144,7 @@ export default function TourShowModal({ open, onClose, tour }) {
             icon={<LocationOnIcon />}
             label='Ubicación'
             value={tour.location}
+            isHtml
           />
           <InfoRow
             icon={<ScheduleIcon />}
@@ -165,14 +166,14 @@ export default function TourShowModal({ open, onClose, tour }) {
             <Typography variant='subtitle1' fontWeight={700} mb={1}>
               Descripción
             </Typography>
-            <Typography
-              variant='body2'
-              color='text.secondary'
-              sx={{ lineHeight: 1.7 }}
-              mb={4}
-            >
-              {tour.description}
-            </Typography>
+            <Box
+              sx={{
+                color: "text.secondary",
+                lineHeight: 1.7,
+                mb: 4,
+              }}
+              dangerouslySetInnerHTML={{ __html: tour.description }}
+            />
           </>
         )}
 
@@ -191,7 +192,19 @@ export default function TourShowModal({ open, onClose, tour }) {
               }}
             >
               {tour.tags.map((tag, index) => (
-                <Chip key={index} label={tag} size='small' variant='outlined' />
+                <Chip
+                  key={index}
+                  size='small'
+                  variant='outlined'
+                  label={
+                    <span
+                      style={{ display: "flex", alignItems: "center", gap: 6 }}
+                    >
+                      <TagIcon width={19} />
+                      {tag}
+                    </span>
+                  }
+                />
               ))}
             </Box>
           </>
@@ -228,8 +241,8 @@ export default function TourShowModal({ open, onClose, tour }) {
 /* Subcomponent */
 /* ========================= */
 
-const InfoRow = ({ icon, label, value }) => (
-  <Stack direction='row' spacing={2} alignItems='center'>
+const InfoRow = ({ icon, label, value, isHtml = false }) => (
+  <Stack direction='row' spacing={2} alignItems='flex-start'>
     <Box
       sx={{
         width: 36,
@@ -240,13 +253,27 @@ const InfoRow = ({ icon, label, value }) => (
         alignItems: "center",
         justifyContent: "center",
         color: "text.secondary",
+        mt: "2px",
       }}
     >
       {icon}
     </Box>
 
-    <Typography variant='body2'>
-      <strong>{label}:</strong> {value}
-    </Typography>
+    <Box>
+      <Typography variant='body2' fontWeight={600} mb={0.3}>
+        {label}
+      </Typography>
+
+      {isHtml ? (
+        <Box
+          sx={{ color: "text.secondary", lineHeight: 1.6 }}
+          dangerouslySetInnerHTML={{ __html: value }}
+        />
+      ) : (
+        <Typography variant='body2' color='text.secondary'>
+          {value}
+        </Typography>
+      )}
+    </Box>
   </Stack>
 );

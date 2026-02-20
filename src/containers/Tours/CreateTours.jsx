@@ -8,14 +8,34 @@ import {
 } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import Layout from "../../components/Layout/Layout";
-
+import ReactQuill from "react-quill-new";
+import "react-quill-new/dist/quill.snow.css";
 const STATUS_OPTIONS = [
-  { value: "draft", label: "Borrador" },
-  { value: "published", label: "Publicado" },
-  { value: "archived", label: "Archivado" },
+  { value: "Borrador", label: "Borrador" },
+  { value: "Publicado", label: "Publicado" },
 ];
 import ToursContext from "../../Context/Tours/ToursContext";
 import { useContext } from "react";
+const quillModules = {
+  toolbar: [
+    [{ header: [1, 2, 3, false] }],
+    ["bold", "italic", "underline", "strike"],
+    [{ list: "ordered" }, { list: "bullet" }],
+    ["link"],
+    ["clean"],
+  ],
+};
+
+const quillFormats = [
+  "header",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "list",
+  "bullet",
+  "link",
+];
 export default function CreateTour() {
   const { storeTours } = useContext(ToursContext);
   const {
@@ -56,7 +76,7 @@ export default function CreateTour() {
             </Typography>
           </Grid>
 
-          <Grid size={{ xs: 12, md: 10 }}>
+          <Grid size={{ xs: 12, md: 10 }} sx={{ padding: "12px" }}>
             <Paper sx={{ padding: "20px", borderRadius: "12px" }}>
               <Grid container spacing={2}>
                 {/* Título */}
@@ -104,21 +124,38 @@ export default function CreateTour() {
                     control={control}
                     rules={{ required: "La descripción es obligatoria" }}
                     render={({ field }) => (
-                      <TextField
-                        {...field}
-                        label='Descripción completa'
-                        multiline
-                        rows={4}
-                        fullWidth
-                        error={!!errors.description}
-                        helperText={errors.description?.message}
-                      />
+                      <>
+                        <Typography
+                          variant='subtitle2'
+                          sx={{ mb: 1, fontWeight: "bold" }}
+                        >
+                          Descripción completa
+                        </Typography>
+
+                        <ReactQuill
+                          theme='snow'
+                          value={field.value}
+                          onChange={field.onChange}
+                          modules={quillModules}
+                          formats={quillFormats}
+                          style={{
+                            height: "200px",
+                            marginBottom: "40px",
+                          }}
+                        />
+
+                        {errors.description && (
+                          <Typography color='error' variant='caption'>
+                            {errors.description.message}
+                          </Typography>
+                        )}
+                      </>
                     )}
                   />
                 </Grid>
 
                 {/* Precio */}
-                <Grid size={{ xs: 12, md: 4 }}>
+                <Grid size={{ xs: 12, md: 6 }}>
                   <Controller
                     name='price'
                     control={control}
@@ -138,7 +175,7 @@ export default function CreateTour() {
                 </Grid>
 
                 {/* Duración */}
-                <Grid size={{ xs: 12, md: 4 }}>
+                <Grid size={{ xs: 12, md: 6 }}>
                   <Controller
                     name='duration'
                     control={control}
@@ -157,20 +194,38 @@ export default function CreateTour() {
                 </Grid>
 
                 {/* Ubicación */}
-                <Grid size={{ xs: 12, md: 4 }}>
+                <Grid size={{ xs: 12, md: 12 }}>
                   <Controller
                     name='location'
                     control={control}
                     rules={{ required: "La ubicación es obligatoria" }}
                     render={({ field }) => (
-                      <TextField
-                        {...field}
-                        label='Ubicación'
-                        placeholder='Trosten'
-                        fullWidth
-                        error={!!errors.location}
-                        helperText={errors.location?.message}
-                      />
+                      <>
+                        <Typography
+                          variant='subtitle2'
+                          sx={{ mb: 1, fontWeight: "bold" }}
+                        >
+                          Puntos de Abordar
+                        </Typography>
+
+                        <ReactQuill
+                          theme='snow'
+                          value={field.value || ""}
+                          onChange={field.onChange}
+                          modules={quillModules}
+                          formats={quillFormats}
+                          style={{
+                            height: "120px",
+                            marginBottom: "40px",
+                          }}
+                        />
+
+                        {errors.location && (
+                          <Typography color='error' variant='caption'>
+                            {errors.location.message}
+                          </Typography>
+                        )}
+                      </>
                     )}
                   />
                 </Grid>

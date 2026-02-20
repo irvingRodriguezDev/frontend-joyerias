@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "deploy": "aws s3 sync dist/ s3://joyas-puebla"
+    "deploy": "aws s3 sync dist/ s3://admin.experienciaspormexico.com.mx"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -24,6 +24,7 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-hook-form": "^7.63.0",
+    "react-quill-new": "^3.6.0",
     "react-router-dom": "^7.9.2",
     "react-select": "^5.10.2",
     "react-toastify": "^11.0.5",

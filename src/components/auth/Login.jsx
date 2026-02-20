@@ -121,16 +121,6 @@ const Login = () => {
                     Iniciar Sesión
                   </Button>
                 </FormControl>
-
-                <Divider sx={{ my: 2 }}>Aún no tienes cuenta?</Divider>
-
-                <FormControl fullWidth margin='normal'>
-                  <Link to='/registro' style={{ textDecoration: "none" }}>
-                    <Button variant='contained' color='primary'>
-                      Regístrate aquí
-                    </Button>
-                  </Link>
-                </FormControl>
               </Form>
             )}
           </Formik>
