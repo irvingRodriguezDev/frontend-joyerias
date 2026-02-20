@@ -53,7 +53,8 @@ export default function CreateTour() {
       category: "",
       tags: "",
       whatsapp_link: "",
-      status: "draft",
+      status: "Publicado",
+      date: "",
     },
   });
 
@@ -61,6 +62,7 @@ export default function CreateTour() {
     const payload = {
       ...data,
       price: Number(data.price),
+      date: new Date(data.date),
       tags: data.tags.split(",").map((tag) => tag.trim()),
     };
     storeTours(payload);
@@ -155,7 +157,27 @@ export default function CreateTour() {
                 </Grid>
 
                 {/* Precio */}
-                <Grid size={{ xs: 12, md: 6 }}>
+                <Grid size={{ xs: 12, md: 4 }}>
+                  <Controller
+                    name='date'
+                    control={control}
+                    rules={{ required: "La fecha es obligatoria" }}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        label='Fecha del tour'
+                        type='date'
+                        fullWidth
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        error={!!errors.date}
+                        helperText={errors.date?.message}
+                      />
+                    )}
+                  />
+                </Grid>
+                <Grid size={{ xs: 12, md: 4 }}>
                   <Controller
                     name='price'
                     control={control}
@@ -175,7 +197,7 @@ export default function CreateTour() {
                 </Grid>
 
                 {/* Duración */}
-                <Grid size={{ xs: 12, md: 6 }}>
+                <Grid size={{ xs: 12, md: 4 }}>
                   <Controller
                     name='duration'
                     control={control}

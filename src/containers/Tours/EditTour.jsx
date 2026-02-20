@@ -6,7 +6,6 @@ import {
   TextField,
   Button,
   MenuItem,
-  CircularProgress,
 } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import { useParams, useNavigate } from "react-router-dom";
@@ -15,6 +14,7 @@ import MethodGet, { MethodPut } from "../../config/Service";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import Swal from "sweetalert2";
+
 const quillModules = {
   toolbar: [
     [{ header: [1, 2, 3, false] }],
@@ -25,16 +25,6 @@ const quillModules = {
   ],
 };
 
-const quillFormats = [
-  "header",
-  "bold",
-  "italic",
-  "underline",
-  "strike",
-  "list",
-  "bullet",
-  "link",
-];
 const STATUS_OPTIONS = [
   { value: "Borrador", label: "Borrador" },
   { value: "Publicado", label: "Publicado" },
@@ -42,7 +32,6 @@ const STATUS_OPTIONS = [
 
 export default function EditTour() {
   const { id } = useParams();
-
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
 
@@ -62,7 +51,8 @@ export default function EditTour() {
       category: "",
       tags: "",
       whatsapp_link: "",
-      status: "draft",
+      status: "Borrador",
+      date: "", // 👈 NUEVO CAMPO
     },
   });
 
@@ -75,6 +65,9 @@ export default function EditTour() {
         reset({
           ...data,
           tags: data.tags?.join(", "),
+          date: data.date
+            ? new Date(data.date).toISOString().split("T")[0]
+            : "",
         });
       } catch (error) {
         console.error("Error al cargar el tour", error);
@@ -91,6 +84,7 @@ export default function EditTour() {
     const payload = {
       ...formData,
       price: Number(formData.price),
+      date: formData.date, // 👈 se envía como YYYY-MM-DD
       tags: formData.tags.split(",").map((tag) => tag.trim()),
     };
 
@@ -128,6 +122,14 @@ export default function EditTour() {
     }
   };
 
+  if (loading) {
+    return (
+      <Layout>
+        <Typography color='white'>Cargando tour...</Typography>
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -141,6 +143,7 @@ export default function EditTour() {
           <Grid size={{ xs: 12, md: 10 }}>
             <Paper sx={{ padding: "20px", borderRadius: "12px" }}>
               <Grid container spacing={2}>
+                {/* Título */}
                 <Grid size={12}>
                   <Controller
                     name='title'
@@ -158,6 +161,7 @@ export default function EditTour() {
                   />
                 </Grid>
 
+                {/* Descripción corta */}
                 <Grid size={12}>
                   <Controller
                     name='short_description'
@@ -175,6 +179,7 @@ export default function EditTour() {
                   />
                 </Grid>
 
+                {/* Descripción larga */}
                 <Grid size={12}>
                   <Controller
                     name='description'
@@ -190,13 +195,12 @@ export default function EditTour() {
                           theme='snow'
                           value={field.value || ""}
                           onChange={field.onChange}
-                          placeholder='Describe la experiencia del tour...'
                           style={{ minHeight: 180 }}
                         />
 
-                        {errors.description_long && (
+                        {errors.description && (
                           <Typography color='error' variant='caption'>
-                            {errors.description_long.message}
+                            {errors.description.message}
                           </Typography>
                         )}
                       </>
@@ -204,7 +208,8 @@ export default function EditTour() {
                   />
                 </Grid>
 
-                <Grid size={{ xs: 12, md: 6 }}>
+                {/* Precio */}
+                <Grid size={{ xs: 12, md: 4 }}>
                   <Controller
                     name='price'
                     control={control}
@@ -222,7 +227,8 @@ export default function EditTour() {
                   />
                 </Grid>
 
-                <Grid size={{ xs: 12, md: 6 }}>
+                {/* Duración */}
+                <Grid size={{ xs: 12, md: 4 }}>
                   <Controller
                     name='duration'
                     control={control}
@@ -239,7 +245,28 @@ export default function EditTour() {
                   />
                 </Grid>
 
-                <Grid size={{ xs: 12 }}>
+                {/* Fecha */}
+                <Grid size={{ xs: 12, md: 4 }}>
+                  <Controller
+                    name='date'
+                    control={control}
+                    rules={{ required: "La fecha es obligatoria" }}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        label='Fecha del tour'
+                        type='date'
+                        fullWidth
+                        InputLabelProps={{ shrink: true }}
+                        error={!!errors.date}
+                        helperText={errors.date?.message}
+                      />
+                    )}
+                  />
+                </Grid>
+
+                {/* Ubicación */}
+                <Grid size={12}>
                   <Controller
                     name='location'
                     control={control}
@@ -254,7 +281,6 @@ export default function EditTour() {
                           theme='snow'
                           value={field.value || ""}
                           onChange={field.onChange}
-                          placeholder='Trosten, Noruega'
                         />
 
                         {errors.location && (
@@ -267,6 +293,7 @@ export default function EditTour() {
                   />
                 </Grid>
 
+                {/* Categoría */}
                 <Grid size={{ xs: 12, md: 6 }}>
                   <Controller
                     name='category'
@@ -284,6 +311,7 @@ export default function EditTour() {
                   />
                 </Grid>
 
+                {/* Tags */}
                 <Grid size={{ xs: 12, md: 6 }}>
                   <Controller
                     name='tags'
@@ -301,6 +329,7 @@ export default function EditTour() {
                   />
                 </Grid>
 
+                {/* WhatsApp */}
                 <Grid size={{ xs: 12, md: 6 }}>
                   <Controller
                     name='whatsapp_link'
@@ -318,6 +347,7 @@ export default function EditTour() {
                   />
                 </Grid>
 
+                {/* Status */}
                 <Grid size={{ xs: 12, md: 6 }}>
                   <Controller
                     name='status'
@@ -334,6 +364,7 @@ export default function EditTour() {
                   />
                 </Grid>
 
+                {/* Botón */}
                 <Grid size={12}>
                   <Button
                     type='submit'
