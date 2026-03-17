@@ -15,7 +15,7 @@ import TourMediaForm from "../containers/Tours/TourMediaForm";
 import CategoryUnits from "../containers/CategoryUnits/CategoryUnits";
 import TypeUnits from "../containers/TypeUnits/TypeUnits";
 import Quotations from "../containers/Quotation/Quotations";
-
+import QuotationDetail from "../components/Qoutations/QuotationDetail/QuotationDetail";
 function AppRouter({ isAuthenticated }) {
   const { autenticado, usuarioAutenticado, cargando } = useContext(AuthContext);
 
@@ -47,6 +47,7 @@ function AppRouter({ isAuthenticated }) {
         <Route path='/categorias-unidades' element={<CategoryUnits />} />
         <Route path='/unidades' element={<TypeUnits />} />
         <Route path='/cotizaciones' element={<Quotations />} />
+        <Route path='/cotizaciones/:id' element={<QuotationDetail />} />
       </Route>
 
       {/* Ruta por defecto */}

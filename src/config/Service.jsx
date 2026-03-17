@@ -15,3 +15,6 @@ export async function MethodPut(url, data) {
 export async function MethodDelete(url) {
   return await clienteAxios.delete(url);
 }
+export async function MethodPatch(url, data) {
+  return await clienteAxios.patch(url, data);
+}
