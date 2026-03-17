@@ -1,112 +1,140 @@
-import React, { useContext } from "react";
+import React from "react";
 import {
+  Grid,
   Card,
-  CardActions,
   CardContent,
-  CardHeader,
-  IconButton,
-  Paper,
+  CardActions,
   Typography,
-  Divider,
-  Tooltip,
+  Chip,
+  IconButton,
   Box,
+  Tooltip,
 } from "@mui/material";
-import { motion } from "framer-motion";
-import EditIcon from "../icons/EditIcon";
-import DeleteIcon from "../icons/DeleteIcon";
-import CategoriesContext from "../../Context/Categories/CategoriesContext";
-const CategoryCard = ({ category }) => {
-  const { deleteCategory } = useContext(CategoriesContext);
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import CategoryIcon from "@mui/icons-material/Category";
+
+const CategoryCard = ({ category, onEdit, onDelete }) => {
   return (
-    <motion.div
-      whileHover={{ scale: 1.03 }}
-      transition={{ type: "spring", stiffness: 200, damping: 15 }}
+    <Card
+      sx={{
+        borderRadius: "16px",
+        boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
+        transition: "transform 0.2s, box-shadow 0.2s",
+        "&:hover": {
+          transform: "translateY(-4px)",
+          boxShadow: "0 8px 30px rgba(0,0,0,0.12)",
+        },
+      }}
     >
-      <Paper
-        elevation={3}
-        sx={{
-          borderRadius: "16px",
-          overflow: "hidden",
-          background: "linear-gradient(145deg, #f9f9f9 0%, #ffffff 100%)",
-        }}
-      >
-        <Card
-          sx={{
-            borderRadius: "16px",
-            boxShadow: "none",
-            p: 2,
-          }}
-        >
-          <CardHeader
-            titleTypographyProps={{
-              variant: "h6",
-              fontWeight: "bold",
-              color: "primary.main",
+      <CardContent>
+        {/* Ícono + nombre */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1.5 }}>
+          <Box
+            sx={{
+              backgroundColor: "rgba(38, 89, 139, 0.1)",
+              borderRadius: "10px",
+              p: 1,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
-            title={category.name}
-            subheader={
-              category.description
-                ? category.description
-                : "Sin descripción disponible"
-            }
-          />
-          <CardContent sx={{ pt: 0 }}>
-            <Divider sx={{ mb: 2 }} />
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-              {category.type_product_id && (
-                <Typography variant='body2'>
-                  <strong>Tipo de producto:</strong>{" "}
-                  {category.type_product_id === 1 ? "Piezas" : "Gramos"}
-                </Typography>
-              )}
-            </Box>
-          </CardContent>
+          >
+            <CategoryIcon
+              sx={{ color: "rgba(38, 89, 139, 0.8)", fontSize: 28 }}
+            />
+          </Box>
+          <Typography variant='h6' fontWeight={600} sx={{ color: "#1a1a2e" }}>
+            {category.name}
+          </Typography>
+        </Box>
 
-          <CardContent sx={{ pt: 0 }}>
-            <Divider sx={{ mb: 2 }} />
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-              {category.created_at && (
-                <Typography variant='body2' color='text.secondary'>
-                  <strong>Creado:</strong>{" "}
-                  {new Date(category.created_at).toLocaleDateString()}
-                </Typography>
-              )}
-            </Box>
-          </CardContent>
+        {/* Status */}
+        <Chip
+          label={category.isActive ? "Activa" : "Inactiva"}
+          size='small'
+          sx={{
+            backgroundColor: category.isActive
+              ? "rgba(46, 196, 134, 0.15)"
+              : "rgba(220, 53, 69, 0.15)",
+            color: category.isActive ? "#1a7a4a" : "#a71d2a",
+            fontWeight: 500,
+            borderRadius: "8px",
+          }}
+        />
 
-          <CardActions sx={{ justifyContent: "flex-end" }}>
-            <Tooltip title='Editar categoría' arrow>
-              <IconButton
-                sx={{
-                  color: "warning.main",
-                  "&:hover": {
-                    transform: "scale(1.1)",
-                    transition: "0.2s",
-                  },
-                }}
-              >
-                <EditIcon width={30} />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title='Eliminar categoría' arrow>
-              <IconButton
-                onClick={() => deleteCategory(category.id)}
-                sx={{
-                  color: "warning.main",
-                  "&:hover": {
-                    transform: "scale(1.1)",
-                    transition: "0.2s",
-                  },
-                }}
-              >
-                <DeleteIcon width={30} />
-              </IconButton>
-            </Tooltip>
-          </CardActions>
-        </Card>
-      </Paper>
-    </motion.div>
+        {/* Fecha de creación */}
+        <Typography
+          variant='caption'
+          sx={{ display: "block", mt: 1.5, color: "text.secondary" }}
+        >
+          Creada el{" "}
+          {new Date(category.createdAt).toLocaleDateString("es-MX", {
+            day: "2-digit",
+            month: "long",
+            year: "numeric",
+          })}
+        </Typography>
+      </CardContent>
+
+      <CardActions sx={{ justifyContent: "flex-end", px: 2, pb: 2 }}>
+        <Tooltip title='Editar'>
+          <IconButton
+            size='small'
+            onClick={() => onEdit(category)}
+            sx={{
+              color: "rgba(38, 89, 139, 0.8)",
+              "&:hover": { backgroundColor: "rgba(38, 89, 139, 0.1)" },
+            }}
+          >
+            <EditIcon fontSize='small' />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title='Eliminar'>
+          <IconButton
+            size='small'
+            onClick={() => onDelete(category)}
+            sx={{
+              color: "rgba(220, 53, 69, 0.8)",
+              "&:hover": { backgroundColor: "rgba(220, 53, 69, 0.1)" },
+            }}
+          >
+            <DeleteIcon fontSize='small' />
+          </IconButton>
+        </Tooltip>
+      </CardActions>
+    </Card>
   );
 };
 
-export default CategoryCard;
+const UnitTypeCategoryList = ({ categories = [], onEdit, onDelete }) => {
+  if (categories.length === 0) {
+    return (
+      <Box sx={{ textAlign: "center", mt: 6 }}>
+        <CategoryIcon sx={{ fontSize: 60, color: "text.disabled", mb: 2 }} />
+        <Typography variant='h6' color='text.secondary'>
+          No hay categorías registradas
+        </Typography>
+        <Typography variant='body2' color='text.disabled'>
+          Crea una nueva categoría para comenzar
+        </Typography>
+      </Box>
+    );
+  }
+
+  return (
+    <Grid container spacing={3}>
+      {categories.map((category) => (
+        <Grid item xs={12} sm={6} md={4} key={category.id}>
+          <CategoryCard
+            category={category}
+            onEdit={onEdit}
+            onDelete={onDelete}
+          />
+        </Grid>
+      ))}
+    </Grid>
+  );
+};
+
+export default UnitTypeCategoryList;

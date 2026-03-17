@@ -10,8 +10,10 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import Logo from "../../assets/img/LOGO EXPERIENCIAS MEXICO VECTOR.png";
 import AuthContext from "../../Context/Auth/AuthContext";
+
 const Header = ({ onMenuClick }) => {
   const { cerrarSesion } = useContext(AuthContext);
+
   return (
     <AppBar
       position='fixed'
@@ -25,7 +27,7 @@ const Header = ({ onMenuClick }) => {
       }}
     >
       <Toolbar>
-        {/* <IconButton
+        <IconButton
           edge='start'
           color='inherit'
           aria-label='menu'
@@ -33,12 +35,12 @@ const Header = ({ onMenuClick }) => {
           sx={{ mr: 2 }}
         >
           <MenuIcon />
-        </IconButton> */}
+        </IconButton>
         <Typography variant='h6' noWrap component='div'>
-          <img src={Logo} width={100} height={80} />
+          <img src={Logo} width={100} height={80} alt='Logo' />
         </Typography>
         <Box sx={{ flexGrow: 1 }} />
-        <Button variant='contained' onClick={() => cerrarSesion()}>
+        <Button variant='contained' onClick={cerrarSesion}>
           Cerrar Sesión
         </Button>
       </Toolbar>

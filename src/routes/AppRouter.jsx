@@ -12,6 +12,9 @@ import LoadingSpinner from "../components/Loading/Spinner";
 import CreateTour from "../containers/Tours/CreateTours";
 import EditTour from "../containers/Tours/EditTour";
 import TourMediaForm from "../containers/Tours/TourMediaForm";
+import CategoryUnits from "../containers/CategoryUnits/CategoryUnits";
+import TypeUnits from "../containers/TypeUnits/TypeUnits";
+import Quotations from "../containers/Quotation/Quotations";
 
 function AppRouter({ isAuthenticated }) {
   const { autenticado, usuarioAutenticado, cargando } = useContext(AuthContext);
@@ -41,6 +44,9 @@ function AppRouter({ isAuthenticated }) {
         <Route path='/registrar-tour' element={<CreateTour />} />
         <Route path='/tour/:id/edit' element={<EditTour />} />
         <Route path='/tour/:id/media' element={<TourMediaForm />} />
+        <Route path='/categorias-unidades' element={<CategoryUnits />} />
+        <Route path='/unidades' element={<TypeUnits />} />
+        <Route path='/cotizaciones' element={<Quotations />} />
       </Route>
 
       {/* Ruta por defecto */}
