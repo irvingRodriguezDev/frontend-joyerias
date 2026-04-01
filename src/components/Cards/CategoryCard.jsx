@@ -125,7 +125,7 @@ const UnitTypeCategoryList = ({ categories = [], onEdit, onDelete }) => {
   return (
     <Grid container spacing={3}>
       {categories.map((category) => (
-        <Grid item xs={12} sm={6} md={4} key={category.id}>
+        <Grid size={{ xs: 12, sm: 6, md: 4 }} key={category.id}>
           <CategoryCard
             category={category}
             onEdit={onEdit}

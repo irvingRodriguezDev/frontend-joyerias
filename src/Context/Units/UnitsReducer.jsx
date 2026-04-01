@@ -1,4 +1,9 @@
-import { CREATE_UNIT, GET_ALL_UNITS } from "../../types";
+import {
+  GET_ALL_UNITS,
+  CREATE_UNIT,
+  UPDATE_UNIT,
+  DELETE_UNIT,
+} from "../../types";
 
 export default (state, action) => {
   switch (action.type) {
@@ -8,10 +13,27 @@ export default (state, action) => {
         units: action.payload,
         ErrorsApi: [],
       };
+
     case CREATE_UNIT:
       return {
         ...state,
         units: [...state.units, action.payload],
+        ErrorsApi: [],
+      };
+
+    case UPDATE_UNIT:
+      return {
+        ...state,
+        units: state.units.map((u) =>
+          u.id === action.payload.id ? action.payload : u
+        ),
+        ErrorsApi: [],
+      };
+
+    case DELETE_UNIT:
+      return {
+        ...state,
+        units: state.units.filter((u) => u.id !== action.payload),
         ErrorsApi: [],
       };
 
