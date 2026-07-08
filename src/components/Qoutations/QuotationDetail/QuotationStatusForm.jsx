@@ -11,7 +11,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import dayjs from "dayjs";
-
+import { Navigate, useNavigate } from "react-router-dom";
 const VALID_TRANSITIONS = {
   pending: ["sent", "spam", "rejected"],
   sent: ["accepted", "rejected", "expired"],
@@ -53,7 +53,7 @@ const QuotationStatusForm = ({ quotation, onSubmit }) => {
   const [newStatus, setNewStatus] = useState("");
   const [totalPrice, setTotalPrice] = useState("");
   const [expiresAt, setExpiresAt] = useState("");
-
+  const navigate = useNavigate();
   const allowedStatuses = VALID_TRANSITIONS[quotation?.status] ?? [];
 
   if (allowedStatuses.length === 0) return null;
@@ -64,6 +64,7 @@ const QuotationStatusForm = ({ quotation, onSubmit }) => {
     if (totalPrice) data.totalPrice = totalPrice;
     if (expiresAt) data.expiresAt = expiresAt;
     onSubmit(data);
+    navigate(-1);
   };
 
   // 🚀 Función para accesos rápidos de vigencia

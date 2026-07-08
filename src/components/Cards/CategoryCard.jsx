@@ -13,90 +13,156 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CategoryIcon from "@mui/icons-material/Category";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 
 const CategoryCard = ({ category, onEdit, onDelete }) => {
   return (
     <Card
+      elevation={0}
       sx={{
         borderRadius: "16px",
-        boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
-        transition: "transform 0.2s, box-shadow 0.2s",
+        backgroundColor: "#ffffff",
+        border: "1px solid rgba(1, 82, 140, 0.08)",
+        boxShadow: "0 4px 20px rgba(1, 82, 140, 0.02)",
+        transition: "all 0.2s ease-in-out",
         "&:hover": {
           transform: "translateY(-4px)",
-          boxShadow: "0 8px 30px rgba(0,0,0,0.12)",
+          borderColor: "rgba(1, 82, 140, 0.15)",
+          boxShadow: "0 10px 25px rgba(1, 82, 140, 0.06)",
         },
       }}
     >
-      <CardContent>
-        {/* Ícono + nombre */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1.5 }}>
-          <Box
-            sx={{
-              backgroundColor: "rgba(38, 89, 139, 0.1)",
-              borderRadius: "10px",
-              p: 1,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <CategoryIcon
-              sx={{ color: "rgba(38, 89, 139, 0.8)", fontSize: 28 }}
-            />
+      <CardContent sx={{ p: 3, pb: "16px !important" }}>
+        {/* Encabezado: Ícono + Nombre */}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "flex-start",
+            justifyContent: "space-between",
+            gap: 1.5,
+            mb: 2,
+          }}
+        >
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+            <Box
+              sx={{
+                backgroundColor: "rgba(1, 82, 140, 0.06)",
+                borderRadius: "12px",
+                p: 1.2,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <CategoryIcon sx={{ color: "#01528C", fontSize: 24 }} />
+            </Box>
+            <Typography
+              variant='h6'
+              sx={{
+                fontFamily: "'Jost', sans-serif",
+                fontWeight: 600,
+                color: "#1E293B",
+                lineHeight: 1.3,
+              }}
+            >
+              {category.name}
+            </Typography>
           </Box>
-          <Typography variant='h6' fontWeight={600} sx={{ color: "#1a1a2e" }}>
-            {category.name}
-          </Typography>
+
+          {/* Badge de Estatus Optimizada */}
+          <Chip
+            label={category.isActive ? "Activa" : "Inactiva"}
+            size='small'
+            sx={{
+              fontFamily: "'Jost', sans-serif",
+              backgroundColor: category.isActive
+                ? "rgba(163, 187, 19, 0.12)" // Tu verde lima con opacidad baja
+                : "rgba(239, 68, 68, 0.08)",
+              color: category.isActive ? "#7A8C0E" : "#DC2626",
+              fontWeight: 700,
+              fontSize: "12px",
+              borderRadius: "8px",
+              px: 0.5,
+            }}
+          />
         </Box>
 
-        {/* Status */}
-        <Chip
-          label={category.isActive ? "Activa" : "Inactiva"}
-          size='small'
+        {/* Fecha de creación con layout limpio */}
+        <Box
           sx={{
-            backgroundColor: category.isActive
-              ? "rgba(46, 196, 134, 0.15)"
-              : "rgba(220, 53, 69, 0.15)",
-            color: category.isActive ? "#1a7a4a" : "#a71d2a",
-            fontWeight: 500,
-            borderRadius: "8px",
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+            mt: 3,
+            pt: 2,
+            borderTop: "1px solid #F1F5F9",
           }}
-        />
-
-        {/* Fecha de creación */}
-        <Typography
-          variant='caption'
-          sx={{ display: "block", mt: 1.5, color: "text.secondary" }}
         >
-          Creada el{" "}
-          {new Date(category.createdAt).toLocaleDateString("es-MX", {
-            day: "2-digit",
-            month: "long",
-            year: "numeric",
-          })}
-        </Typography>
+          <CalendarMonthIcon
+            sx={{ color: "rgba(1, 82, 140, 0.3)", fontSize: 16 }}
+          />
+          <Typography
+            variant='caption'
+            sx={{
+              fontFamily: "'Jost', sans-serif",
+              color: "#64748B",
+              fontWeight: 500,
+            }}
+          >
+            Registrada el{" "}
+            {new Date(category.createdAt).toLocaleDateString("es-MX", {
+              day: "2-digit",
+              month: "short",
+              year: "numeric",
+            })}
+          </Typography>
+        </Box>
       </CardContent>
 
-      <CardActions sx={{ justifyContent: "flex-end", px: 2, pb: 2 }}>
-        <Tooltip title='Editar'>
+      {/* Botones de acción planos */}
+      <CardActions
+        sx={{
+          justifyContent: "flex-end",
+          px: 2.5,
+          pb: 2,
+          pt: 0,
+          gap: 0.5,
+        }}
+      >
+        <Tooltip title='Editar Categoría'>
           <IconButton
             size='small'
             onClick={() => onEdit(category)}
             sx={{
-              color: "rgba(38, 89, 139, 0.8)",
-              "&:hover": { backgroundColor: "rgba(38, 89, 139, 0.1)" },
+              color: "#01528C",
+              backgroundColor: "rgba(1, 82, 140, 0.04)",
+              borderRadius: "8px",
+              p: 1,
+              transition: "all 0.2s",
+              "&:hover": {
+                backgroundColor: "#01528C",
+                color: "#ffffff",
+              },
             }}
           >
             <EditIcon fontSize='small' />
           </IconButton>
         </Tooltip>
-        <Tooltip title='Eliminar'>
+
+        <Tooltip title='Eliminar Categoría'>
           <IconButton
             size='small'
             onClick={() => onDelete(category)}
             sx={{
-              color: "rgba(220, 53, 69, 0.8)",
-              "&:hover": { backgroundColor: "rgba(220, 53, 69, 0.1)" },
+              color: "#EF4444",
+              backgroundColor: "rgba(239, 68, 68, 0.04)",
+              borderRadius: "8px",
+              p: 1,
+              transition: "all 0.2s",
+              "&:hover": {
+                backgroundColor: "#EF4444",
+                color: "#ffffff",
+              },
             }}
           >
             <DeleteIcon fontSize='small' />
@@ -110,22 +176,46 @@ const CategoryCard = ({ category, onEdit, onDelete }) => {
 const UnitTypeCategoryList = ({ categories = [], onEdit, onDelete }) => {
   if (categories.length === 0) {
     return (
-      <Box sx={{ textAlign: "center", mt: 6 }}>
-        <CategoryIcon sx={{ fontSize: 60, color: "text.disabled", mb: 2 }} />
-        <Typography variant='h6' color='text.secondary'>
+      <Box
+        sx={{
+          textAlign: "center",
+          py: 8,
+          px: 2,
+          backgroundColor: "#ffffff",
+          borderRadius: "16px",
+          border: "1px dashed rgba(1, 82, 140, 0.2)",
+          width: "100%",
+          gridColumn: "1 / -1", // Asegura que ocupe todo el ancho si está dentro de un Grid contenedor
+        }}
+      >
+        <CategoryIcon
+          sx={{ fontSize: 48, color: "rgba(1, 82, 140, 0.25)", mb: 2 }}
+        />
+        <Typography
+          variant='h6'
+          sx={{
+            fontFamily: "'Jost', sans-serif', sans-serif",
+            color: "#475569",
+            fontWeight: 600,
+            mb: 0.5,
+          }}
+        >
           No hay categorías registradas
         </Typography>
-        <Typography variant='body2' color='text.disabled'>
-          Crea una nueva categoría para comenzar
+        <Typography
+          variant='body2'
+          sx={{ fontFamily: "'Jost', sans-serif", color: "#94A3B8" }}
+        >
+          Agrega una nueva categoría para clasificar tus tipos de unidades.
         </Typography>
       </Box>
     );
   }
 
   return (
-    <Grid container spacing={3}>
+    <>
       {categories.map((category) => (
-        <Grid size={{ xs: 12, sm: 6, md: 4 }} key={category.id}>
+        <Grid item xs={12} sm={6} md={4} key={category.id}>
           <CategoryCard
             category={category}
             onEdit={onEdit}
@@ -133,7 +223,7 @@ const UnitTypeCategoryList = ({ categories = [], onEdit, onDelete }) => {
           />
         </Grid>
       ))}
-    </Grid>
+    </>
   );
 };
 

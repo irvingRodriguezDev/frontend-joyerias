@@ -57,7 +57,6 @@ const CategoryUnits = () => {
             </Button>
           </Box>
         </Grid>
-
         <UnitTypeCategoryList
           categories={categories_units}
           onEdit={handleEdit}
