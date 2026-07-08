@@ -5,8 +5,12 @@ import {
   TextField,
   MenuItem,
   Button,
-  Paper,
+  Collapse,
+  Stack,
+  Chip,
+  InputAdornment,
 } from "@mui/material";
+import dayjs from "dayjs";
 
 const VALID_TRANSITIONS = {
   pending: ["sent", "spam", "rejected"],
@@ -23,6 +27,26 @@ const STATUS_LABELS = {
   rejected: "Rechazada",
   expired: "Expirada",
   spam: "Spam",
+};
+
+// Estilo de inputs planos, robustos y corporativos
+const inputSx = {
+  "& .MuiOutlinedInput-root": {
+    fontFamily: "'Jost', sans-serif",
+    borderRadius: "12px",
+    background: "#F8FAFC",
+    "& fieldset": { borderColor: "rgba(1,82,140,0.12)" },
+    "&:hover fieldset": { borderColor: "rgba(1,82,140,0.3)" },
+    "&.Mui-focused fieldset": {
+      borderColor: "#01528C",
+      borderWidth: "2px",
+    },
+  },
+  "& .MuiInputLabel-root": {
+    fontFamily: "'Jost', sans-serif",
+    color: "rgba(1,82,140,0.6)",
+    "&.Mui-focused": { color: "#01528C" },
+  },
 };
 
 const QuotationStatusForm = ({ quotation, onSubmit }) => {
@@ -42,78 +66,168 @@ const QuotationStatusForm = ({ quotation, onSubmit }) => {
     onSubmit(data);
   };
 
+  // 🚀 Función para accesos rápidos de vigencia
+  const setQuickDate = (daysToAdd) => {
+    // Formato requerido por <input type="datetime-local" />: YYYY-MM-DDTHH:mm
+    const dateStr = dayjs().add(daysToAdd, "day").format("YYYY-MM-DDTHH:mm");
+    setExpiresAt(dateStr);
+  };
+
   return (
-    <Paper
-      elevation={0}
-      sx={{
-        p: 2.5,
-        borderRadius: "16px",
-        border: "1px solid rgba(0,0,0,0.07)",
-        mt: 3,
-      }}
-    >
+    <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
       <Typography
         variant='subtitle2'
-        fontWeight={700}
-        color='rgba(38,89,139,0.9)'
-        sx={{ mb: 2 }}
+        sx={{
+          fontFamily: "'Jost', sans-serif",
+          fontWeight: 700,
+          color: "#01528C",
+          textTransform: "uppercase",
+          letterSpacing: "0.05em",
+        }}
       >
-        Actualizar status
+        ⚡ Actualizar Estado
       </Typography>
 
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}>
+        {/* SELECTOR DE ESTADO */}
         <TextField
           select
-          label='Nuevo status'
+          label='Selecciona el nuevo estatus'
           value={newStatus}
           onChange={(e) => setNewStatus(e.target.value)}
-          size='small'
           fullWidth
+          sx={inputSx}
         >
           {allowedStatuses.map((s) => (
-            <MenuItem key={s} value={s}>
+            <MenuItem
+              key={s}
+              value={s}
+              sx={{ fontFamily: "'Jost', sans-serif" }}
+            >
               {STATUS_LABELS[s] ?? s}
             </MenuItem>
           ))}
         </TextField>
 
-        {/* Solo mostramos precio y vigencia si el status es "sent" */}
-        {newStatus === "sent" && (
-          <>
+        {/* 🪄 ANIMACIÓN CONDICIONAL PARA COSTO Y VIGENCIA */}
+        <Collapse in={newStatus === "sent"}>
+          <Box
+            sx={{ display: "flex", flexDirection: "column", gap: 2.5, mt: 0.5 }}
+          >
             <TextField
-              label='Precio total (MXN)'
+              label='Precio total'
               type='number'
+              placeholder='0.00'
               value={totalPrice}
               onChange={(e) => setTotalPrice(e.target.value)}
-              size='small'
               fullWidth
+              sx={inputSx}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position='start'>
+                    <Typography sx={{ color: "#01528C", fontWeight: 600 }}>
+                      $
+                    </Typography>
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position='end'>
+                    <Typography
+                      sx={{ fontSize: "12px", color: "text.secondary" }}
+                    >
+                      MXN
+                    </Typography>
+                  </InputAdornment>
+                ),
+              }}
             />
-            <TextField
-              label='Vigencia'
-              type='datetime-local'
-              value={expiresAt}
-              onChange={(e) => setExpiresAt(e.target.value)}
-              size='small'
-              fullWidth
-              InputLabelProps={{ shrink: true }}
-            />
-          </>
-        )}
 
+            <Box>
+              <TextField
+                label='Vigencia de la tarifa'
+                type='datetime-local'
+                value={expiresAt}
+                onChange={(e) => setExpiresAt(e.target.value)}
+                fullWidth
+                sx={inputSx}
+                InputLabelProps={{ shrink: true }}
+              />
+
+              {/* CHIPS DE ACCESO RÁPIDO */}
+              <Stack direction='row' spacing={1} sx={{ mt: 1.5 }}>
+                <Typography
+                  variant='caption'
+                  sx={{
+                    color: "text.secondary",
+                    alignSelf: "center",
+                    mr: 1,
+                    fontFamily: "'Jost', sans-serif",
+                  }}
+                >
+                  Rápido:
+                </Typography>
+                <Chip
+                  label='+3 Días'
+                  size='small'
+                  onClick={() => setQuickDate(3)}
+                  sx={{
+                    fontFamily: "'Jost', sans-serif",
+                    backgroundColor: "rgba(1,82,140,0.06)",
+                    color: "#01528C",
+                    fontWeight: 600,
+                    "&:hover": { backgroundColor: "rgba(1,82,140,0.12)" },
+                  }}
+                />
+                <Chip
+                  label='+7 Días'
+                  size='small'
+                  onClick={() => setQuickDate(7)}
+                  sx={{
+                    fontFamily: "'Jost', sans-serif",
+                    backgroundColor: "rgba(163,187,19,0.15)",
+                    color: "#7A8C0E",
+                    fontWeight: 700,
+                    "&:hover": { backgroundColor: "rgba(163,187,19,0.3)" },
+                  }}
+                />
+              </Stack>
+            </Box>
+          </Box>
+        </Collapse>
+
+        {/* BOTÓN DE ACCIÓN PLANO */}
         <Button
           variant='contained'
           onClick={handleSubmit}
           disabled={!newStatus}
+          disableElevation
           sx={{
-            borderRadius: "10px",
-            backgroundColor: "rgba(38,89,139,0.9)",
-            "&:hover": { backgroundColor: "rgba(38,89,139,1)" },
+            fontFamily: "'Jost', sans-serif",
+            fontWeight: 600,
+            fontSize: "15px",
+            py: 1.2,
+            borderRadius: "12px",
+            backgroundColor: "#01528C",
+            textTransform: "none",
+            transition: "all 0.2s ease",
+            mt: 1,
+            "&:hover": {
+              backgroundColor: "#014270",
+              transform: "translateY(-2px)",
+              boxShadow: "0 8px 16px rgba(1,82,140,0.2)",
+            },
+            "&:disabled": {
+              backgroundColor: "#F1F5F9",
+              color: "#94A3B8",
+            },
           }}
         >
-          Actualizar
+          {newStatus === "sent"
+            ? "Actualizar y Notificar"
+            : "Actualizar Estado"}
         </Button>
       </Box>
-    </Paper>
+    </Box>
   );
 };
 

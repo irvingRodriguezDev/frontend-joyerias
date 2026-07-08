@@ -9,9 +9,9 @@ const QuotationList = ({ quotations = [], onEdit }) => {
     return (
       <Box sx={{ textAlign: "center", mt: 8 }}>
         <RequestQuoteIcon
-          sx={{ fontSize: 60, color: "rgba(255,255,255,0.2)", mb: 2 }}
+          sx={{ fontSize: 60, color: "rgba(255,255,255,0.9)", mb: 2 }}
         />
-        <Typography variant='h6' color='rgba(255,255,255,0.5)'>
+        <Typography variant='h6' color='rgba(255,255,255,0.9)'>
           No hay cotizaciones registradas
         </Typography>
       </Box>

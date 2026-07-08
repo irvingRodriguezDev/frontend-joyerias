@@ -25,64 +25,80 @@ import {
 } from "./quotation.helpers";
 import { useNavigate } from "react-router-dom";
 
-const QuotationCard = ({ quotation, onView, onEdit }) => {
-  const statusCfg = STATUS_CONFIG[quotation.status] ?? STATUS_CONFIG.pending;
+// Mapa de colores laterales planos reactivos al estatus
+const STATUS_BORDER_COLOR = {
+  pendiente: "#FFAA00", // Ámbar / Alerta
+  enviada: "#01528C", // Azul institucional
+  aceptada: "#A3BB13", // Verde lima institucional
+  rechazada: "#EF4444", // Rojo plano
+};
+
+const QuotationCard = ({ quotation, onEdit }) => {
   const navigate = useNavigate();
+
+  // Normalizar llave del estatus para el color del borde lateral
+  const statusKey = quotation.status?.toLowerCase() || "pendiente";
+  const statusBorder =
+    STATUS_BORDER_COLOR[statusKey] || STATUS_BORDER_COLOR.pendiente;
+  const statusCfg = STATUS_CONFIG[quotation.status] ?? STATUS_CONFIG.pending;
+
   const handleView = () => navigate(`/cotizaciones/${quotation.id}`);
+
   return (
     <Card
       sx={{
-        borderRadius: "20px",
-        boxShadow: "0 4px 20px rgba(0,0,0,0.07)",
-        transition: "transform 0.2s, box-shadow 0.2s",
+        borderRadius: "16px",
+        background: "#ffffff",
+        border: "1px solid rgba(1,82,140,0.08)",
+        // 🚀 TRUCO PREMIUM: Borde izquierdo reactivo plano en vez de gradiente superior
+        borderLeft: `6px solid ${statusBorder}`,
+        boxShadow: "0 4px 16px rgba(1,82,140,0.02)",
+        transition: "all 0.2s ease-in-out",
         overflow: "hidden",
+        position: "relative",
         "&:hover": {
-          transform: "translateY(-4px)",
-          boxShadow: "0 12px 32px rgba(0,0,0,0.12)",
+          boxShadow: "0 12px 30px rgba(1,82,140,0.06)",
+          borderColor: "rgba(1,82,140,0.15)",
         },
       }}
     >
-      {/* Franja superior */}
-      <Box
-        sx={{
-          height: 6,
-          background:
-            "linear-gradient(90deg, rgba(38,89,139,0.8), rgba(38,89,139,0.3))",
-        }}
-      />
-
-      <CardContent sx={{ pt: 2.5, pb: 1 }}>
-        {/* Folio + status + tipo de viaje */}
+      <CardContent sx={{ pt: 2.5, pb: 1, px: 2.5 }}>
+        {/* ── FOLIO + STATUS + TIPO VIAJE ── */}
         <Box
           sx={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            mb: 2,
+            mb: 2.5,
           }}
         >
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-            <RequestQuoteIcon
-              sx={{ fontSize: 18, color: "rgba(38,89,139,0.7)" }}
-            />
+            <RequestQuoteIcon sx={{ fontSize: 18, color: "#01528C" }} />
             <Typography
-              variant='subtitle2'
-              fontWeight={700}
-              color='rgba(38,89,139,0.9)'
+              variant='subtitle1'
+              sx={{
+                fontFamily: "'Jost', sans-serif",
+                fontWeight: 700,
+                color: "#01528C",
+                letterSpacing: "0.02em",
+              }}
             >
               {quotation.quoteNumber}
             </Typography>
           </Box>
+
           <Box sx={{ display: "flex", gap: 0.8 }}>
             <Chip
               label={TRIP_LABEL[quotation.tripType] ?? quotation.tripType}
               size='small'
               sx={{
-                backgroundColor: "rgba(38,89,139,0.08)",
-                color: "rgba(38,89,139,0.9)",
+                backgroundColor: "rgba(1,82,140,0.05)",
+                color: "#01528C",
                 fontWeight: 600,
-                borderRadius: "8px",
-                fontSize: "0.68rem",
+                fontFamily: "'Jost', sans-serif",
+                borderRadius: "6px",
+                fontSize: "0.7rem",
+                textTransform: "capitalize",
               }}
             />
             <Chip
@@ -92,33 +108,50 @@ const QuotationCard = ({ quotation, onView, onEdit }) => {
                 backgroundColor: statusCfg.bg,
                 color: statusCfg.color,
                 fontWeight: 600,
-                borderRadius: "8px",
-                fontSize: "0.68rem",
+                fontFamily: "'Jost', sans-serif",
+                borderRadius: "6px",
+                fontSize: "0.7rem",
               }}
             />
           </Box>
         </Box>
 
-        {/* Contratador */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}>
-          <PersonIcon sx={{ fontSize: 16, color: "text.disabled" }} />
-          <Typography variant='body2' fontWeight={600} color='text.primary'>
+        {/* ── CLIENTE CONTRATADOR ── */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1.2, mb: 1.2 }}>
+          <PersonIcon sx={{ fontSize: 18, color: "rgba(1,82,140,0.4)" }} />
+          <Typography
+            variant='body2'
+            sx={{
+              fontFamily: "'Jost', sans-serif",
+              fontWeight: 600,
+              color: "#1E293B",
+            }}
+          >
             {quotation.contractorName}
           </Typography>
-          <Typography variant='caption' color='text.secondary'>
+          <Typography
+            variant='caption'
+            sx={{
+              fontFamily: "'Jost', sans-serif",
+              color: "text.secondary",
+              fontWeight: 400,
+            }}
+          >
             · {quotation.contractorPhone}
           </Typography>
         </Box>
 
-        {/* Ruta */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}>
-          <PlaceIcon sx={{ fontSize: 16, color: "text.disabled" }} />
-          <Typography variant='body2' color='text.secondary'>
+        {/* ── RUTA (ORIGEN → DESTINO) ── */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1.2, mb: 1.2 }}>
+          <PlaceIcon sx={{ fontSize: 18, color: "rgba(1,82,140,0.4)" }} />
+          <Typography
+            variant='body2'
+            sx={{ fontFamily: "'Jost', sans-serif", color: "#475569" }}
+          >
             <Typography
               component='span'
               variant='body2'
-              fontWeight={600}
-              color='text.primary'
+              sx={{ fontWeight: 500, color: "#1E293B" }}
             >
               {quotation.origin}
             </Typography>
@@ -126,43 +159,58 @@ const QuotationCard = ({ quotation, onView, onEdit }) => {
             <Typography
               component='span'
               variant='body2'
-              fontWeight={600}
-              color='text.primary'
+              sx={{ fontWeight: 600, color: "#01528C" }}
             >
               {quotation.destination}
             </Typography>
           </Typography>
         </Box>
 
-        {/* Unidad */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1.5 }}>
-          <DirectionsBusIcon sx={{ fontSize: 16, color: "text.disabled" }} />
-          <Typography variant='body2' color='text.secondary'>
-            {quotation.unitType?.name ?? "Sin unidad"}
+        {/* ── AUTOBÚS / UNIDAD ── */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1.2, mb: 1.2 }}>
+          <DirectionsBusIcon
+            sx={{ fontSize: 18, color: "rgba(1,82,140,0.4)" }}
+          />
+          <Typography
+            variant='body2'
+            sx={{
+              fontFamily: "'Jost', sans-serif",
+              fontWeight: 400,
+              color: "#475569",
+            }}
+          >
+            {quotation.unitType?.name ?? "Sin unidad asignada"}
           </Typography>
         </Box>
 
-        {/* Fechas */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1.5 }}>
-          <CalendarMonthIcon sx={{ fontSize: 16, color: "text.disabled" }} />
-          <Typography variant='body2' color='text.secondary'>
+        {/* ── FECHAS DE VIAJE ── */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1.2, mb: 2 }}>
+          <CalendarMonthIcon
+            sx={{ fontSize: 18, color: "rgba(1,82,140,0.4)" }}
+          />
+          <Typography
+            variant='body2'
+            sx={{
+              fontFamily: "'Jost', sans-serif",
+              color: "#475569",
+              fontSize: "13px",
+            }}
+          >
             Salida:{" "}
             <Typography
               component='span'
               variant='body2'
-              fontWeight={600}
-              color='text.primary'
+              sx={{ fontWeight: 600, color: "#1E293B", fontSize: "13px" }}
             >
               {formatDate(quotation.departureAt)}
             </Typography>
             {quotation.returnAt && (
               <>
-                {" · "}Regreso:{" "}
+                {"  |  "}Regreso:{" "}
                 <Typography
                   component='span'
                   variant='body2'
-                  fontWeight={600}
-                  color='text.primary'
+                  sx={{ fontWeight: 600, color: "#1E293B", fontSize: "13px" }}
                 >
                   {formatDate(quotation.returnAt)}
                 </Typography>
@@ -171,9 +219,9 @@ const QuotationCard = ({ quotation, onView, onEdit }) => {
           </Typography>
         </Box>
 
-        <Divider sx={{ mb: 1.5 }} />
+        <Divider sx={{ borderColor: "rgba(1,82,140,0.06)", mb: 2 }} />
 
-        {/* Fecha de creación + precio */}
+        {/* ── PIE DE TARJETA: CREACIÓN + PRECIO TOTAL ── */}
         <Box
           sx={{
             display: "flex",
@@ -181,50 +229,78 @@ const QuotationCard = ({ quotation, onView, onEdit }) => {
             justifyContent: "space-between",
           }}
         >
-          <Typography variant='caption' color='text.secondary'>
+          <Typography
+            variant='caption'
+            sx={{
+              fontFamily: "'Jost', sans-serif",
+              color: "text.disabled",
+              fontWeight: 400,
+            }}
+          >
             Creada el {formatDate(quotation.createdAt)}
           </Typography>
+
           {formatPrice(quotation.totalPrice) ? (
             <Typography
-              variant='subtitle2'
-              fontWeight={700}
-              color='rgba(38,89,139,0.9)'
+              variant='h6'
+              sx={{
+                fontFamily: "'Jost', sans-serif",
+                fontWeight: 700,
+                color: "#01528C",
+              }}
             >
               {formatPrice(quotation.totalPrice)}
             </Typography>
           ) : (
-            <Typography variant='caption' color='text.disabled'>
-              Sin precio asignado
+            <Typography
+              variant='caption'
+              sx={{
+                fontFamily: "'Jost', sans-serif",
+                color: "#FFAA00",
+                backgroundColor: "rgba(255,170,0,0.06)",
+                px: 1,
+                py: 0.3,
+                borderRadius: "4px",
+                fontWeight: 500,
+              }}
+            >
+              Por asignar costo
             </Typography>
           )}
         </Box>
       </CardContent>
 
-      <CardActions sx={{ justifyContent: "flex-end", px: 2, pb: 2, pt: 0.5 }}>
-        <Tooltip title='Ver detalle'>
+      {/* ── ACCIONES PLANAS LIMPIAS ── */}
+      <CardActions sx={{ justifyContent: "flex-end", px: 2, pb: 1.5, pt: 0.5 }}>
+        <Tooltip title='Ver detalle de viaje'>
           <IconButton
             size='small'
             onClick={handleView}
             sx={{
-              color: "rgba(38,89,139,0.8)",
-              "&:hover": { backgroundColor: "rgba(38,89,139,0.08)" },
+              color: "#01528C",
+              backgroundColor: "rgba(1,82,140,0.03)",
+              mx: 0.5,
+              "&:hover": { backgroundColor: "rgba(1,82,140,0.08)" },
             }}
           >
             <VisibilityIcon fontSize='small' />
           </IconButton>
         </Tooltip>
-        <Tooltip title='Gestionar'>
+
+        {/* <Tooltip title='Gestionar Estatus y Costo'>
           <IconButton
             size='small'
             onClick={() => onEdit(quotation)}
             sx={{
-              color: "rgba(38,89,139,0.8)",
-              "&:hover": { backgroundColor: "rgba(38,89,139,0.08)" },
+              color: "#A3BB13",
+              backgroundColor: "rgba(163,187,19,0.04)",
+              mx: 0.5,
+              "&:hover": { backgroundColor: "rgba(163,187,19,0.1)" },
             }}
           >
             <EditIcon fontSize='small' />
           </IconButton>
-        </Tooltip>
+        </Tooltip> */}
       </CardActions>
     </Card>
   );
