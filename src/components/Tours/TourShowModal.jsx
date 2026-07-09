@@ -4,12 +4,10 @@ import {
   DialogTitle,
   Typography,
   Box,
-  Stack,
   Chip,
   IconButton,
   Divider,
   Button,
-  Paper,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
@@ -17,10 +15,20 @@ import ScheduleIcon from "@mui/icons-material/Schedule";
 import CategoryIcon from "@mui/icons-material/Category";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import TagIcon from "../icons/TagIcon";
-const statusColor = {
-  draft: "default",
-  published: "success",
-  archived: "warning",
+
+// Mapeo de estatus plano y consistente
+const statusConfig = {
+  published: {
+    label: "Publicado",
+    bg: "rgba(163, 187, 19, 0.12)",
+    color: "#7A8C0E",
+  },
+  draft: { label: "Borrador", bg: "#F1F5F9", color: "#64748B" },
+  archived: {
+    label: "Archivado",
+    bg: "rgba(239, 68, 68, 0.08)",
+    color: "#DC2626",
+  },
 };
 
 export default function TourShowModal({ open, onClose, tour }) {
@@ -29,6 +37,12 @@ export default function TourShowModal({ open, onClose, tour }) {
   const coverImage =
     tour.media?.find((m) => m.is_cover)?.url || tour.media?.[0]?.url;
 
+  const currentStatus = statusConfig[tour.status] || {
+    label: tour.status,
+    bg: "#F8FAFC",
+    color: "#1E293B",
+  };
+
   return (
     <Dialog
       open={open}
@@ -36,201 +50,287 @@ export default function TourShowModal({ open, onClose, tour }) {
       maxWidth='md'
       fullWidth
       scroll='paper'
+      elevation={0}
       PaperProps={{
         sx: {
-          borderRadius: 4,
+          borderRadius: "24px",
+          overflow: "hidden",
+          backgroundColor: "#ffffff",
+          border: "1px solid rgba(1, 82, 140, 0.08)",
+          boxShadow: "0 20px 50px rgba(1, 82, 140, 0.12)",
         },
       }}
     >
-      {/* HERO IMAGE */}
-      {coverImage && (
-        <Box sx={{ position: "relative" }}>
+      {/* HERO IMAGE CON OVERLAY PLANO */}
+      {coverImage ? (
+        <Box
+          sx={{
+            position: "relative",
+            width: "100%",
+            height: 280,
+            overflow: "hidden",
+          }}
+        >
           <Box
             component='img'
             src={coverImage}
             alt={tour.title}
             sx={{
               width: "100%",
-              height: 300,
+              height: "100%",
               objectFit: "cover",
             }}
           />
 
-          {/* Overlay */}
+          {/* Gradiente sutil y elegante */}
           <Box
             sx={{
               position: "absolute",
               inset: 0,
               background:
-                "linear-gradient(to top, rgba(0,0,0,.65), rgba(0,0,0,.15))",
+                "linear-gradient(to top, rgba(30, 41, 59, 0.85), rgba(30, 41, 59, 0.2))",
             }}
           />
 
-          {/* Close */}
+          {/* Botón de cierre integrado */}
           <IconButton
             onClick={onClose}
+            size='small'
             sx={{
               position: "absolute",
               top: 16,
               right: 16,
-              color: "#fff",
-              bgcolor: "rgba(0,0,0,.35)",
-              "&:hover": { bgcolor: "rgba(0,0,0,.55)" },
+              color: "#ffffff",
+              bgcolor: "rgba(30, 41, 59, 0.4)",
+              borderRadius: "10px",
+              backdropFilter: "blur(4px)",
+              p: 1,
+              transition: "all 0.2s",
+              "&:hover": { bgcolor: "rgba(30, 41, 59, 0.7)" },
             }}
           >
-            <CloseIcon />
+            <CloseIcon fontSize='small' />
           </IconButton>
 
-          {/* Title */}
+          {/* Títulos sobre el Hero */}
           <Box
             sx={{
               position: "absolute",
               bottom: 24,
               left: 24,
               right: 24,
-              color: "#fff",
+              color: "#ffffff",
             }}
           >
-            <Typography variant='h5' fontWeight={700}>
+            <Typography
+              variant='h5'
+              sx={{
+                fontFamily: "'Jost', sans-serif",
+                fontWeight: 700,
+                fontSize: "26px",
+                lineHeight: 1.2,
+              }}
+            >
               {tour.title}
             </Typography>
-            <Typography variant='body2' sx={{ opacity: 0.85 }}>
-              {tour.slug}
-            </Typography>
+            {tour.slug && (
+              <Typography
+                variant='body2'
+                sx={{
+                  fontFamily: "'Jost', sans-serif",
+                  opacity: 0.75,
+                  mt: 0.5,
+                  fontWeight: 500,
+                  letterSpacing: "0.5px",
+                }}
+              >
+                /{tour.slug}
+              </Typography>
+            )}
           </Box>
+        </Box>
+      ) : (
+        /* Header alternativo plano en caso de que no haya imagen */
+        <Box
+          sx={{
+            p: 3,
+            pb: 0,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-start",
+          }}
+        >
+          <Typography
+            variant='h5'
+            sx={{
+              fontFamily: "'Jost', sans-serif",
+              fontWeight: 700,
+              color: "#1E293B",
+            }}
+          >
+            {tour.title}
+          </Typography>
+          <IconButton onClick={onClose} size='small' sx={{ color: "#64748B" }}>
+            <CloseIcon />
+          </IconButton>
         </Box>
       )}
 
-      <DialogContent sx={{ p: 4 }}>
-        {/* Status + Price */}
-        <Stack
-          direction='row'
-          justifyContent='space-between'
-          alignItems='center'
-          mb={3}
+      <DialogContent sx={{ p: { xs: 3, md: 4 }, pt: 3 }}>
+        {/* Fila superior: Estado + Precio Financiado */}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mb: 3,
+          }}
         >
           <Chip
-            label={tour.status}
-            color={statusColor[tour.status] || "default"}
+            label={currentStatus.label}
             sx={{
-              textTransform: "capitalize",
-              fontWeight: 600,
+              fontFamily: "'Jost', sans-serif",
+              fontWeight: 700,
+              fontSize: "12px",
+              backgroundColor: currentStatus.bg,
+              color: currentStatus.color,
+              borderRadius: "8px",
+              px: 0.5,
             }}
           />
 
-          <Typography variant='h5' fontWeight={700}>
-            ${tour.price}
-          </Typography>
-        </Stack>
-
-        {/* Short Description */}
-        {tour.short_description && (
-          <Paper
-            variant='outlined'
+          <Typography
+            variant='h5'
             sx={{
-              p: 2.5,
-              borderRadius: 3,
-              mb: 3,
-              bgcolor: "background.default",
+              fontFamily: "'Jost', sans-serif",
+              fontWeight: 800,
+              color: "#01528C",
             }}
           >
-            <Typography variant='body1'>{tour.short_description}</Typography>
-          </Paper>
+            {tour.price
+              ? `${Number(tour.price).toLocaleString("es-MX", {
+                  style: "currency",
+                  currency: "MXN",
+                })}`
+              : "Por cotizar"}
+          </Typography>
+        </Box>
+
+        {/* Descripción Corta Estilizada sin Paper pesado */}
+        {tour.short_description && (
+          <Box
+            sx={{
+              p: 2.5,
+              borderRadius: "14px",
+              mb: 3.5,
+              bgcolor: "#F8FAFC",
+              border: "1px solid rgba(1, 82, 140, 0.05)",
+            }}
+          >
+            <Typography
+              variant='body1'
+              sx={{
+                fontFamily: "'Jost', sans-serif",
+                color: "#475569",
+                lineHeight: 1.6,
+                fontSize: "15px",
+              }}
+            >
+              {tour.short_description}
+            </Typography>
+          </Box>
         )}
 
-        {/* Info Grid */}
-        <Stack spacing={2.5} mb={4}>
+        {/* Info Grid con Flexbox Nativo */}
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2.5, mb: 4 }}>
           <InfoRow
-            icon={<LocationOnIcon />}
-            label='Ubicación'
+            icon={<LocationOnIcon sx={{ fontSize: 18 }} />}
+            label='Ubicación / Destino'
             value={tour.location}
             isHtml
           />
           <InfoRow
-            icon={<ScheduleIcon />}
-            label='Duración'
+            icon={<ScheduleIcon sx={{ fontSize: 18 }} />}
+            label='Duración estimada'
             value={tour.duration}
           />
           <InfoRow
-            icon={<CategoryIcon />}
-            label='Categoría'
+            icon={<CategoryIcon sx={{ fontSize: 18 }} />}
+            label='Categoría de viaje'
             value={tour.category}
           />
-        </Stack>
+        </Box>
 
-        <Divider sx={{ mb: 3 }} />
-
-        {/* Long Description */}
+        {/* Descripción Larga (Detallada u Operativa) */}
         {tour.description && (
-          <>
-            <Typography variant='subtitle1' fontWeight={700} mb={1}>
-              Descripción
+          <Box sx={{ mt: 2, mb: 4 }}>
+            <Typography
+              variant='subtitle1'
+              sx={{
+                fontFamily: "'Jost', sans-serif",
+                fontWeight: 700,
+                color: "#1E293B",
+                mb: 1.5,
+              }}
+            >
+              Itinerario & Descripción detallada
             </Typography>
             <Box
               sx={{
-                color: "text.secondary",
+                fontFamily: "'Jost', sans-serif",
+                color: "#475569",
                 lineHeight: 1.7,
-                mb: 4,
+                fontSize: "14px",
+                "& p": { mb: 1.5 },
+                "& ul, & ol": { pl: 3, mb: 1.5 },
               }}
               dangerouslySetInnerHTML={{ __html: tour.description }}
             />
-          </>
+          </Box>
         )}
 
-        {/* Tags */}
+        {/* Sección de Tags Planos */}
         {tour.tags?.length > 0 && (
-          <>
-            <Typography variant='subtitle2' mb={1}>
-              Tags
-            </Typography>
-            <Box
+          <Box sx={{ mb: 4 }}>
+            <Typography
+              variant='subtitle2'
               sx={{
-                display: "flex",
-                gap: 1,
-                flexWrap: "wrap",
-                mb: 4,
+                fontFamily: "'Jost', sans-serif",
+                fontWeight: 700,
+                color: "#64748B",
+                mb: 1.5,
               }}
             >
+              Etiquetas informativas
+            </Typography>
+            <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
               {tour.tags.map((tag, index) => (
                 <Chip
                   key={index}
                   size='small'
                   variant='outlined'
                   label={
-                    <span
-                      style={{ display: "flex", alignItems: "center", gap: 6 }}
+                    <Box
+                      sx={{ display: "flex", alignItems: "center", gap: "5px" }}
                     >
-                      <TagIcon width={19} />
+                      <TagIcon width={13} style={{ opacity: 0.6 }} />
                       {tag}
-                    </span>
+                    </Box>
                   }
+                  sx={{
+                    fontFamily: "'Jost', sans-serif",
+                    fontSize: "11px",
+                    fontWeight: 500,
+                    color: "#64748B",
+                    borderColor: "rgba(1, 82, 140, 0.12)",
+                    backgroundColor: "#F8FAFC",
+                    borderRadius: "6px",
+                    "& .MuiChip-label": { px: 1 },
+                  }}
                 />
               ))}
             </Box>
-          </>
-        )}
-
-        {/* CTA */}
-        {tour.whatsapp_link && (
-          <Button
-            fullWidth
-            size='large'
-            startIcon={<WhatsAppIcon />}
-            href={tour.whatsapp_link}
-            target='_blank'
-            sx={{
-              py: 1.6,
-              borderRadius: 3,
-              fontWeight: 600,
-              bgcolor: "#25D366",
-              color: "#fff",
-              "&:hover": {
-                bgcolor: "#1ebe5d",
-              },
-            }}
-          >
-            Contactar por WhatsApp
-          </Button>
+          </Box>
         )}
       </DialogContent>
     </Dialog>
@@ -238,42 +338,66 @@ export default function TourShowModal({ open, onClose, tour }) {
 }
 
 /* ========================= */
-/* Subcomponent */
+/* Subcomponente Refacturado */
 /* ========================= */
 
-const InfoRow = ({ icon, label, value, isHtml = false }) => (
-  <Stack direction='row' spacing={2} alignItems='flex-start'>
-    <Box
-      sx={{
-        width: 36,
-        height: 36,
-        borderRadius: "50%",
-        bgcolor: "action.hover",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        color: "text.secondary",
-        mt: "2px",
-      }}
-    >
-      {icon}
-    </Box>
+const InfoRow = ({ icon, label, value, isHtml = false }) => {
+  if (!value) return null;
 
-    <Box>
-      <Typography variant='body2' fontWeight={600} mb={0.3}>
-        {label}
-      </Typography>
+  return (
+    <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+      <Box
+        sx={{
+          width: 36,
+          height: 36,
+          borderRadius: "10px",
+          bgcolor: "rgba(1, 82, 140, 0.05)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          color: "#01528C",
+          flexShrink: 0,
+        }}
+      >
+        {icon}
+      </Box>
 
-      {isHtml ? (
-        <Box
-          sx={{ color: "text.secondary", lineHeight: 1.6 }}
-          dangerouslySetInnerHTML={{ __html: value }}
-        />
-      ) : (
-        <Typography variant='body2' color='text.secondary'>
-          {value}
+      <Box sx={{ minWidth: 0 }}>
+        <Typography
+          variant='body2'
+          sx={{
+            fontFamily: "'Jost', sans-serif",
+            fontWeight: 700,
+            color: "#1E293B",
+            mb: 0.3,
+          }}
+        >
+          {label}
         </Typography>
-      )}
+
+        {isHtml ? (
+          <Box
+            sx={{
+              fontFamily: "'Jost', sans-serif",
+              color: "#64748B",
+              lineHeight: 1.6,
+              fontSize: "14px",
+            }}
+            dangerouslySetInnerHTML={{ __html: value }}
+          />
+        ) : (
+          <Typography
+            variant='body2'
+            sx={{
+              fontFamily: "'Jost', sans-serif",
+              color: "#64748B",
+              fontSize: "14px",
+            }}
+          >
+            {value}
+          </Typography>
+        )}
+      </Box>
     </Box>
-  </Stack>
-);
+  );
+};

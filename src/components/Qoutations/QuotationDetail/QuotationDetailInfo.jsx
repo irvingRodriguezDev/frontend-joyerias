@@ -187,7 +187,7 @@ const QuotationDetailInfo = ({ quotation }) => {
 
         {/* ── INFORMACIÓN ECONÓMICA Y VIGENCIA ── */}
         {(quotation.totalPrice || quotation.expiresAt) && (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box
               sx={{
                 p: 3,
